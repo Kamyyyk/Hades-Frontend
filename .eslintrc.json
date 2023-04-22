@@ -1,0 +1,62 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "overrides": [
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "import"
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".jsx", ".ts", ".tsx"],
+                "moduleDirectory": ["node_modules", "src"]
+            }
+        }
+    },
+    "rules": {
+        "indent": ["error", 3],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "always"],
+        "no-console": "error",
+        "no-unused-vars": "off",
+        "no-restricted-syntax": [
+            "error",
+            {
+                "selector": "ImportDeclaration[source.value='react'] > ImportDefaultSpecifier",
+                "message": "React should be not imported"
+            }
+        ],
+        "jsx-a11y/anchor-is-valid": "off",
+        "react/react-in-jsx-scope": "off",
+        "import/order": [
+            "error",
+            {
+                "groups": ["builtin", "external", "internal"],
+                "pathGroups": [
+                    {
+                        "pattern": "react",
+                        "group": "external",
+                        "position": "before"
+                    }
+                ],
+                "pathGroupsExcludedImportTypes": ["react"],
+                "alphabetize": { "order": "asc", "caseInsensitive": true }
+            }
+        ]
+    }
+}
