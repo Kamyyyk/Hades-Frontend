@@ -1,13 +1,13 @@
-import React from "react";
+import {Routes} from './app/libs/routes/Routes';
 
 
 export const App = () => {
 
-  return (
+   return (
       <div>
-          Test
+         <Routes/>
       </div>
-  )
-}
+   );
+};
 
-export default App
+export default App;
