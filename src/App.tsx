@@ -1,4 +1,4 @@
-import {Routes} from './app/libs/routes/Routes';
+import {Routes} from '@src/app/libs/routes/Routes';
 
 
 export const App = () => {
@@ -9,5 +9,3 @@ export const App = () => {
       </div>
    );
 };
-
-export default App;

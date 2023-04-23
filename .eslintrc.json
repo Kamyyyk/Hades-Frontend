@@ -28,6 +28,20 @@
         }
     },
     "rules": {
+        "import/no-unused-modules": [
+            "off",
+            {
+                "unusedExports": true,
+                "src": ["**/*.ts", "**/*.tsx"],
+                "ignoreExports": ["**/*.d.ts", "**/vite.config.ts"]
+            }
+        ],
+        "no-restricted-imports": [
+            "error",
+            {
+                "patterns": ["**/../*", ".*"]
+            }
+        ],
         "indent": ["error", 3],
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],

@@ -1,0 +1,55 @@
+.login {
+  height: 100%;
+  width: 100%;
+  &__wrapper {
+    margin: 0 auto;
+    border: 1px solid gray;
+    width: 200px;
+    border-radius: 30px;
+    padding: 40px 60px;
+
+    &__login {
+      &-text {
+        text-align: center;
+        font-size: 40px;
+        margin: 0 0 30px;
+      }
+    }
+
+    &__form {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+
+      &__input {
+        font-size: 25px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+
+        input {
+          font-size: 20px;
+          padding: 5px 5px;
+          border-radius: 10px;
+        }
+      }
+
+      &__button {
+        font-size: 20px;
+        padding: 10px 50px;
+        border: none;
+        background: yellow;
+        border-radius: 15px;
+        margin-top: 5px;
+
+        &:hover {
+          cursor: pointer;
+          background: aqua;
+          transition-duration: .4s;
+        }
+      }
+    }
+  }
+}
