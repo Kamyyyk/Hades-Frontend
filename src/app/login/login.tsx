@@ -1,17 +1,18 @@
+import { login } from '@src/app/libs/api-calls/login-api';
+import { useMutation } from 'react-query';
 import '@src/App/login/style/login.scss';
-// import {login} from '@src/app/libs/api-calls/login-api';
-// import {useMutation} from 'react-query';
 
 export const Login: React.FC = () => {
 
-   // const {mutate} = useMutation({
-   //    mutationKey: ['login'],
-   //    mutationFn: () => login({username: 'admin', password: 'admin'})
-   // });
+   const {mutate} = useMutation({
+      mutationKey: ['login'],
+      mutationFn: () => login({username: 'admin', password: 'admin'})
+   });
 
    const onClick = () => {
-      alert('chuj');
+      mutate();
    };
+
    
    return (
       <div className="login">

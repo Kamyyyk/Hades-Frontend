@@ -1,8 +1,9 @@
-import {RouteObject} from 'react-router';
+import { MainView } from '@src/app/main-view/main-view/main-view';
+import { RouteObject } from 'react-router';
 
 export const authenticatedRoutes: RouteObject[] = [
    {
       path: '/',
-      element: <div>MAIN PAGE</div>
-   }
+      element: <MainView />,
+   },
 ];
