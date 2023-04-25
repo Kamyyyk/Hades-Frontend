@@ -42,11 +42,11 @@
                 "patterns": ["**/../*", ".*"]
             }
         ],
+        "react/prop-types": "off",
         "indent": ["error", 3],
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
-        "no-console": "error",
         "no-unused-vars": "off",
         "no-restricted-syntax": [
             "error",
