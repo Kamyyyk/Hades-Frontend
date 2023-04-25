@@ -1,0 +1,28 @@
+.drawer {
+  position: relative;
+  &__button {
+    padding: 10px 20px;
+    background: aqua;
+    border-radius: 15px;
+
+    &--logout {
+      background: red;
+      padding: 15px 40px;
+      border-radius: 15px;
+      text-align: center;
+      color: white;
+
+      &:hover {
+        cursor: pointer;
+        background: #6b6b3f;
+        transition-duration: .4s;
+      }
+
+    }
+
+    &--show-menu {
+
+    }
+
+  }
+}

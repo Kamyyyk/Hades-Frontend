@@ -6,7 +6,7 @@ export default class Api {
    token = '';
 
    constructor() {
-      const axiosConfig = {baseURL: 'localhost'};
+      const axiosConfig = {baseURL: 'http://localhost:8080'};
       this.axios = axios.create(axiosConfig);
    }
 
@@ -44,8 +44,4 @@ export default class Api {
          data,
       });
    }
-
 }
-export const client = axios.create({
-   baseURL: 'http://localhost:8080'
-});

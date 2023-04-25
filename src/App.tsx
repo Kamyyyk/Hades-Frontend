@@ -1,11 +1,13 @@
 import {Routes} from '@src/app/libs/routes/Routes';
+import {QueryClient, QueryClientProvider} from 'react-query';
 
 
 export const App = () => {
+   const queryClient = new QueryClient();
 
    return (
-      <div>
-         <Routes/>
-      </div>
+      <QueryClientProvider client={queryClient}>
+         <Routes/>  
+      </QueryClientProvider>
    );
 };
