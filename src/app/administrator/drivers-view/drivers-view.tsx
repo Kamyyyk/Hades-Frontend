@@ -1,42 +1,52 @@
-import '@src/app/administrator/users-view/users.scss';
+import {useState} from 'react';
 import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
 import {ColumnsType} from 'antd/es/table';
 
-interface IUser {
-   id: number;
-   username: string
+export interface IDriver {
+   id: number
+   name: string;
+   surname: string
 }
 
-const data: IUser[] = [
+const data: IDriver[] = [
    {
-      id:1,
-      username: 'adam'
+      id: 1,
+      name: 'Adam',
+      surname: 'Kowal'
    }
 ];
-export const UsersView: React.FC = () => {
-   
+
+export const DriversView: React.FC = () => {
+   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
    const onAddButtonChange = () => {
-      console.log('dupa');
+      console.log('driver component add');
+      setIsModalOpen(true);
    };
 
    const onEditButtonChange = (id: number) => {
-      console.log(id);
+      console.log('driver component edit', id);
    };
 
    const onDeleteButtonChange = (id: number) => {
-      console.log(id);
+      console.log('driver component delete', id);
    };
 
-   const columns: ColumnsType<IUser> = [
+   const columns: ColumnsType<IDriver> = [
       {
          title: 'id',
          dataIndex: 'id',
          key: 'id',
       },
       {
-         title: 'Username',
-         dataIndex: 'username',
-         key: 'username',
+         title: 'Name',
+         dataIndex: 'name',
+         key: 'name',
+      },
+      {
+         title: 'Surname',
+         dataIndex: 'surname',
+         key: 'surname',
       },
       {
          title: 'Actions',
@@ -49,17 +59,18 @@ export const UsersView: React.FC = () => {
             </div>
          )
       },
-      
    ];
+
    return (
       <>
-         <ViewComponent<IUser>
-            tableListName="User list"
-            buttonName="Add new user"
+         <ViewComponent<IDriver>
+            tableListName="Drivers list"
+            buttonName="Add driver"
             columns={columns}
             dataSource={data}
             onButtonChange={onAddButtonChange}
          />
+         {isModalOpen && <div></div>}
       </>
    );
 };
