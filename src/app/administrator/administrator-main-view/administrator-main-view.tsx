@@ -1,5 +1,9 @@
+import {MenuDrawer} from '@src/app/menu-drawer/menu-drawer';
+import {ADMINISTRATOR_MENU_ITEMS} from '@src/utils/role-menu-items/role-menu-items';
+
 export const AdministratorMainView: React.FC = () => {
    return (
-      <h1>AdministratorMainView</h1>
+      <div></div>
+      // <MenuDrawer menuItems={ADMINISTRATOR_MENU_ITEMS} />
    );
 };

@@ -1,42 +1,49 @@
-import '@src/app/administrator/users-view/users.scss';
+import {useState} from 'react';
 import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {IMorgue} from '@src/app/morgue-worker/morgue-view/morgue-view';
 import {ColumnsType} from 'antd/es/table';
 
-interface IUser {
-   id: number;
-   username: string
+
+export interface IDocumentation {
+   id: number
+   name: string;
+   deceased?: IMorgue | null
 }
 
-const data: IUser[] = [
+const data: IDocumentation[] = [
    {
-      id:1,
-      username: 'adam'
+      id: 1,
+      name: 'Adam',
+      deceased: null
    }
 ];
-export const UsersView: React.FC = () => {
-   
+
+export const DocumentationView: React.FC = () => {
+   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
    const onAddButtonChange = () => {
-      console.log('dupa');
+      console.log('documentation component add');
+      setIsModalOpen(true);
    };
 
    const onEditButtonChange = (id: number) => {
-      console.log(id);
+      console.log('documentation component edit', id);
    };
 
    const onDeleteButtonChange = (id: number) => {
-      console.log(id);
+      console.log('documentation component delete', id);
    };
 
-   const columns: ColumnsType<IUser> = [
+   const columns: ColumnsType<IDocumentation> = [
       {
          title: 'id',
          dataIndex: 'id',
          key: 'id',
       },
       {
-         title: 'Username',
-         dataIndex: 'username',
-         key: 'username',
+         title: 'Name',
+         dataIndex: 'name',
+         key: 'name',
       },
       {
          title: 'Actions',
@@ -49,17 +56,18 @@ export const UsersView: React.FC = () => {
             </div>
          )
       },
-      
    ];
+
    return (
       <>
-         <ViewComponent<IUser>
-            tableListName="User list"
-            buttonName="Add new user"
+         <ViewComponent<IDocumentation>
+            tableListName="Documentation list"
+            buttonName="Add documentation"
             columns={columns}
             dataSource={data}
             onButtonChange={onAddButtonChange}
          />
+         {isModalOpen && <div></div>}
       </>
    );
 };
