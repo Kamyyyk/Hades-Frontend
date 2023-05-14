@@ -44,4 +44,12 @@ export default class Api {
          data,
       });
    }
+
+   static delete<T>(url: string, data?: unknown): AxiosPromise<T> {
+      return Api.getInstance().request<T>({
+         method: 'DELETE',
+         url,
+         data
+      });
+   }
 }

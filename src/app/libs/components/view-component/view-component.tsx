@@ -6,18 +6,19 @@ interface IViewComponent<DataType> {
    tableListName: string;
    buttonName: string;
    columns: ColumnsType<DataType>;
-   dataSource: DataType[];
+   dataSource: DataType[] | undefined;
    onButtonChange: () => void;
    isAddButton?: boolean;
+   isLoading: boolean
 }
 
-export const ViewComponent = <DataType extends object,>({tableListName, buttonName, onButtonChange, columns, dataSource, isAddButton = true}: IViewComponent<DataType>) => {
+export const ViewComponent = <DataType extends object,>({tableListName, buttonName, onButtonChange, columns, dataSource, isAddButton = true, isLoading}: IViewComponent<DataType>) => {
    return (
       <div className="view">
          <div className="view__wrapper">
             <h2 className="view__wrapper__text">{tableListName}</h2>
          </div>
-         <TableComponent isAddButton={isAddButton} buttonName={buttonName} columns={columns} dataSource={dataSource} onButtonChange={onButtonChange} />
+         <TableComponent isAddButton={isAddButton} buttonName={buttonName} columns={columns} dataSource={dataSource} onButtonChange={onButtonChange} isLoading={isLoading} />
       </div>
    );
 };

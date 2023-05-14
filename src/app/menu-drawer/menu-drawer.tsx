@@ -1,7 +1,10 @@
 import {useState} from 'react';
+import { RightCircleOutlined } from '@ant-design/icons';
+import {TMenuName} from '@src/utils/heleprs/router-wrapper';
+import {Button} from 'antd';
 import {Drawer} from 'antd';
-import '@src/app/menu-drawer/menu-drawer.scss';
 import {useNavigate} from 'react-router-dom';
+import '@src/app/menu-drawer/menu-drawer.scss';
 
 export interface IMenuItems {
    name: string;
@@ -11,9 +14,10 @@ export interface IMenuItems {
 export interface IMenuDrawer {
    menuItems: IMenuItems[];
    children: React.ReactNode
+   menuName: TMenuName;
 }
 
-export const MenuDrawer: React.FC<IMenuDrawer> = ({menuItems, children}) => {
+export const MenuDrawer: React.FC<IMenuDrawer> = ({menuItems, children, menuName}) => {
 
    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
    const navigate = useNavigate();
@@ -36,10 +40,10 @@ export const MenuDrawer: React.FC<IMenuDrawer> = ({menuItems, children}) => {
    return (
       <>
          <div className="drawer">
-            <button className="drawer__button drawer__button--show-menu"  onClick={openDrawer}>
+            <Button icon={<RightCircleOutlined />} className="drawer__button drawer__button--show-menu"  onClick={openDrawer}>
              Show menu
-            </button>
-            <Drawer title="Jakieś menu" onClose={closeDrawer} open={isDrawerOpen} placement="left" footer={renderLogoutButtonComponent()}>
+            </Button>
+            <Drawer title={menuName} onClose={closeDrawer} open={isDrawerOpen} placement="left" footer={renderLogoutButtonComponent()}>
                {menuItems.map((elem, index) => {
                   return (
                      <div key={index} className="drawer__menu__items">

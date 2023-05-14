@@ -4,8 +4,8 @@ import {ColumnsType} from 'antd/es/table';
 
 export interface IDriver {
    id: number
-   name: string;
-   surname: string
+   name?: string;
+   surname?: string
 }
 
 const data: IDriver[] = [
@@ -69,7 +69,7 @@ export const DriversView: React.FC = () => {
             columns={columns}
             dataSource={data}
             onButtonChange={onAddButtonChange}
-         />
+            isLoading={false}/>
          {isModalOpen && <div></div>}
       </>
    );
