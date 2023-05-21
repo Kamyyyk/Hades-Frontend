@@ -41,13 +41,11 @@ export const CaravansView = () => {
    }, [isDeleteCaravanSuccess]);
 
    const onAddButtonChange = () => {
-      console.log('driver component add');
       setIsAddModalOpen(true);
    };
 
    const onEditButtonChange = (id: number) => {
       setSelectedRowKey(id);
-      console.log('driver component edit', id);
    };
 
    const handleDelete = (id: number) => {
@@ -68,9 +66,7 @@ export const CaravansView = () => {
       }
    };
 
-   if (isError) {
-      navigate('/error');
-   }
+
 
    const columns: ColumnsType<ICaravan> = [
       {

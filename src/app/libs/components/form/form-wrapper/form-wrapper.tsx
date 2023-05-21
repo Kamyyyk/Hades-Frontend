@@ -7,7 +7,7 @@ interface IFormWrapper<TInitialValues> {
    children: JSX.Element
    initialValues: TInitialValues;
    onSubmit: (values: TInitialValues, actions: FormikHelpers<TInitialValues>) => void;
-   setIsModalOpen: React.Dispatch<boolean>;
+   setIsModalOpen?: React.Dispatch<boolean>;
 }
 
 
@@ -17,7 +17,7 @@ export const FormWrapper= <TInitialValues extends FormikValues,>({children, init
          <Form>
             {children}
             <div className="form__wrapper">
-               <Button className="form__wrapper__button" htmlType="submit" onClick={() => setIsModalOpen(false)}>Submit</Button>
+               <Button className="form__wrapper__button" htmlType="submit" onClick={() => setIsModalOpen ? setIsModalOpen(false) : {} }>Submit</Button>
             </div>
          </Form>
       </Formik>

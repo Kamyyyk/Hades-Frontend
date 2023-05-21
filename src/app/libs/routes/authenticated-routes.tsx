@@ -2,7 +2,7 @@ import { DriversView } from '@src/app/administrator/drivers-view/drivers-view';
 import { UsersView } from '@src/app/administrator/users-view/users-view';
 import {CaravansView} from '@src/app/funera-house-worker/caravans-view/caravans-view';
 import {CemeteryView} from '@src/app/funera-house-worker/cemetary-view/cemetery-view';
-import {DocumentationView} from '@src/app/funera-house-worker/documentation-view/documentation-view';
+import {DeceasedDocumentationView} from '@src/app/funera-house-worker/deceased-documentation-view/deceased-documentation-view';
 import {
    FuneralHouseWorkerMainView
 } from '@src/app/funera-house-worker/funeral-house-worker-main-view/funeral-house-worker-main-view';
@@ -20,6 +20,7 @@ import {
    FUNERAL_MORGUE_WORKER_MENU_ITEMS
 } from '@src/utils/role-menu-items/role-menu-items';
 import { RouteObject } from 'react-router-dom';
+import {FuneralDetails} from '@src/app/funera-house-worker/funeral-view/details/funeral-details';
 
 
 export const administratorAuthenticatedRoutes: RouteObject[] = [
@@ -76,7 +77,7 @@ export const funeralHouseWorkerAuthenticatedRoutes: RouteObject[] = [
    },
    {
       path: 'documentation',
-      element: <DocumentationView />,
+      element: <DeceasedDocumentationView />,
    },
    {
       path: 'funeral-items',
@@ -90,6 +91,10 @@ export const funeralHouseWorkerAuthenticatedRoutes: RouteObject[] = [
       path: 'funeral',
       element: <FuneralView />,
    },
+   {
+      path: 'funeral/:funeralId',
+      element: <FuneralDetails/>
+   }
 ];
 
 export const funeralHouseWorkerRoutes = routerWrapper(funeralHouseWorkerAuthenticatedRoutes, FUNERAL_HOME_EMPLOYEE_MENU_ITEMS, 'Funeral House Worker');

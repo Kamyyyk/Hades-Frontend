@@ -4,15 +4,15 @@ import {ColumnsType} from 'antd/es/table';
 
 interface IViewComponent<DataType> {
    tableListName: string;
-   buttonName: string;
+   buttonName?: string;
    columns: ColumnsType<DataType>;
    dataSource: DataType[] | undefined;
-   onButtonChange: () => void;
+   onButtonChange?: () => void;
    isAddButton?: boolean;
    isLoading: boolean
 }
 
-export const ViewComponent = <DataType extends object,>({tableListName, buttonName, onButtonChange, columns, dataSource, isAddButton = true, isLoading}: IViewComponent<DataType>) => {
+export const ViewComponent = <DataType extends object,>({tableListName, buttonName = '', onButtonChange = () => {return;}, columns, dataSource, isAddButton = true, isLoading}: IViewComponent<DataType>) => {
    return (
       <div className="view">
          <div className="view__wrapper">

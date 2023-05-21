@@ -1,42 +1,61 @@
 import {useState} from 'react';
-import {IDriver} from '@src/app/administrator/drivers-view/drivers-view';
 import {ICaravan} from '@src/app/funera-house-worker/caravans-view/caravans-view';
+import {AddShippingForm} from '@src/app/funera-house-worker/shipping-view/modal/add-shipping-form';
+import {deleteShipping, fetchShipping, IShippingPayload, postShipping} from '@src/app/libs/api-calls/shipping-api';
+import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
+import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
 import {ColumnsType} from 'antd/es/table';
+import {useMutation, useQuery} from 'react-query';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 interface IShipping {
    id: number;
    caravan: ICaravan | null;
-   driver: IDriver | null
 }
-
-const data: IShipping[] = [
-   {
-      id: 1,
-      caravan: null,
-      driver: {
-         id: 1,
-         name: 'Adam',
-         surname: 'Kowal'
-      }
-   }
-];
 
 
 export const ShippingView: React.FC = () => {
-   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+   const [selectedRowKey, setSelectedRowKey] = useState<number>();
+   const navigate = useNavigate();
+
+   const {data: shippingData, refetch, isLoading} = useQuery({
+      queryKey: ['fetchShipping'],
+      queryFn: fetchShipping
+   });
+   
+   const {mutate} = useMutation({
+      mutationKey: '[deleteShipping]',
+      mutationFn: (shippingId: number) => deleteShipping(shippingId)
+   });
 
    const onAddButtonChange = () => {
-      console.log('driver component add');
-      setIsModalOpen(true);
+      setIsAddModalOpen(true);
    };
 
    const onEditButtonChange = (id: number) => {
-      console.log('driver component edit', id);
+      setSelectedRowKey(id);
    };
 
-   const onDeleteButtonChange = (id: number) => {
-      console.log('driver component delete', id);
+   const handleDelete = (id: number) => {
+      setSelectedRowKey(id);
+      setIsConfirmModalOpen(true);
+   };
+
+   const handleConfirmDelete = () => {
+      if (selectedRowKey) {
+         try {
+            mutate(selectedRowKey);
+         } catch (e) {
+            console.log(e);
+         } finally {
+            toast.success('Successfully deleted Shipping row');
+            setIsConfirmModalOpen(false);
+         }
+      }
    };
 
    const columns: ColumnsType<IShipping> = [
@@ -46,14 +65,9 @@ export const ShippingView: React.FC = () => {
          key: 'id',
       },
       {
-         title: 'name',
+         title: 'Name',
          dataIndex: 'name',
          key: 'name',
-      },
-      {
-         title: 'surname',
-         dataIndex: 'surname',
-         key: 'surname',
       },
       {
          title: 'Actions',
@@ -62,7 +76,7 @@ export const ShippingView: React.FC = () => {
          render: (_value, record) => (
             <div className="users__buttons">
                <button onClick={() => onEditButtonChange(record.id)}>EDIT</button>
-               <button onClick={() => onDeleteButtonChange(record.id)}>DELETE</button>
+               <button onClick={() => handleDelete(record.id)}>DELETE</button>
             </div>
          )
       },
@@ -70,8 +84,13 @@ export const ShippingView: React.FC = () => {
 
    return (
       <>
-         <ViewComponent<IShipping> tableListName="Shipping List" buttonName="Add new shipping" columns={columns} dataSource={data} onButtonChange={onAddButtonChange}/>
-         {isModalOpen && <div></div>}
+         <>
+            <ViewComponent<IShipping> tableListName="Shipping List" buttonName="Add new shipping" columns={columns} dataSource={shippingData} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+            <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new shipping" >
+               <AddShippingForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
+            </AddOrEditModal>
+            <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>
+         </>
       </>
    );
 };

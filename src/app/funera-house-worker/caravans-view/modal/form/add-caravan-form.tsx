@@ -23,7 +23,7 @@ interface IAddCaravanForm {
 
 export const AddCaravanForm: React.FC<IAddCaravanForm> = ({setIsAddModalOpen, refetch}) => {
    
-   const {mutate, isSuccess} = useMutation({
+   const {data, mutate, isSuccess} = useMutation({
       mutationKey: ['postCaravan'],
       mutationFn: (payload: ICaravanPayload) => postCaravan(payload)
    });
@@ -53,11 +53,11 @@ export const AddCaravanForm: React.FC<IAddCaravanForm> = ({setIsAddModalOpen, re
    });
 
    const driverOptions = driverData?.map((elem) => {
-      return {value: JSON.stringify(elem), label: elem.name};
+      return {value: JSON.stringify(elem), label: JSON.stringify(elem)};
    });
 
    return (
-      <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
+      <FormWrapper<ICaravanPayload> initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
          <>
             <InputField name="licenceNumber" placeholder="Licence Number"/>
             <InputField name="brand" placeholder="Brand"/>
