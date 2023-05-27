@@ -3,14 +3,14 @@ import {Option} from 'antd/es/mentions';
 import {Field, FieldProps} from 'formik';
 
 
-interface TSelectField {
+export interface TSelectField {
    value: string;
    label: string;
 }
 
 interface ISelectField {
    name: string;
-   options: TSelectField[] ;
+   options?: TSelectField[] ;
    placeholder: string;
 }
 
@@ -43,9 +43,9 @@ export const SelectField: React.FC<ISelectField> = ({name, options, placeholder}
                      style={{ width: '100%' }}
                      allowClear
                      onChange={(e) => onChange(e, form.setFieldValue, field.name)}
-                     value={field?.value?.id}
+                     value={typeof field.value === 'object' ? field?.value?.id : field?.value}
                   >
-                     {options.map((option) => (
+                     {options?.map((option) => (
                         <Option key={option.value} value={option.value}>
                            {option.label}
                         </Option>

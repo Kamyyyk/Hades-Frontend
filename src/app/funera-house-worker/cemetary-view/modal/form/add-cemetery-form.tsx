@@ -17,22 +17,29 @@ interface IAddCemeteryForm {
 }
 export const AddCemeteryForm: React.FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetch}) => {
 
-   const onSubmit = (value: ICemeteryPayload, actions: FormikHelpers<ICemeteryPayload>) => {
-      mutate(value);
-      toast.success('Successfully added new cemetery place');
-      actions.resetForm();
-   };
-
-   const {mutate, isSuccess} = useMutation({
+   const {mutate, isSuccess, isError, error} = useMutation({
       mutationKey: ['postCemetery'],
       mutationFn: (payload: ICemeteryPayload) => postCemetery(payload)
    });
-   
+
    useEffect(() => {
       if (isSuccess) {
+         toast.success('Successfully added new cemetery place');
          refetch();
       }
    }, [isSuccess]);
+
+   useEffect(() => {
+      if (isError && error instanceof Error) {
+         toast.success(error.message);
+      }
+   }, [isError, error]);
+
+
+   const onSubmit = (value: ICemeteryPayload, actions: FormikHelpers<ICemeteryPayload>) => {
+      mutate(value);
+      actions.resetForm();
+   };
 
    return (
       <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >

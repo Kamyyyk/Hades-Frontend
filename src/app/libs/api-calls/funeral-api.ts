@@ -4,6 +4,7 @@ import {IMorguePayload} from '@src/app/libs/api-calls/morgue';
 import {IShippingPayload} from '@src/app/libs/api-calls/shipping-api';
 import Api from '@src/app/libs/services/api';
 import {IFuneralResponse} from '@src/app/libs/types/reponses/funeral-response';
+import {AxiosResponse} from 'axios';
 
 export interface IFuneralPayload {
    funeralDate: string;
@@ -20,16 +21,20 @@ export const fetchFunerals = async (): Promise<IFuneralResponse[]> => {
    return data;
 };
 
-export const fetchFuneralById = async (funeralId: number): Promise<IFuneralResponse> => {
+export const fetchFuneralById = async (funeralId: string | number | undefined): Promise<IFuneralResponse> => {
    const {data} = await Api.get<IFuneralResponse>(`api/funeral/${funeralId}`);
    return data;
 };
 
-export const postFuneral = async (payload: IFuneralPayload): Promise<any> => {
-   const {data} = await Api.post<IFuneralPayload>('api/funeral', payload);
+export const postFuneral = async (payload: IFuneralPayload): Promise<IFuneralResponse> => {
+   const {data} = await Api.post<IFuneralResponse>('api/funeral', payload);
    return data;
 };
 
-export const deleteFuneralById = async (funeralId: number): Promise<any> => {
-   return await Api.delete(`api/funeral/${funeralId}`);
+export const editFuneralById = async (payload: IFuneralPayload, funeralId: number | undefined): Promise<AxiosResponse<IFuneralResponse>> => {
+   return await Api.put<IFuneralResponse>(`api/funeral/${funeralId}`, payload);
+};
+
+export const deleteFuneralById = async (funeralId: number): Promise<unknown> => {
+   return await Api.delete<unknown>(`api/funeral/${funeralId}`);
 };

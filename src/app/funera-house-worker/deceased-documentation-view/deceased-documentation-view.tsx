@@ -1,20 +1,23 @@
 import {useEffect, useState} from 'react';
-import {AddCemeteryForm} from '@src/app/funera-house-worker/cemetary-view/modal/form/add-cemetery-form';
+import {
+   AddDeceasedDocumentationForm
+} from '@src/app/funera-house-worker/deceased-documentation-view/modal/form/add-deceased-documentation-form';
+import {
+   EditDeceasedDocumentationForm
+} from '@src/app/funera-house-worker/deceased-documentation-view/modal/form/edit-deceased-documentation-form';
 import {
    deleteDeceasedDocumentation,
    fetchDeceasedDocumentation
 } from '@src/app/libs/api-calls/deceased-documentation-api';
+import {fetchMorgue} from '@src/app/libs/api-calls/morgue';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
-import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
 import {IMorgueResponse} from '@src/app/libs/types/reponses/morgue-reponse';
+import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
 import {useMutation, useQuery} from 'react-query';
-import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
-import {
-   AddDeceasedDocumentationForm
-} from '@src/app/funera-house-worker/deceased-documentation-view/modal/form/add-deceased-documentation-form';
 
 
 export interface IDocumentation {
@@ -23,17 +26,24 @@ export interface IDocumentation {
    morgue: IMorgueResponse | null
 }
 
-
 export const DeceasedDocumentationView: React.FC = () => {
    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
    const [selectedRowKey, setSelectedRowKey] = useState<number>();
-   const navigate = useNavigate();
    
-   const {data, isLoading, refetch, isError} = useQuery({
+   const {data, isLoading, refetch, isError: isFetchDeceasedDocumentationError, error: fetchDeceasedDocumentationError } = useQuery({
+      refetchOnWindowFocus: false,
       queryKey: ['fetchDeceasedDocumentation'],
       queryFn: fetchDeceasedDocumentation
    });
+
+   useEffect(() => {
+      if (isFetchDeceasedDocumentationError && fetchDeceasedDocumentationError  instanceof Error) {
+         toast.error(fetchDeceasedDocumentationError.message );
+      }
+   }, [isFetchDeceasedDocumentationError, fetchDeceasedDocumentationError ]);
+   
 
    const {mutate, isSuccess: isDeleteSuccess} = useMutation({
       mutationKey: ['deleteDeceasedDocumentation'],
@@ -41,21 +51,20 @@ export const DeceasedDocumentationView: React.FC = () => {
    });
 
    useEffect(() => {
-      refetch();
+      if (isDeleteSuccess) {
+         toast.success('Successfully deleted deceased documentation row');
+         refetch();
+         setIsConfirmModalOpen(false);
+      }
    }, [isDeleteSuccess]);
 
-   if (isError) {
-      navigate('/error');
-   }
-   
-
    const onAddButtonChange = () => {
-      console.log('documentation component add');
       setIsAddModalOpen(true);
    };
 
    const onEditButtonChange = (id: number) => {
-      console.log('documentation component edit', id);
+      setSelectedRowKey(id);
+      setIsEditModalOpen(true);
    };
 
    const handleDelete = (id: number) => {
@@ -63,18 +72,19 @@ export const DeceasedDocumentationView: React.FC = () => {
       setIsConfirmModalOpen(true);
    };
 
-   const handleConfirmDelete = () => {
+   const handleConfirmDelete = async () => {
       if (selectedRowKey) {
-         try {
-            mutate(selectedRowKey);
-         } catch (e) {
-            console.log(e);
-         } finally {
-            toast.success('Successfully deleted caravan row');
-            setIsConfirmModalOpen(false);
-         }
+         await mutate(selectedRowKey);
       }
    };
+
+   const {data: morgueData} = useQuery({
+      queryKey: ['fetchMorgue'],
+      queryFn: fetchMorgue
+   });
+   const morgueOptions = morgueData?.map((elem) => {
+      return {value: JSON.stringify(elem), label: JSON.stringify(elem)};
+   });
 
    const columns: ColumnsType<IDocumentation> = [
       {
@@ -93,8 +103,8 @@ export const DeceasedDocumentationView: React.FC = () => {
          key: 'action',
          render: (_value, record) => (
             <div className="users__buttons">
-               <button onClick={() => onEditButtonChange(record.id)}>EDIT</button>
-               <button onClick={() => handleDelete(record.id)}>DELETE</button>
+               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
+               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
             </div>
          )
       },
@@ -102,9 +112,12 @@ export const DeceasedDocumentationView: React.FC = () => {
 
    return (
       <>
-         <ViewComponent<IDocumentation> tableListName="Deceased documentation list" buttonName="Add new deceased documentation" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-         <AddOrEditModal isModalOpen={isAddModalOpen} title="Add new cemetery place" setIsModalOpen={setIsAddModalOpen}>
-            <AddDeceasedDocumentationForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
+         <TableViewComponent<IDocumentation> tableListName="Deceased documentation list" buttonName="Add new deceased documentation" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal isModalOpen={isAddModalOpen} title="Add new deceased documentation" setIsModalOpen={setIsAddModalOpen}>
+            <AddDeceasedDocumentationForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} morgueOptions={morgueOptions} />
+         </AddOrEditModal>
+         <AddOrEditModal isModalOpen={isEditModalOpen} title="Edit deceased documentation" setIsModalOpen={setIsEditModalOpen}>
+            <EditDeceasedDocumentationForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} deceasedDocumentationId={selectedRowKey} morgueOptions={morgueOptions} />
          </AddOrEditModal>
          <ConfirmModal setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete} isModalOpen={isConfirmModalOpen} />
       </>

@@ -1,13 +1,15 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {ICaravan} from '@src/app/funera-house-worker/caravans-view/caravans-view';
-import {AddShippingForm} from '@src/app/funera-house-worker/shipping-view/modal/add-shipping-form';
-import {deleteShipping, fetchShipping, IShippingPayload, postShipping} from '@src/app/libs/api-calls/shipping-api';
+import {AddShippingForm} from '@src/app/funera-house-worker/shipping-view/modal/form/add-shipping-form';
+import {EditShippingForm} from '@src/app/funera-house-worker/shipping-view/modal/form/edit-shipping-form';
+import {fetchCaravan} from '@src/app/libs/api-calls/caravan-api';
+import {deleteShipping, fetchShipping} from '@src/app/libs/api-calls/shipping-api';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
-import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
 import {useMutation, useQuery} from 'react-query';
-import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
 interface IShipping {
@@ -15,22 +17,48 @@ interface IShipping {
    caravan: ICaravan | null;
 }
 
-
 export const ShippingView: React.FC = () => {
    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
    const [selectedRowKey, setSelectedRowKey] = useState<number>();
-   const navigate = useNavigate();
 
-   const {data: shippingData, refetch, isLoading} = useQuery({
+   const {data: caravanData} = useQuery({
+      queryKey: ['fetchCaravan'],
+      queryFn: fetchCaravan
+   });
+
+   const {data: shippingData, refetch, isLoading, isError: isFetchShippingError, error: fetchShippingError} = useQuery({
+      refetchOnWindowFocus: false,
       queryKey: ['fetchShipping'],
       queryFn: fetchShipping
    });
    
-   const {mutate} = useMutation({
+   useEffect(() => {
+      if (isFetchShippingError && fetchShippingError instanceof Error) {
+         toast.error(fetchShippingError.message);
+      }
+   }, [isFetchShippingError, fetchShippingError]);
+   
+   
+   const {mutate, isSuccess: isDeleteShippingSuccess, isError: isDeleteShippingError, error: deleteShippingError} = useMutation({
       mutationKey: '[deleteShipping]',
       mutationFn: (shippingId: number) => deleteShipping(shippingId)
    });
+
+   useEffect(() => {
+      if (isDeleteShippingError && deleteShippingError instanceof Error) {
+         toast.error(deleteShippingError.message);
+      }
+   }, [isDeleteShippingError, deleteShippingError]);
+
+   useEffect(() => {
+      if (isDeleteShippingSuccess) {
+         toast.success('Successfully deleted Shipping row');
+         refetch();
+         setIsConfirmModalOpen(false);
+      }
+   }, [isDeleteShippingSuccess]);
 
    const onAddButtonChange = () => {
       setIsAddModalOpen(true);
@@ -38,6 +66,7 @@ export const ShippingView: React.FC = () => {
 
    const onEditButtonChange = (id: number) => {
       setSelectedRowKey(id);
+      setIsEditModalOpen(true);
    };
 
    const handleDelete = (id: number) => {
@@ -45,18 +74,15 @@ export const ShippingView: React.FC = () => {
       setIsConfirmModalOpen(true);
    };
 
-   const handleConfirmDelete = () => {
+   const handleConfirmDelete =  async () => {
       if (selectedRowKey) {
-         try {
-            mutate(selectedRowKey);
-         } catch (e) {
-            console.log(e);
-         } finally {
-            toast.success('Successfully deleted Shipping row');
-            setIsConfirmModalOpen(false);
-         }
+         await mutate(selectedRowKey);
       }
    };
+
+   const caravanOptions = caravanData?.map((elem) => {
+      return {value: JSON.stringify(elem), label: JSON.stringify(elem)};
+   });
 
    const columns: ColumnsType<IShipping> = [
       {
@@ -75,8 +101,8 @@ export const ShippingView: React.FC = () => {
          key: 'action',
          render: (_value, record) => (
             <div className="users__buttons">
-               <button onClick={() => onEditButtonChange(record.id)}>EDIT</button>
-               <button onClick={() => handleDelete(record.id)}>DELETE</button>
+               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
+               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
             </div>
          )
       },
@@ -85,9 +111,12 @@ export const ShippingView: React.FC = () => {
    return (
       <>
          <>
-            <ViewComponent<IShipping> tableListName="Shipping List" buttonName="Add new shipping" columns={columns} dataSource={shippingData} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+            <TableViewComponent<IShipping> tableListName="Shipping List" buttonName="Add new shipping" columns={columns} dataSource={shippingData} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
             <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new shipping" >
-               <AddShippingForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
+               <AddShippingForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} caravanOptions={caravanOptions}/>
+            </AddOrEditModal>
+            <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title="Edit shipping" >
+               <EditShippingForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} shippingId={selectedRowKey} caravanOptions={caravanOptions}/>
             </AddOrEditModal>
             <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>
          </>

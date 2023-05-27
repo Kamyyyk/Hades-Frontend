@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
 import {IMorgueResponse} from '@src/app/libs/types/reponses/morgue-reponse';
 import {ColumnsType} from 'antd/es/table';
 
@@ -8,10 +8,10 @@ const data: IMorgueResponse[] = [
       id: 1,
       name: '',
       surname: '',
-      arriveDate: '',
+      dateArrived: '',
       sex: '',
       birthDate: '',
-      dateOfDeath: ''
+      deathDate: ''
    }
 ];
 
@@ -82,7 +82,7 @@ export const MorgueView: React.FC = () => {
 
    return (
       <>
-         <ViewComponent<IMorgueResponse>
+         <TableViewComponent<IMorgueResponse>
             tableListName="Morguie list"
             buttonName="Add new deceased"
             columns={columns}

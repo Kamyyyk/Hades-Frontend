@@ -1,5 +1,5 @@
 import {TableComponent} from '@src/app/libs/components/table/table-component';
-import '@src/app/libs/components/view-component/view-component.scss';
+import '@src/app/libs/components/table-view-component/table-view-component.scss';
 import {ColumnsType} from 'antd/es/table';
 
 interface IViewComponent<DataType> {
@@ -12,7 +12,7 @@ interface IViewComponent<DataType> {
    isLoading: boolean
 }
 
-export const ViewComponent = <DataType extends object,>({tableListName, buttonName = '', onButtonChange = () => {return;}, columns, dataSource, isAddButton = true, isLoading}: IViewComponent<DataType>) => {
+export const TableViewComponent = <DataType extends object,>({tableListName, buttonName = '', onButtonChange = () => {return;}, columns, dataSource, isAddButton = true, isLoading}: IViewComponent<DataType>) => {
    return (
       <div className="view">
          <div className="view__wrapper">

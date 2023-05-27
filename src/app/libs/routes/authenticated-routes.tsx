@@ -7,6 +7,7 @@ import {
    FuneralHouseWorkerMainView
 } from '@src/app/funera-house-worker/funeral-house-worker-main-view/funeral-house-worker-main-view';
 import {FuneralItemsView} from '@src/app/funera-house-worker/funeral-items-view/funeral-items-view';
+import {FuneralDetails} from '@src/app/funera-house-worker/funeral-view/details/funeral-details';
 import {FuneralView} from '@src/app/funera-house-worker/funeral-view/funeral-view';
 import {PrepareFuneralView} from '@src/app/funera-house-worker/prepare-funeral-view/prepare-funeral-view';
 import {ShippingView} from '@src/app/funera-house-worker/shipping-view/shipping-view';
@@ -20,7 +21,6 @@ import {
    FUNERAL_MORGUE_WORKER_MENU_ITEMS
 } from '@src/utils/role-menu-items/role-menu-items';
 import { RouteObject } from 'react-router-dom';
-import {FuneralDetails} from '@src/app/funera-house-worker/funeral-view/details/funeral-details';
 
 
 export const administratorAuthenticatedRoutes: RouteObject[] = [

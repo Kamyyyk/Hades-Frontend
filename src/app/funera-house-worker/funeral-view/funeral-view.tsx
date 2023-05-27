@@ -1,8 +1,11 @@
 import {useEffect, useState} from 'react';
+import {EditFuneralForm} from '@src/app/funera-house-worker/funeral-view/form/edit-funeral-form';
 import {deleteFuneralById, fetchFunerals} from '@src/app/libs/api-calls/funeral-api';
+import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
-import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
 import {IFuneralResponse} from '@src/app/libs/types/reponses/funeral-response';
+import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
 import {useMutation, useQuery} from 'react-query';
 import {useNavigate} from 'react-router-dom';
@@ -10,21 +13,36 @@ import {toast} from 'react-toastify';
 
 export const FuneralView: React.FC = () => {
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
    const [selectedRowKey, setSelectedRowKey] = useState<number>();
    const navigate = useNavigate();
 
-   const {data: funeralData, refetch, isLoading} = useQuery({
+   const {data: funeralData, refetch, isLoading, isError: isFetchFuneralError, error: fetchFuneralError} = useQuery({
+      refetchOnWindowFocus: false,
       queryKey: 'fetchFunerals',
       queryFn: fetchFunerals
    });
    
-   const {mutate, isSuccess: isDeleteSuccess} = useMutation({
+   useEffect(() => {
+      if (isFetchFuneralError && fetchFuneralError instanceof Error) {
+         toast.error(fetchFuneralError.message);
+      }
+   }, [isFetchFuneralError, fetchFuneralError]);
+   
+   const {mutate, isSuccess: isDeleteSuccess, isError: isDeleteFuneralByIdError , error: deleteFuneralByIdError} = useMutation({
       mutationKey: ['deleteFuneral'],
       mutationFn: (funeralId: number) => deleteFuneralById(funeralId)
    });
 
+   useEffect(() => {
+      if (isDeleteFuneralByIdError && deleteFuneralByIdError instanceof Error) {
+         toast.error(deleteFuneralByIdError.message);
+      }
+   }, [isDeleteFuneralByIdError,deleteFuneralByIdError]);
+
    const onEditButtonChange = (id: number) => {
-      console.log('driver component edit', id);
+      setSelectedRowKey(id);
+      setIsEditModalOpen(true);
    };
 
    const handleDelete = (id: number) => {
@@ -38,20 +56,15 @@ export const FuneralView: React.FC = () => {
    
    useEffect(() => {
       if (isDeleteSuccess) {
+         toast.success('Successfully deleted funeral');
          refetch();
+         setIsConfirmModalOpen(false);
       }
    }, [isDeleteSuccess]);
 
-   const handleConfirmDelete = () => {
+   const handleConfirmDelete = async () => {
       if (selectedRowKey) {
-         try {
-            mutate(selectedRowKey);
-         } catch (e) {
-            console.log(e);
-         } finally {
-            toast.success('Successfully deleted caravan row');
-            setIsConfirmModalOpen(false);
-         }
+         await mutate(selectedRowKey);
       }
    };
 
@@ -77,16 +90,19 @@ export const FuneralView: React.FC = () => {
          key: 'action',
          render: (_value, record) => (
             <div className="users__buttons">
-               <button onClick={() => onEditButtonChange(record.id)}>EDIT</button>
-               <button onClick={() => handleDelete(record.id)}>DELETE</button>
-               <button onClick={() => onViewButtonClick(record.id)}>View</button>
+               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
+               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
+               <Button onClick={() => onViewButtonClick(record.id)}>View</Button>
             </div>
          )
       },
    ];
    return (
       <>
-         <ViewComponent<IFuneralResponse> tableListName="Funeral List" columns={columns} dataSource={funeralData} isLoading={isLoading} isAddButton={false}/>
+         <TableViewComponent<IFuneralResponse> tableListName="Funeral List" columns={columns} dataSource={funeralData} isLoading={isLoading} isAddButton={false}/>
+         <AddOrEditModal isModalOpen={isEditModalOpen} title="Edit funeral" setIsModalOpen={setIsEditModalOpen}>
+            <EditFuneralForm funeralId={selectedRowKey}  refetch={refetch} setIsEditModalOpen={setIsEditModalOpen}/>
+         </AddOrEditModal>
          <ConfirmModal setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete} isModalOpen={isConfirmModalOpen} />
       </>
    );

@@ -1,11 +1,10 @@
-import {useEffect} from 'react';
+import {FC, useEffect} from 'react';
 import {ICaravanPayload, postCaravan} from '@src/app/libs/api-calls/caravan-api';
-import {fetchDrivers} from '@src/app/libs/api-calls/driver-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
-import {SelectField} from '@src/app/libs/components/form/select-field';
+import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
 import {FormikHelpers} from 'formik';
-import {useMutation, useQuery} from 'react-query';
+import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
 
 const initialValues: ICaravanPayload = {
@@ -19,42 +18,39 @@ const initialValues: ICaravanPayload = {
 interface IAddCaravanForm {
    setIsAddModalOpen: React.Dispatch<boolean>;
    refetch: () => void
+   driverOptions?: TSelectField[];
 }
 
-export const AddCaravanForm: React.FC<IAddCaravanForm> = ({setIsAddModalOpen, refetch}) => {
+export const AddCaravanForm: FC<IAddCaravanForm> = ({setIsAddModalOpen, refetch, driverOptions}) => {
    
-   const {data, mutate, isSuccess} = useMutation({
+   const {mutate, isSuccess, isError, error} = useMutation({
       mutationKey: ['postCaravan'],
       mutationFn: (payload: ICaravanPayload) => postCaravan(payload)
    });
+   
+   useEffect(() => {
+      if (isError && error instanceof Error) {
+         toast.error(error.message);
+      } 
+   }, [isError]);
+
+   useEffect(() => {
+      if (isSuccess) {
+         toast.success('Successfully added new caravan');
+         refetch();
+         setIsAddModalOpen(false);
+      }
+   }, [isSuccess]);
+
 
    const onSubmit = (value: ICaravanPayload, actions: FormikHelpers<ICaravanPayload>) => {
       const formValues = {
          ...value,
          driver: value.driver,
       };
-      try {
-         mutate(formValues);
-      } catch (e) {
-         toast.error('Error');
-      } finally {
-         toast.success('Successfully added new caravan');
-         actions.resetForm();
-      }
+      mutate(formValues);
+      actions.resetForm();
    };
-
-   useEffect(() => {
-      refetch();
-   }, [isSuccess]);
-
-   const {data: driverData} = useQuery({
-      queryKey: ['fetchDrivers'],
-      queryFn: fetchDrivers
-   });
-
-   const driverOptions = driverData?.map((elem) => {
-      return {value: JSON.stringify(elem), label: JSON.stringify(elem)};
-   });
 
    return (
       <FormWrapper<ICaravanPayload> initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >

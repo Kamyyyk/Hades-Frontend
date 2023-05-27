@@ -1,14 +1,13 @@
-import {Dispatch, useEffect} from 'react';
+import {Dispatch, FC, useEffect} from 'react';
 import {
    IDeceasedDocumentationPayload,
    postDeceasedDocumentation
 } from '@src/app/libs/api-calls/deceased-documentation-api';
-import {fetchMorgue} from '@src/app/libs/api-calls/morgue';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
-import {SelectField} from '@src/app/libs/components/form/select-field';
+import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
 import {FormikHelpers} from 'formik';
-import {useMutation, useQuery} from 'react-query';
+import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
 
 const initialValues: IDeceasedDocumentationPayload = {
@@ -19,35 +18,36 @@ const initialValues: IDeceasedDocumentationPayload = {
 interface IAddDeceasedDocumentationForm {
    refetch: () => void;
    setIsAddModalOpen: Dispatch<boolean>
+   morgueOptions?: TSelectField[];
 }
 
-export const AddDeceasedDocumentationForm: React.FC<IAddDeceasedDocumentationForm> = ({refetch, setIsAddModalOpen}) => {
+export const AddDeceasedDocumentationForm: FC<IAddDeceasedDocumentationForm> = ({refetch, setIsAddModalOpen, morgueOptions}) => {
 
-   const {data: morgueData} = useQuery({
-      queryKey: ['fetchMorgue'],
-      queryFn: fetchMorgue
-   });
-   
-   const {mutate, isSuccess: isMutationSuccess } = useMutation({
+   const {mutate, isSuccess: isMutationSuccess, isError, error } = useMutation({
       mutationKey: ['postDeceasedDocumentation'],
       mutationFn: (payload: IDeceasedDocumentationPayload) => postDeceasedDocumentation(payload)
    });
 
-   const morgueOptions = morgueData?.map((elem) => {
-      return {value: JSON.stringify(elem), label: JSON.stringify(elem)};
-   });
+   useEffect(() => {
+      if (isError && error instanceof Error) {
+         toast.error(error.message);
+      }
+   }, [isError, error]);
 
-   const onSubmit = (value: IDeceasedDocumentationPayload , actions: FormikHelpers<IDeceasedDocumentationPayload>) => {
-      mutate(value);
-      toast.success('Successfully added deceased documentation row');
+
+   const onSubmit = async (value: IDeceasedDocumentationPayload , actions: FormikHelpers<IDeceasedDocumentationPayload>) => {
+      await mutate(value);
       actions.resetForm();
    };
-   
+
    useEffect(() => {
       if (isMutationSuccess) {
+         toast.success('Successfully added deceased documentation row');
          refetch();
+         setIsAddModalOpen(false);
       }
    }, [isMutationSuccess]);
+
 
    return (
       <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >

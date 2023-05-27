@@ -52,4 +52,12 @@ export default class Api {
          data
       });
    }
+
+   static put<T>(url: string, data?: unknown): AxiosPromise<T> {
+      return Api.getInstance().request<T>({
+         method: 'PUT',
+         url,
+         data
+      });
+   }
 }

@@ -1,4 +1,5 @@
-import {FC} from 'react';
+import {FC, useEffect} from 'react';
+import {PrepareFuneralSuccess} from '@src/app/funera-house-worker/prepare-funeral-view/prepare-funeral-success/prepare-funeral-success';
 import {fetchCemeteries} from '@src/app/libs/api-calls/cemetery-api';
 import {IFuneralPayload, postFuneral} from '@src/app/libs/api-calls/funeral-api';
 import {fetchFuneralItems } from '@src/app/libs/api-calls/funeral-items-api';
@@ -8,10 +9,9 @@ import {DateField} from '@src/app/libs/components/form/date-field';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField} from '@src/app/libs/components/form/select-field';
-import {Button} from 'antd';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
-import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 const initialValues: IFuneralPayload = {
    funeralDate: '',
@@ -25,12 +25,17 @@ const initialValues: IFuneralPayload = {
 
 
 export const PrepareFuneralForm: FC = () => {
-   const navigate = useNavigate();
 
-   const {data: cemeteriesData} = useQuery({
+   const {data: cemeteriesData, isError: isFetchCemeteriesError, error: fetchCemeteriesError} = useQuery({
       queryKey: ['fetchCemetery'],
       queryFn: fetchCemeteries
    });
+
+   useEffect(() => {
+      if (isFetchCemeteriesError && fetchCemeteriesError instanceof Error) {
+         toast.error(fetchCemeteriesError.message);
+      }
+   }, [fetchCemeteriesError]);
 
    const {data: shippingData} = useQuery({
       queryKey: ['fetchShipping'],
@@ -47,12 +52,16 @@ export const PrepareFuneralForm: FC = () => {
       queryFn: fetchFuneralItems
    });
 
-   const {data, mutate, isSuccess} = useMutation({
+   const {data, mutate, isSuccess, isError: isPostFuneralError, error: postFuneralError} = useMutation({
       mutationKey: ['postFuneral'],
-      mutationFn: (payload: IFuneralPayload) => postFuneral(payload)
+      mutationFn: (payload: IFuneralPayload) => postFuneral(payload),
    });
 
-   console.log(data);
+   useEffect(() => {
+      if (isPostFuneralError && postFuneralError instanceof Error) {
+         toast.error(postFuneralError.message);
+      }
+   }, [postFuneralError]);
 
    const cemeteriesOptions = cemeteriesData?.map((elem) => {
       return {value: JSON.stringify(elem), label: JSON.stringify(elem)};
@@ -87,40 +96,30 @@ export const PrepareFuneralForm: FC = () => {
       },
    ];
 
-   const onSubmit = (value: IFuneralPayload, actions: FormikHelpers<IFuneralPayload>) => {
-      mutate(value);
-      console.log(value);
-      console.log(actions);
+   const onSubmit = async (value: IFuneralPayload, actions: FormikHelpers<IFuneralPayload>) => {
+      await mutate(value);
+      actions.resetForm();
    };
     
    return (
       <>
-         {isSuccess ? (
-            <div>
-               <p>Successfully prepared funeral</p>
-               <Button onClick={() => navigate(`/funeral/${data.id}`)}>View added funeral</Button>
-               <Button onClick={() => navigate('prepare-funeral')}>Prepare another funeral</Button>
-            </div> 
+         {isSuccess && data ? (
+            <PrepareFuneralSuccess funeralId={data.id} />
          ) : (
-            <FormWrapper<IFuneralPayload> initialValues={initialValues} onSubmit={onSubmit}>
-               <>
-                  <DateField name="funeralDate" placeholder="Funeral date"/>
-                  <SelectField name="status" placeholder="Funeral status" options={funeralStatusOptions}/>
-                  <InputField name="price" placeholder="Funeral price"/>
-                  {cemeteriesOptions && (
+            <>
+               <h2>Prepare funeral</h2>
+               <FormWrapper<IFuneralPayload> initialValues={initialValues} onSubmit={onSubmit}>
+                  <>
+                     <DateField name="funeralDate" placeholder="Funeral date"/>
+                     <SelectField name="status" placeholder="Funeral status" options={funeralStatusOptions}/>
+                     <InputField name="price" placeholder="Funeral price"/>
                      <SelectField name="placeOnCemetery" placeholder="Place on cemetery" options={cemeteriesOptions}/>
-                  )}
-                  {morgueOptions && (
                      <SelectField name="morgue" placeholder="Deceased" options={ morgueOptions}/>
-                  )}
-                  {funeralItemsOptions && (
                      <SelectField name="container" placeholder="Container" options={funeralItemsOptions}/>
-                  )}
-                  {shippingOptions && (
                      <SelectField name="shipping" options={shippingOptions} placeholder="Shipping" />
-                  )}
-               </>
-            </FormWrapper>
+                  </>
+               </FormWrapper>
+            </>
          )}
 
       </>

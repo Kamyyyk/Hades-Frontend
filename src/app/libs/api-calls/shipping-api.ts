@@ -1,6 +1,7 @@
 import Api from '@src/app/libs/services/api';
 import {ICaravanResponse} from '@src/app/libs/types/reponses/caravan-response';
 import {IShippingResponse} from '@src/app/libs/types/reponses/shipping-response';
+import {AxiosResponse} from 'axios';
 
 export interface IShippingPayload {
    name: string;
@@ -12,9 +13,18 @@ export const fetchShipping = async (): Promise<IShippingResponse[]> => {
    return data;
 };
 
-export const postShipping = async (payload: IShippingPayload): Promise<any> => {
-   return Api.post<IShippingPayload>('api/shipping', payload );
+export const fetchShippingById = async (shippingId: number| undefined): Promise<IShippingResponse> => {
+   const {data} = await Api.get<IShippingResponse>(`api/shipping/${shippingId}`);
+   return data;
 };
-export const deleteShipping = async (shippingId: number): Promise<any> => {
-   return Api.delete(`api/shipping/${shippingId}`);
+
+export const editShippingById = async (shippingId: number | undefined, payload: IShippingPayload): Promise<AxiosResponse<IShippingResponse>> => {
+   return await Api.put<IShippingResponse>(`api/shipping/${shippingId}`, payload);
+};
+
+export const postShipping = async (payload: IShippingPayload): Promise<AxiosResponse<IShippingResponse>> => {
+   return await Api.post<IShippingResponse>('api/shipping', payload);
+};
+export const deleteShipping = async (shippingId: number): Promise<unknown> => {
+   return Api.delete<unknown>(`api/shipping/${shippingId}`);
 };
