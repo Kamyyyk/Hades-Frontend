@@ -19,7 +19,7 @@ export const fetchDeceasedDocumentationById = async (deceasedDocumentationId: nu
    return data;
 };
 
-export const editDeceasedDocumentationById = async (deceasedDocumentationId: number | undefined, payload: IDeceasedDocumentationResponse) => {
+export const editDeceasedDocumentationById = async (deceasedDocumentationId: number | undefined, payload: IDeceasedDocumentationPayload) => {
    return await Api.put<IDeceasedDocumentationResponse>(`api/deceased-documentation/${deceasedDocumentationId}`, payload);
 };
 

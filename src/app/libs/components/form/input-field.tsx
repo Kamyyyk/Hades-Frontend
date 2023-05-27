@@ -1,3 +1,4 @@
+import {FC} from 'react';
 import {Input} from 'antd';
 import type { FieldProps } from 'formik';
 import { Field } from 'formik';
@@ -8,7 +9,7 @@ interface IInputField {
 }
 
 
-export const InputField: React.FC<IInputField> = ({name, placeholder}) => {
+export const InputField: FC<IInputField> = ({name, placeholder}) => {
    return (
       <>
          <p>{placeholder}</p>

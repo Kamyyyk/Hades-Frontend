@@ -1,9 +1,12 @@
 import Api from '@src/app/libs/services/api';
-import {ILoginForm} from '@src/app/libs/types/login-form';
 import { ILoginResponse } from '@src/app/libs/types/reponses/login-response';
 
+export type TLoginPayload = {
+   username: string;
+   password: string;
+}
 
-export const login = async (payload: ILoginForm): Promise<ILoginResponse> => {
-   const {data} = await Api.post<ILoginResponse>('auth/login', payload);
+export const login = async (payload: TLoginPayload): Promise<ILoginResponse> => {
+   const {data} = await Api.post<ILoginResponse>('api/auth/login', payload);
    return data;
 };

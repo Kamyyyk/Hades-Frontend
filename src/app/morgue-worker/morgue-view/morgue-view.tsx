@@ -1,80 +1,118 @@
-import {useState} from 'react';
+import {FC, useEffect, useState} from 'react';
+import {deleteMorgue, fetchMorgue} from '@src/app/libs/api-calls/morgue';
+import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
+import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
 import {IMorgueResponse} from '@src/app/libs/types/reponses/morgue-reponse';
+import {AddMorgueForm} from '@src/app/morgue-worker/morgue-view/modal/form/add-morgue-form';
+import {EditMorgueForm} from '@src/app/morgue-worker/morgue-view/modal/form/edit-morgue-form';
+import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
-
-const data: IMorgueResponse[] = [
-   {
-      id: 1,
-      name: '',
-      surname: '',
-      dateArrived: '',
-      sex: '',
-      birthDate: '',
-      deathDate: ''
-   }
-];
+import {useMutation, useQuery} from 'react-query';
+import {toast} from 'react-toastify';
 
 
-export const MorgueView: React.FC = () => {
-   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+export const MorgueView: FC = () => {
+   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+   const [selectedRowKey, setSelectedRowKey] = useState<number>();
+
+   const {data, isLoading, refetch, isError: isFetchMorgueError , error: fetchMorgueError} = useQuery({
+      queryKey: ['fetchMorgue'],
+      queryFn: fetchMorgue
+   });
+
+   useEffect(() => {
+      if (isFetchMorgueError && fetchMorgueError instanceof Error) {
+         toast.error(fetchMorgueError.message);
+      }
+   }, [isFetchMorgueError, fetchMorgueError]);
+
+   const {mutate, isSuccess: isDeleteMorgueSuccess, isError: isDeleteMorgueError, error: deleteMorgueError} = useMutation({
+      mutationKey: ['deleteMorgue'],
+      mutationFn: (morgueId: number) => deleteMorgue(morgueId)
+   });
+
+   
+   useEffect(() => {
+      if (isDeleteMorgueError && deleteMorgueError instanceof Error) {
+         toast.error(deleteMorgueError.message);
+      }
+   }, [isDeleteMorgueError, deleteMorgueError]);
+   
+   useEffect(() => {
+      if (isDeleteMorgueSuccess) {
+         toast.success('Successfully deleted deceased');
+         refetch();
+         setIsConfirmModalOpen(false);
+      }
+   }, [isDeleteMorgueSuccess]);
 
    const onAddButtonChange = () => {
-      console.log('dupa');
+      setIsAddModalOpen(true);
    };
 
    const onEditButtonChange = (id: number) => {
-      console.log(id);
+      setSelectedRowKey(id);
+      setIsEditModalOpen(true);
    };
 
    const onDeleteButtonChange = (id: number) => {
-      console.log(id);
+      setIsConfirmModalOpen(true);
+      setSelectedRowKey(id);
+   };
+
+   const handleConfirmDelete = () => {
+      if (selectedRowKey) {
+         mutate(selectedRowKey);
+      }
    };
 
    const columns: ColumnsType<IMorgueResponse> = [
       {
-         title: 'id',
+         title: 'Id',
          dataIndex: 'id',
          key: 'id',
       },
       {
-         title: 'name',
+         title: 'Name',
          dataIndex: 'name',
          key: 'name',
       },
       {
-         title: 'surname',
+         title: 'Surname',
          dataIndex: 'surname',
          key: 'surname',
       },
       {
-         title: 'arriveDate',
-         dataIndex: 'arriveDate',
-         key: 'arriveDate',
+         title: 'Arrive date',
+         dataIndex: 'dateArrived',
+         key: 'dateArrived',
       },
       {
-         title: 'sex',
+         title: 'Sex',
          dataIndex: 'sex',
          key: 'sex',
       },
       {
-         title: 'birthDate',
+         title: 'Birth date',
          dataIndex: 'birthDate',
          key: 'birthDate',
       },
       {
-         title: 'dateOfDeath',
-         dataIndex: 'dateOfDeath',
-         key: 'dateOfDeath',
+         title: 'Date of death',
+         dataIndex: 'deathDate',
+         key: 'deathDate',
       },
       {
          title: 'Actions',
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
-            <div className="users__buttons">
-               <button onClick={() => onEditButtonChange(record.id)}>EDIT</button>
-               <button onClick={() => onDeleteButtonChange(record.id)}>DELETE</button>
+            <div className="table__action-buttons">
+               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
+               <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
             </div>
          )
       },
@@ -82,14 +120,14 @@ export const MorgueView: React.FC = () => {
 
    return (
       <>
-         <TableViewComponent<IMorgueResponse>
-            tableListName="Morguie list"
-            buttonName="Add new deceased"
-            columns={columns}
-            dataSource={data}
-            onButtonChange={onAddButtonChange}
-            isLoading/>
-         {isModalOpen && <div></div>}
+         <TableViewComponent<IMorgueResponse> tableListName="Morgue List" buttonName="Add new deceased" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new deceased" >
+            <AddMorgueForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
+         </AddOrEditModal>
+         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title="Edit deceased" >
+            <EditMorgueForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} morgueId={selectedRowKey}/>
+         </AddOrEditModal>
+         <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>
       </>
    );
 };

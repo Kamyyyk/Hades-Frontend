@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {
    AddDeceasedDocumentationForm
 } from '@src/app/funera-house-worker/deceased-documentation-view/modal/form/add-deceased-documentation-form';
@@ -26,7 +26,7 @@ export interface IDocumentation {
    morgue: IMorgueResponse | null
 }
 
-export const DeceasedDocumentationView: React.FC = () => {
+export const DeceasedDocumentationView: FC = () => {
    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -102,7 +102,7 @@ export const DeceasedDocumentationView: React.FC = () => {
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
-            <div className="users__buttons">
+            <div className="table__action-buttons">
                <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
                <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
             </div>

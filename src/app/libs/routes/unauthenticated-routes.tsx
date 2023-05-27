@@ -10,4 +10,4 @@ export const unauthenticatedRoutes: RouteObject[] = [
    }
 ];
 
-export const unauthorizedRoutes = routerWrapper(unauthenticatedRoutes, ADMINISTRATOR_MENU_ITEMS, 'Administrator');
+export const unauthorizedRoutes = routerWrapper(unauthenticatedRoutes, ADMINISTRATOR_MENU_ITEMS, 'Administrator', true);

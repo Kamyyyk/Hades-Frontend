@@ -1,3 +1,4 @@
+import {Dispatch} from 'react';
 import {Button} from 'antd';
 import {Form, Formik, FormikHelpers, FormikValues} from 'formik';
 import '@src//app/libs/components/form/form-wrapper/form-wrapper.scss';
@@ -7,7 +8,7 @@ interface IFormWrapper<TInitialValues> {
    children: JSX.Element
    initialValues: TInitialValues;
    onSubmit: (values: TInitialValues, actions: FormikHelpers<TInitialValues>) => void;
-   setIsModalOpen?: React.Dispatch<boolean>;
+   setIsModalOpen?: Dispatch<boolean>;
 }
 
 

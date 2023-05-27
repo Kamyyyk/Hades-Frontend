@@ -1,3 +1,4 @@
+import {FC} from 'react';
 import {Select} from 'antd';
 import {Option} from 'antd/es/mentions';
 import {Field, FieldProps} from 'formik';
@@ -14,7 +15,7 @@ interface ISelectField {
    placeholder: string;
 }
 
-export const SelectField: React.FC<ISelectField> = ({name, options, placeholder}) => {
+export const SelectField: FC<ISelectField> = ({name, options, placeholder}) => {
    const isJsonString = (str: string) => {
       try {
          const json = JSON.parse(str);

@@ -113,7 +113,7 @@ export const CaravansView = () => {
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
-            <div className="users__buttons">
+            <div className="table__action-buttons">
                <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
                <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
             </div>

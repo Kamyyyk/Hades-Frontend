@@ -1,14 +1,15 @@
+import {Dispatch, FC} from 'react';
 import {Modal} from 'antd';
 
 interface IAddModal {
    isModalOpen: boolean;
    title: string;
-   setIsModalOpen: React.Dispatch<boolean>;
+   setIsModalOpen: Dispatch<boolean>;
    children: JSX.Element
 }
 
 
-export const AddOrEditModal: React.FC<IAddModal> = ({isModalOpen, setIsModalOpen, title, children}) => {
+export const AddOrEditModal: FC<IAddModal> = ({isModalOpen, setIsModalOpen, title, children}) => {
    return (
       <Modal
          open={isModalOpen}

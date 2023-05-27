@@ -1,12 +1,13 @@
+import {Dispatch, FC, MouseEvent} from 'react';
 import {Modal} from 'antd';
 
 interface IConfirmModal {
-   setIsConfirmModalOpen: React.Dispatch<boolean>
-   onConfirmModalChange: (e: React.MouseEvent<HTMLButtonElement>) => void
+   setIsConfirmModalOpen: Dispatch<boolean>
+   onConfirmModalChange: (e: MouseEvent<HTMLButtonElement>) => void
    isModalOpen: boolean;
 }
 
-export const ConfirmModal: React.FC<IConfirmModal> = ({setIsConfirmModalOpen, onConfirmModalChange, isModalOpen}) => {
+export const ConfirmModal: FC<IConfirmModal> = ({setIsConfirmModalOpen, onConfirmModalChange, isModalOpen}) => {
 
    return (
       <Modal

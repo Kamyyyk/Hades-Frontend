@@ -1,4 +1,4 @@
-import {FC, useEffect} from 'react';
+import {Dispatch, FC, useEffect} from 'react';
 import {ICaravanPayload, postCaravan} from '@src/app/libs/api-calls/caravan-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
@@ -16,7 +16,7 @@ const initialValues: ICaravanPayload = {
 
 
 interface IAddCaravanForm {
-   setIsAddModalOpen: React.Dispatch<boolean>;
+   setIsAddModalOpen: Dispatch<boolean>;
    refetch: () => void
    driverOptions?: TSelectField[];
 }

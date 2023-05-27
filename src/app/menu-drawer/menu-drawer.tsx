@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {FC, ReactNode, useState} from 'react';
 import { RightCircleOutlined } from '@ant-design/icons';
 import {TMenuName} from '@src/utils/heleprs/router-wrapper';
 import {Button} from 'antd';
@@ -13,14 +13,15 @@ export interface IMenuItems {
 
 export interface IMenuDrawer {
    menuItems: IMenuItems[];
-   children: React.ReactNode
+   children: ReactNode
    menuName: TMenuName;
 }
 
-export const MenuDrawer: React.FC<IMenuDrawer> = ({menuItems, children, menuName}) => {
+export const MenuDrawer: FC<IMenuDrawer> = ({menuItems, children, menuName}) => {
 
    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
    const navigate = useNavigate();
+
    const closeDrawer = () => {
       setIsDrawerOpen(false);
    };
@@ -29,9 +30,16 @@ export const MenuDrawer: React.FC<IMenuDrawer> = ({menuItems, children, menuName
       setIsDrawerOpen(true);
    };
 
+   const logout = () => {
+      localStorage.setItem('IS_LOGGED', 'false');
+      localStorage.setItem('CURRENT_ROLE', 'NO_ROLE');
+      navigate('/');
+      location.reload();
+   };
+
    const renderLogoutButtonComponent = () => {
       return (
-         <div className="drawer__button drawer__button--logout">
+         <div onClick={logout} className="drawer__button drawer__button--logout">
             Logout
          </div>
       );
@@ -47,7 +55,6 @@ export const MenuDrawer: React.FC<IMenuDrawer> = ({menuItems, children, menuName
                {menuItems.map((elem, index) => {
                   return (
                      <div key={index} className="drawer__menu__items">
-                        {/*<Link to={elem.path}></Link>*/}
                         <p onClick={() => navigate(elem.path)} className="drawer__menu__items--text" key={index}>{elem.name}</p>
                      </div>
                   );
