@@ -1,6 +1,14 @@
-import {useState} from 'react';
-import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {useEffect, useState} from 'react';
+import {AddCemeteryForm} from '@src/app/funera-house-worker/cemetary-view/modal/form/add-cemetery-form';
+import {EditCemeteryForm} from '@src/app/funera-house-worker/cemetary-view/modal/form/edit-cemetery-form';
+import {deleteCemetery, fetchCemeteries} from '@src/app/libs/api-calls/cemetery-api';
+import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
+import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
+import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
+import {useMutation, useQuery} from 'react-query';
+import {toast} from 'react-toastify';
 
 export interface IPlaceOnCemetery {
    id: number;
@@ -8,28 +16,63 @@ export interface IPlaceOnCemetery {
    address: string;
 }
 
-const data: IPlaceOnCemetery[] = [
-   {
-      id: 1,
-      cemeteryName: '2137',
-      address: 'Kowal'
-   }
-];
-
 export const CemeteryView: React.FC = () => {
-   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+   const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
+   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
+   const [selectedRowKey, setSelectedRowKey] = useState<number>();
 
+   const {data , isError: isFetchCemeteryError, error: fetchCemeteryError, isLoading, refetch} = useQuery({
+      refetchOnWindowFocus: false,
+      queryKey: ['fetchCemetery'],
+      queryFn: fetchCemeteries
+   });
+
+   useEffect(() => {
+      if (isFetchCemeteryError && fetchCemeteryError instanceof Error) {
+         toast.error(fetchCemeteryError.message);
+      }
+   }, [isFetchCemeteryError, fetchCemeteryError]);
+
+   const {mutate, isSuccess: isDeleteCemeterySuccess, isError: isDeleteCemeteryError, error: deleteCemeteryError} = useMutation({
+      mutationKey: ['deleteCemetery'],
+      mutationFn: (cemeteryId: number) => deleteCemetery((cemeteryId))
+   });
+   
+   useEffect(() => {
+      if (isDeleteCemeteryError && deleteCemeteryError instanceof Error) {
+         toast.error(deleteCemeteryError.message);
+      } 
+   }, [isDeleteCemeteryError, deleteCemeteryError ]);
+
+   console.log(isDeleteCemeterySuccess);
+   
+   useEffect(() => {
+      if (isDeleteCemeterySuccess) {
+         toast.success('Successfully deleted cemetery place');
+         refetch();
+         setIsConfirmModalOpen(false);
+      }
+   }, [isDeleteCemeterySuccess]);
+   
    const onAddButtonChange = () => {
-      console.log('driver component add');
-      setIsModalOpen(true);
+      setIsAddModalOpen(true);
    };
 
    const onEditButtonChange = (id: number) => {
-      console.log('driver component edit', id);
+      setSelectedRowKey(id);
+      setIsEditModalOpen(true);
    };
 
    const onDeleteButtonChange = (id: number) => {
-      console.log('driver component delete', id);
+      setSelectedRowKey(id);
+      setIsConfirmModalOpen(true);
+   };
+
+   const handleConfirmDelete = async () => {
+      if (selectedRowKey) {
+         await mutate(selectedRowKey);
+      }
    };
 
    const columns: ColumnsType<IPlaceOnCemetery> = [
@@ -39,12 +82,12 @@ export const CemeteryView: React.FC = () => {
          key: 'id',
       },
       {
-         title: 'cemeteryName',
+         title: 'Cemetery Name',
          dataIndex: 'cemeteryName',
          key: 'cemeteryName',
       },
       {
-         title: 'address',
+         title: 'Cemetery Address',
          dataIndex: 'address',
          key: 'address',
       },
@@ -54,8 +97,8 @@ export const CemeteryView: React.FC = () => {
          key: 'action',
          render: (_value, record) => (
             <div className="users__buttons">
-               <button onClick={() => onEditButtonChange(record.id)}>EDIT</button>
-               <button onClick={() => onDeleteButtonChange(record.id)}>DELETE</button>
+               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
+               <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
             </div>
          )
       },
@@ -63,8 +106,14 @@ export const CemeteryView: React.FC = () => {
 
    return (
       <>
-         <ViewComponent tableListName="Cemetery List" buttonName="Add new cemetery" columns={columns} dataSource={data} onButtonChange={onAddButtonChange}/>
-         {isModalOpen && <div></div>}
+         <TableViewComponent tableListName="Cemetery List" buttonName="Add new cemetery place" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal isModalOpen={isAddModalOpen} title="Add new cemetery place" setIsModalOpen={setIsAddModalOpen}>
+            <AddCemeteryForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
+         </AddOrEditModal>
+         <AddOrEditModal isModalOpen={isEditModalOpen} title="Edit new cemetery place" setIsModalOpen={setIsEditModalOpen}>
+            <EditCemeteryForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} cemeteryId={selectedRowKey} />
+         </AddOrEditModal>
+         <ConfirmModal setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete} isModalOpen={isConfirmModalOpen} />
       </>
    );
 };

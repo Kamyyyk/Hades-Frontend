@@ -5,7 +5,7 @@ import {
    morgueWorkerRoutes
 } from '@src/app/libs/routes/authenticated-routes';
 import { baseRoutes } from '@src/app/libs/routes/base-routes';
-import { unauthenticatedRoutes } from '@src/app/libs/routes/unauthenticated-routes';
+import {unauthorizedRoutes} from '@src/app/libs/routes/unauthenticated-routes';
 import {RouteObject} from 'react-router';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -18,10 +18,8 @@ export const Routes: React.FC = (): JSX.Element => {
    const [mainRoutes, setMainRoutes] = useState<RouteObject[]>([]);
    const [currentRole, setCurrentRole] = useState<TUserRole>('FUNERAL_HOME_EMPLOYEE');
 
-   console.log(mainRoutes);
-
    if (!isLogged || currentRole === 'NO_ROLE') {
-      setMainRoutes(unauthenticatedRoutes);
+      setMainRoutes(unauthorizedRoutes);
    }
 
    useEffect(() => {

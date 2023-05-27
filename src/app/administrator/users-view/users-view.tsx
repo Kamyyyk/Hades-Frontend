@@ -1,5 +1,6 @@
 import '@src/app/administrator/users-view/users.scss';
-import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
 
 interface IUser {
@@ -44,8 +45,8 @@ export const UsersView: React.FC = () => {
          key: 'action',
          render: (_value, record) => (
             <div className="users__buttons">
-               <button onClick={() => onEditButtonChange(record.id)}>EDIT</button>
-               <button onClick={() => onDeleteButtonChange(record.id)}>DELETE</button>
+               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
+               <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
             </div>
          )
       },
@@ -53,13 +54,13 @@ export const UsersView: React.FC = () => {
    ];
    return (
       <>
-         <ViewComponent<IUser>
+         <TableViewComponent<IUser>
             tableListName="User list"
             buttonName="Add new user"
             columns={columns}
             dataSource={data}
             onButtonChange={onAddButtonChange}
-         />
+            isLoading={false}/>
       </>
    );
 };

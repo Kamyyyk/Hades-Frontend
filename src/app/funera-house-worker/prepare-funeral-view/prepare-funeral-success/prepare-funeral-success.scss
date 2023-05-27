@@ -1,0 +1,13 @@
+.prepare-funeral-success-container {
+  h2 {
+    font-size: 16px;
+    text-align: center;
+    padding: 15px 0;
+  }
+  &__button-wrapper {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px;
+  }
+}

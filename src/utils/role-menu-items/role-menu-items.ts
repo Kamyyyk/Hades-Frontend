@@ -30,6 +30,10 @@ export const FUNERAL_HOME_EMPLOYEE_MENU_ITEMS = [
       path: '/funeral-items'
    },
    {
+      name: 'Shipping',
+      path: '/shipping'
+   },
+   {
       name: 'Documentation',
       path: '/documentation'
    },

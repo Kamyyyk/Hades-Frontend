@@ -1,27 +1,17 @@
 import {useState} from 'react';
-import {ViewComponent} from '@src/app/libs/components/view-component/view-component';
+import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {IMorgueResponse} from '@src/app/libs/types/reponses/morgue-reponse';
 import {ColumnsType} from 'antd/es/table';
 
-
-export interface IMorgue {
-   id: number;
-   name: string;
-   surname: string;
-   arriveDate: string;
-   sex: string;
-   birthDate: string;
-   dateOfDeath: string;
-}
-
-const data: IMorgue[] = [
+const data: IMorgueResponse[] = [
    {
       id: 1,
       name: '',
       surname: '',
-      arriveDate: '',
+      dateArrived: '',
       sex: '',
       birthDate: '',
-      dateOfDeath: ''
+      deathDate: ''
    }
 ];
 
@@ -41,7 +31,7 @@ export const MorgueView: React.FC = () => {
       console.log(id);
    };
 
-   const columns: ColumnsType<IMorgue> = [
+   const columns: ColumnsType<IMorgueResponse> = [
       {
          title: 'id',
          dataIndex: 'id',
@@ -92,13 +82,13 @@ export const MorgueView: React.FC = () => {
 
    return (
       <>
-         <ViewComponent<IMorgue>
+         <TableViewComponent<IMorgueResponse>
             tableListName="Morguie list"
             buttonName="Add new deceased"
             columns={columns}
             dataSource={data}
             onButtonChange={onAddButtonChange}
-         />
+            isLoading/>
          {isModalOpen && <div></div>}
       </>
    );

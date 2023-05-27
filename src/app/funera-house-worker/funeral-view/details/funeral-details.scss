@@ -1,0 +1,17 @@
+.funeral-details-container {
+  text-align: center;
+  &__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__info {
+      p {
+        font-size: 18px;
+      }
+      span {
+        font-weight: bolder;
+      }
+    }
+  }
+}
