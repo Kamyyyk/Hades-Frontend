@@ -3,6 +3,7 @@ import {IShippingPayload, postShipping} from '@src/app/libs/api-calls/shipping-a
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
@@ -21,7 +22,7 @@ const initialValues: IShippingPayload = {
 export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetch, caravanOptions} ) => {
 
    const {mutate, isSuccess, isError, error} = useMutation({
-      mutationKey: 'postShipping',
+      mutationKey: ['postShipping'],
       mutationFn: (payload: IShippingPayload) => postShipping(payload)
    });
    
@@ -39,7 +40,7 @@ export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetc
    
    useEffect(() => {
       if (isSuccess) {
-         toast.success('Successfully added shipping row');
+         toast.success(dictionary.funeralHouseWorker.shippingTable.addSuccess);
          refetch();
          setIsAddModalOpen(false);
       }
@@ -49,10 +50,8 @@ export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetc
    return (
       <FormWrapper<IShippingPayload> initialValues={initialValues} onSubmit={onSubmit} >
          <>
-            <InputField name="name" placeholder="Shipping Name" />
-            {caravanOptions && (
-               <SelectField name="caravan" options={caravanOptions} placeholder="Select driver" />
-            )}
+            <InputField name="name" placeholder={dictionary.form.shippingName} />
+            <SelectField name="caravan" options={caravanOptions} placeholder={dictionary.form.selectDriver}/>
          </>
       </FormWrapper>
    );

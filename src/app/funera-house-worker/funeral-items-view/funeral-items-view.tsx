@@ -5,6 +5,7 @@ import {deleteFuneralItem, fetchFuneralItems} from '@src/app/libs/api-calls/fune
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {IFuneralItemsResponse} from '@src/app/libs/types/reponses/funeral-items-response';
 import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
@@ -48,7 +49,7 @@ export const FuneralItemsView: FC = () => {
 
    useEffect(() => {
       if (isDeleteFuneralItemSuccess) {
-         toast.success('Successfully deleted funeral item');
+         toast.success(dictionary.funeralHouseWorker.funeralItemsTable.deleteSuccess);
          refetch();
          setIsConfirmModalOpen(false);
       }
@@ -112,17 +113,17 @@ export const FuneralItemsView: FC = () => {
    return (
       <>
          <TableViewComponent<IFuneralItemsResponse>
-            tableListName="Funeral items list"
-            buttonName="Add new funeral item"
+            tableListName={dictionary.funeralHouseWorker.funeralItemsTable.funeralItemsList}
+            buttonName={dictionary.funeralHouseWorker.funeralItemsTable.addNewFuneralItem}
             columns={columns}
             dataSource={data}
             onButtonChange={onAddButtonChange}
             isLoading={isLoading}
          />
-         <AddOrEditModal isModalOpen={isAddModalOpen} title="Add funeral item" setIsModalOpen={setIsAddModalOpen}>
+         <AddOrEditModal isModalOpen={isAddModalOpen} title={dictionary.funeralHouseWorker.funeralItemsTable.addNewFuneralItem} setIsModalOpen={setIsAddModalOpen}>
             <AddFuneralItemsForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} containerTypeOptions={containerTypeOptions}/>
          </AddOrEditModal>
-         <AddOrEditModal isModalOpen={isEditModalOpen} title="Edit funeral item" setIsModalOpen={setIsEditModalOpen}>
+         <AddOrEditModal isModalOpen={isEditModalOpen} title={dictionary.funeralHouseWorker.funeralItemsTable.editFuneralItem} setIsModalOpen={setIsEditModalOpen}>
             <EditFuneralItemsForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} funeralItemId={selectedRowKey} containerTypeOptions={containerTypeOptions} />
          </AddOrEditModal>
          <ConfirmModal setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete} isModalOpen={isConfirmModalOpen} />

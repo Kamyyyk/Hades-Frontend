@@ -4,8 +4,11 @@ import {Button, Input} from 'antd';
 import {Field, FieldProps} from 'formik';
 import '@src/app/libs/components/form/password-field/password-field.scss';
 
+interface IPasswordField {
+   isGeneratePasswordVisible?: boolean
+}
 
-export const PasswordField: FC = () => {
+export const PasswordField: FC<IPasswordField> = ({isGeneratePasswordVisible = true}) => {
 
    const onButtonChange = (setFieldValue: (field: string, value: string) => void, name: string) => {
       setFieldValue(name, generatePassword());
@@ -18,8 +21,11 @@ export const PasswordField: FC = () => {
             {({ field, form }: FieldProps) => {
                return (
                   <>
-                     <Input {...field} />
-                     <Button className="passwordButton" onClick={() => onButtonChange(form.setFieldValue, field.name)}>Generate password</Button>
+                     <Input.Password {...field} />
+                     {isGeneratePasswordVisible && (
+                        <Button className="passwordButton" onClick={() => onButtonChange(form.setFieldValue, field.name)}>Generate password</Button>
+                     )}
+
                   </>
                );
             }}

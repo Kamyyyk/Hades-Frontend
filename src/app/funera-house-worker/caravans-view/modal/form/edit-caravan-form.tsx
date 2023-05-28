@@ -3,6 +3,7 @@ import {editCaravanById, fetchCaravanById, ICaravanPayload} from '@src/app/libs/
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -31,7 +32,7 @@ export const EditCaravanForm: FC<IEditCaravanForm> = ({caravanId, setIsEditCarav
    
    useEffect(() => {
       if (isEditCaravanSuccess) {
-         toast.success('Successfully edited caravan row');
+         toast.success(dictionary.funeralHouseWorker.caravanTable.editSuccess);
          setIsEditCaravanOpen(false);
          refetch();
       }
@@ -62,12 +63,10 @@ export const EditCaravanForm: FC<IEditCaravanForm> = ({caravanId, setIsEditCarav
          {formValues && (
             <FormWrapper<ICaravanPayload> initialValues={formValues} onSubmit={onSubmit}>
                <>
-                  <InputField name="licenceNumber" placeholder="Licence Number"/>
-                  <InputField name="brand" placeholder="Brand"/>
-                  <InputField name="model" placeholder="Model"/>
-                  {driverOptions && (
-                     <SelectField name="driver" options={driverOptions} placeholder="Driver"  />
-                  )}
+                  <InputField name="licenceNumber" placeholder={dictionary.form.licenceNumber}/>
+                  <InputField name="brand" placeholder={dictionary.form.brand}/>
+                  <InputField name="model" placeholder={dictionary.form.model}/>
+                  <SelectField name="driver" options={driverOptions} placeholder={dictionary.form.driver}  />
                </>
             </FormWrapper>
          )}

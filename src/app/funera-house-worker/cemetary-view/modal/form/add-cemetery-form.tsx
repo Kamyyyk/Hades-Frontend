@@ -2,6 +2,7 @@ import {Dispatch, FC, useEffect} from 'react';
 import {ICemeteryPayload, postCemetery} from '@src/app/libs/api-calls/cemetery-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
@@ -24,7 +25,7 @@ export const AddCemeteryForm: FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetc
 
    useEffect(() => {
       if (isSuccess) {
-         toast.success('Successfully added new cemetery place');
+         toast.success(dictionary.funeralHouseWorker.cemeteryPlaceTable.addSuccess);
          refetch();
       }
    }, [isSuccess]);
@@ -44,8 +45,8 @@ export const AddCemeteryForm: FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetc
    return (
       <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
          <>
-            <InputField name="cemeteryName" placeholder="Cemetery Name"/>
-            <InputField name="address" placeholder="Address"/>
+            <InputField name="cemeteryName" placeholder={dictionary.form.cemeteryName}/>
+            <InputField name="address" placeholder={dictionary.form.address}/>
          </>
       </FormWrapper>
    );

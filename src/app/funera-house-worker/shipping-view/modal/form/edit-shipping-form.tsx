@@ -4,6 +4,7 @@ import {editShippingById, fetchShippingById, IShippingPayload} from '@src/app/li
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -31,7 +32,7 @@ export const EditShippingForm: FC<IEditShippingForm> = ({setIsEditModalOpen, shi
    
    useEffect(() => {
       if (isEditShippingSuccess) {
-         toast.success('Successfully edited shipping row');
+         toast.success(dictionary.funeralHouseWorker.shippingTable.editSuccess);
          refetch();
          setIsEditModalOpen(false);
       }
@@ -69,10 +70,8 @@ export const EditShippingForm: FC<IEditShippingForm> = ({setIsEditModalOpen, shi
          {formValues && (
             <FormWrapper<IShippingPayload> initialValues={formValues} onSubmit={onSubmit} >
                <>
-                  <InputField name="name" placeholder="Shipping Name" />
-                  {caravanOptions && (
-                     <SelectField name="caravan" options={caravanOptions} placeholder="Select driver" />
-                  )}
+                  <InputField name="name" placeholder={dictionary.form.shippingName} />
+                  <SelectField name="caravan" options={caravanOptions} placeholder={dictionary.form.selectDriver}/>
                </>
 
             </FormWrapper>

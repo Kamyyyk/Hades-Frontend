@@ -3,6 +3,7 @@ import {ICaravanPayload, postCaravan} from '@src/app/libs/api-calls/caravan-api'
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
@@ -36,7 +37,7 @@ export const AddCaravanForm: FC<IAddCaravanForm> = ({setIsAddModalOpen, refetch,
 
    useEffect(() => {
       if (isSuccess) {
-         toast.success('Successfully added new caravan');
+         toast.success(dictionary.funeralHouseWorker.caravanTable.addSuccess);
          refetch();
          setIsAddModalOpen(false);
       }
@@ -55,12 +56,10 @@ export const AddCaravanForm: FC<IAddCaravanForm> = ({setIsAddModalOpen, refetch,
    return (
       <FormWrapper<ICaravanPayload> initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
          <>
-            <InputField name="licenceNumber" placeholder="Licence Number"/>
-            <InputField name="brand" placeholder="Brand"/>
-            <InputField name="model" placeholder="Model"/>
-            {driverOptions && (
-               <SelectField name="driver" options={driverOptions} placeholder="Driver"  />
-            )}
+            <InputField name="licenceNumber" placeholder={dictionary.form.licenceNumber}/>
+            <InputField name="brand" placeholder={dictionary.form.brand}/>
+            <InputField name="model" placeholder={dictionary.form.model}/>
+            <SelectField name="driver" options={driverOptions} placeholder={dictionary.form.driver}  />
          </>
       </FormWrapper>
    );

@@ -1,4 +1,5 @@
 import {Dispatch, FC, MouseEvent} from 'react';
+import {dictionary} from '@src/app/libs/locales/en';
 import {Modal} from 'antd';
 
 interface IConfirmModal {
@@ -15,7 +16,7 @@ export const ConfirmModal: FC<IConfirmModal> = ({setIsConfirmModalOpen, onConfir
          onOk={onConfirmModalChange}
          onCancel={() => setIsConfirmModalOpen(false)}
       >
-         <p>Are you sure you want to delete this position?</p>
+         <p>{dictionary.common.confirmDeleteMessage}</p>
       </Modal>
    );
 };

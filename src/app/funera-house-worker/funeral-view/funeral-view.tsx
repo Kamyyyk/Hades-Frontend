@@ -4,6 +4,7 @@ import {deleteFuneralById, fetchFunerals} from '@src/app/libs/api-calls/funeral-
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {IFuneralResponse} from '@src/app/libs/types/reponses/funeral-response';
 import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
@@ -99,8 +100,8 @@ export const FuneralView: FC = () => {
    ];
    return (
       <>
-         <TableViewComponent<IFuneralResponse> tableListName="Funeral List" columns={columns} dataSource={funeralData} isLoading={isLoading} isAddButton={false}/>
-         <AddOrEditModal isModalOpen={isEditModalOpen} title="Edit funeral" setIsModalOpen={setIsEditModalOpen}>
+         <TableViewComponent<IFuneralResponse> tableListName={dictionary.funeralHouseWorker.funeralTable.funeralList} columns={columns} dataSource={funeralData} isLoading={isLoading} isAddButton={false}/>
+         <AddOrEditModal isModalOpen={isEditModalOpen} title={dictionary.funeralHouseWorker.funeralItemsTable.editFuneralItem} setIsModalOpen={setIsEditModalOpen}>
             <EditFuneralForm funeralId={selectedRowKey}  refetch={refetch} setIsEditModalOpen={setIsEditModalOpen}/>
          </AddOrEditModal>
          <ConfirmModal setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete} isModalOpen={isConfirmModalOpen} />

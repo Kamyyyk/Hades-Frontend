@@ -8,6 +8,7 @@ import {
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -34,7 +35,7 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
 
    useEffect(() => {
       if (isEditFuneralItemSuccess) {
-         toast.success('Successfully edited funeral item');
+         toast.success(dictionary.funeralHouseWorker.funeralItemsTable.editSuccess);
          refetch();
          setIsEditModalOpen(false);
       }
@@ -73,8 +74,8 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
          {formValues && (
             <FormWrapper initialValues={formValues} onSubmit={onSubmit} setIsModalOpen={setIsEditModalOpen} >
                <>
-                  <InputField name="containerName" placeholder="Funeral item Name"/>
-                  <SelectField name="containerType" options={containerTypeOptions} placeholder="Fineral item Type"  />
+                  <InputField name="containerName" placeholder={dictionary.form.containerName}/>
+                  <SelectField name="containerType" options={containerTypeOptions} placeholder={dictionary.form.containerType}  />
                </>
             </FormWrapper>
          )}

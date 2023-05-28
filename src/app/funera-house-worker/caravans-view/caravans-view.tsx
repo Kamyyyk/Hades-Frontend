@@ -7,6 +7,7 @@ import {fetchDrivers} from '@src/app/libs/api-calls/driver-api';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
 import {useMutation, useQuery} from 'react-query';
@@ -51,7 +52,7 @@ export const CaravansView = () => {
 
    useEffect(() => {
       if (isDeleteCaravanSuccess) {
-         toast.success('Successfully deleted caravan row');
+         toast.success(dictionary.funeralHouseWorker.caravanTable.deleteSuccess);
          setIsConfirmModalOpen(false);
          refetch();
       }
@@ -123,11 +124,11 @@ export const CaravansView = () => {
 
    return (
       <>
-         <TableViewComponent<ICaravan> tableListName="Caravan List" buttonName="Add new caravan" columns={columns} dataSource={caravanData} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new caravan" >
+         <TableViewComponent<ICaravan> tableListName={dictionary.funeralHouseWorker.caravanTable.caravanList} buttonName={dictionary.funeralHouseWorker.caravanTable.addNewCaravan} columns={columns} dataSource={caravanData} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title={dictionary.funeralHouseWorker.caravanTable.addNewCaravan} >
             <AddCaravanForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} driverOptions={driverOptions}/>
          </AddOrEditModal>
-         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title="Add new caravan" >
+         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title={dictionary.funeralHouseWorker.caravanTable.editCaravan} >
             <EditCaravanForm setIsEditCaravanOpen={setIsEditModalOpen} refetch={refetch} caravanId={selectedRowKey} driverOptions={driverOptions}/>
          </AddOrEditModal>
          <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>

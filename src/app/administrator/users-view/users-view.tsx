@@ -5,6 +5,7 @@ import {deleteUser, getUsers} from '@src/app/libs/api-calls/user-api';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {TUserResponse} from '@src/app/libs/types/reponses/user-reponse';
 import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
@@ -57,7 +58,7 @@ export const UsersView: FC = () => {
    
    useEffect(() => {
       if (isDeleteUserSuccess) {
-         toast.success('Successfully deleted user');
+         toast.success(dictionary.administrator.userTable.deleteSuccess);
          refetch();
          setIsConfirmModalOpen(false);
       }
@@ -109,11 +110,11 @@ export const UsersView: FC = () => {
    ];
    return (
       <>
-         <TableViewComponent<TUserResponse> tableListName="User List" buttonName="Add new user" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new user" >
+         <TableViewComponent<TUserResponse> tableListName={dictionary.administrator.userTable.userList} buttonName={dictionary.administrator.userTable.addNewUser} columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title={dictionary.administrator.userTable.addNewUser} >
             <AddUserForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} roleTypeOptions={roleTypeOptions} />
          </AddOrEditModal>
-         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title="Add new user">
+         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title={dictionary.administrator.userTable.editUser}>
             <EditUserForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} userId={selectedRowKey} roleTypeOptions={roleTypeOptions}/>
          </AddOrEditModal>
          <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>

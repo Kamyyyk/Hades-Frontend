@@ -6,6 +6,7 @@ import {
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
@@ -42,7 +43,7 @@ export const AddDeceasedDocumentationForm: FC<IAddDeceasedDocumentationForm> = (
 
    useEffect(() => {
       if (isMutationSuccess) {
-         toast.success('Successfully added deceased documentation row');
+         toast.success(dictionary.funeralHouseWorker.deceasedDocumentationTable.addSuccess);
          refetch();
          setIsAddModalOpen(false);
       }
@@ -52,10 +53,8 @@ export const AddDeceasedDocumentationForm: FC<IAddDeceasedDocumentationForm> = (
    return (
       <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
          <>
-            <InputField name="name" placeholder="Name"/>
-            {morgueOptions && (
-               <SelectField name="morgue" options={morgueOptions} placeholder="Morgue" />
-            )}
+            <InputField name="name" placeholder={dictionary.form.name}/>
+            <SelectField name="morgue" options={morgueOptions} placeholder={dictionary.form.morgue} />
          </>
       </FormWrapper>
    );
