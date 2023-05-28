@@ -7,6 +7,7 @@ import {
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -47,7 +48,7 @@ export const EditDeceasedDocumentationForm: FC<IEditDeceasedDocumentationForm> =
 
    useEffect(() => {
       if (isEditDeceasedDocumentationByIdSuccess) {
-         toast.success('Successfully edited deceased documentation row');
+         toast.success(dictionary.funeralHouseWorker.deceasedDocumentationTable.editSuccess);
          refetch();
          setIsEditModalOpen(false);
       }
@@ -70,10 +71,8 @@ export const EditDeceasedDocumentationForm: FC<IEditDeceasedDocumentationForm> =
          {formValues && (
             <FormWrapper initialValues={formValues} onSubmit={onSubmit} setIsModalOpen={setIsEditModalOpen} >
                <>
-                  <InputField name="name" placeholder="Name"/>
-                  {morgueOptions && (
-                     <SelectField name="morgue" options={morgueOptions} placeholder="Morgue" />
-                  )}
+                  <InputField name="name" placeholder={dictionary.form.name}/>
+                  <SelectField name="morgue" options={morgueOptions} placeholder={dictionary.form.morgue} />
                </>
             </FormWrapper>
          )}

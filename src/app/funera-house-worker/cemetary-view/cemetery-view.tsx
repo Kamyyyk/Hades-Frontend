@@ -5,6 +5,7 @@ import {deleteCemetery, fetchCemeteries} from '@src/app/libs/api-calls/cemetery-
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
 import {useMutation, useQuery} from 'react-query';
@@ -49,7 +50,7 @@ export const CemeteryView: FC = () => {
    
    useEffect(() => {
       if (isDeleteCemeterySuccess) {
-         toast.success('Successfully deleted cemetery place');
+         toast.success(dictionary.funeralHouseWorker.cemeteryPlaceTable.deleteSuccess);
          refetch();
          setIsConfirmModalOpen(false);
       }
@@ -106,11 +107,11 @@ export const CemeteryView: FC = () => {
 
    return (
       <>
-         <TableViewComponent tableListName="Cemetery List" buttonName="Add new cemetery place" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-         <AddOrEditModal isModalOpen={isAddModalOpen} title="Add new cemetery place" setIsModalOpen={setIsAddModalOpen}>
+         <TableViewComponent tableListName={dictionary.funeralHouseWorker.cemeteryPlaceTable.cemeteryPlaceList} buttonName={dictionary.funeralHouseWorker.cemeteryPlaceTable.addNewCemeteryPlace} columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal isModalOpen={isAddModalOpen} title={dictionary.funeralHouseWorker.cemeteryPlaceTable.addNewCemeteryPlace} setIsModalOpen={setIsAddModalOpen}>
             <AddCemeteryForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
          </AddOrEditModal>
-         <AddOrEditModal isModalOpen={isEditModalOpen} title="Edit new cemetery place" setIsModalOpen={setIsEditModalOpen}>
+         <AddOrEditModal isModalOpen={isEditModalOpen} title={dictionary.funeralHouseWorker.cemeteryPlaceTable.editCemeteryPlace} setIsModalOpen={setIsEditModalOpen}>
             <EditCemeteryForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} cemeteryId={selectedRowKey} />
          </AddOrEditModal>
          <ConfirmModal setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete} isModalOpen={isConfirmModalOpen} />

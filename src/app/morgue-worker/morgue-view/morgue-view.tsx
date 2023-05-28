@@ -3,6 +3,7 @@ import {deleteMorgue, fetchMorgue} from '@src/app/libs/api-calls/morgue';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {IMorgueResponse} from '@src/app/libs/types/reponses/morgue-reponse';
 import {AddMorgueForm} from '@src/app/morgue-worker/morgue-view/modal/form/add-morgue-form';
 import {EditMorgueForm} from '@src/app/morgue-worker/morgue-view/modal/form/edit-morgue-form';
@@ -43,7 +44,7 @@ export const MorgueView: FC = () => {
    
    useEffect(() => {
       if (isDeleteMorgueSuccess) {
-         toast.success('Successfully deleted deceased');
+         toast.success(dictionary.morgueWorker.deceasedTable.deleteSuccess);
          refetch();
          setIsConfirmModalOpen(false);
       }
@@ -120,11 +121,11 @@ export const MorgueView: FC = () => {
 
    return (
       <>
-         <TableViewComponent<IMorgueResponse> tableListName="Morgue List" buttonName="Add new deceased" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new deceased" >
+         <TableViewComponent<IMorgueResponse> tableListName={dictionary.morgueWorker.deceasedTable.deceasedList} buttonName={dictionary.morgueWorker.deceasedTable.addNewDeceased} columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title={dictionary.morgueWorker.deceasedTable.addNewDeceased} >
             <AddMorgueForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
          </AddOrEditModal>
-         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title="Edit deceased" >
+         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title={dictionary.morgueWorker.deceasedTable.editDeceased} >
             <EditMorgueForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} morgueId={selectedRowKey}/>
          </AddOrEditModal>
          <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>

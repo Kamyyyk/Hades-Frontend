@@ -2,6 +2,7 @@ import {Dispatch, FC, useEffect, useState} from 'react';
 import {editCemetery, fetchCemeteryById, ICemeteryPayload} from '@src/app/libs/api-calls/cemetery-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -34,7 +35,7 @@ export const EditCemeteryForm: FC<IEditCemeteryForm> = ({cemeteryId, setIsEditMo
 
    useEffect(() => {
       if (isMutationSuccess) {
-         toast.success('Successfully edited place on cemetery');
+         toast.success(dictionary.funeralHouseWorker.cemeteryPlaceTable.editSuccess);
          refetch();
          setIsEditModalOpen(false);
       }
@@ -60,8 +61,8 @@ export const EditCemeteryForm: FC<IEditCemeteryForm> = ({cemeteryId, setIsEditMo
          {formValues && (
             <FormWrapper initialValues={formValues} onSubmit={onSubmit}>
                <>
-                  <InputField name="cemeteryName" placeholder="Cemetery Name"/>
-                  <InputField name="address" placeholder="Address"/>
+                  <InputField name="cemeteryName" placeholder={dictionary.form.cemeteryName}/>
+                  <InputField name="address" placeholder={dictionary.form.address}/>
                </>
             </FormWrapper>
          )}

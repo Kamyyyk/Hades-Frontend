@@ -5,6 +5,7 @@ import {deleteDriver, fetchDrivers} from '@src/app/libs/api-calls/driver-api';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {IDriverResponse} from '@src/app/libs/types/reponses/driver-response';
 import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
@@ -49,7 +50,7 @@ export const DriversView: FC = () => {
 
    useEffect(() => {
       if (isDeleteDriverSuccess) {
-         toast.success('Successfully deleted driver');
+         toast.success(dictionary.administrator.driverTable.deleteSuccess);
          refetch();
          setIsConfirmModalOpen(false);
       }
@@ -97,8 +98,8 @@ export const DriversView: FC = () => {
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
+               <Button onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit}</Button>
+               <Button onClick={() => onDeleteButtonChange(record.id)}>{dictionary.common.delete}</Button>
             </div>
          )
       },
@@ -106,11 +107,11 @@ export const DriversView: FC = () => {
 
    return (
       <>
-         <TableViewComponent<IDriverResponse> tableListName="Drivers List" buttonName="Add new driver" columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new driver" >
+         <TableViewComponent<IDriverResponse> tableListName={dictionary.administrator.driverTable.driverList} buttonName={dictionary.administrator.driverTable.addNewDriver} columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title={dictionary.administrator.driverTable.addNewDriver} >
             <AddDriverForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
          </AddOrEditModal>
-         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title="Edit driver" >
+         <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title={dictionary.administrator.driverTable.editDriver} >
             <EditDriverForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} driverId={selectedRowKey} />
          </AddOrEditModal>
          <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>

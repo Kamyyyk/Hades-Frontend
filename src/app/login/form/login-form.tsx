@@ -3,6 +3,8 @@ import {useEffect} from 'react';
 import {login, TLoginPayload} from '@src/app/libs/api-calls/login-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {PasswordField} from '@src/app/libs/components/form/password-field/password-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
 
@@ -21,14 +23,14 @@ export const LoginForm: FC = () => {
 
    useEffect(() => {
       if (isError && error) {
-         toast.error('User not found');
+         toast.error(dictionary.auth.error);
       }
    }, [isError, error ]);
    
    useEffect(() => {
       if (isSuccess) {
          localStorage.setItem('CURRENT_ROLE', data?.role);
-         toast.success('Logged successfully');
+         toast.success(dictionary.auth.success);
          location.reload();
       }
    }, [isSuccess]);
@@ -40,8 +42,8 @@ export const LoginForm: FC = () => {
    return (
       <FormWrapper<TLoginPayload> initialValues={initialValues} onSubmit={onSubmit}>
          <>
-            <InputField name="username" placeholder="Username" />
-            <InputField name="password" placeholder="Password" />
+            <InputField name="username" placeholder={dictionary.form.username} />
+            <PasswordField isGeneratePasswordVisible={false} />
          </>
       </FormWrapper>
    );

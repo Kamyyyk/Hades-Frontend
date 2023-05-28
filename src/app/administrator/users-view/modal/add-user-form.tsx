@@ -6,6 +6,7 @@ import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapp
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {PasswordField} from '@src/app/libs/components/form/password-field/password-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
@@ -37,7 +38,7 @@ export const AddUserForm: FC<IAddUserForm> = ({setIsAddModalOpen, refetch, roleT
 
    useEffect(() => {
       if (isSuccess) {
-         toast.success('Successfully added new user');
+         toast.success(dictionary.administrator.userTable.addSuccess);
          refetch();
          setIsAddModalOpen(false);
       }
@@ -51,9 +52,9 @@ export const AddUserForm: FC<IAddUserForm> = ({setIsAddModalOpen, refetch, roleT
    return (
       <FormWrapper<TUserPayload> initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
          <>
-            <InputField name="username" placeholder="Username"/>
+            <InputField name="username" placeholder={dictionary.form.username}/>
             <PasswordField />
-            <SelectField name="role" placeholder="Role type" options={roleTypeOptions} />
+            <SelectField name="role" placeholder={dictionary.form.roleType} options={roleTypeOptions} />
          </>
       </FormWrapper>
    );

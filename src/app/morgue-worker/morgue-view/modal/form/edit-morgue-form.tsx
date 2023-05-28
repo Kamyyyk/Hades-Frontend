@@ -4,6 +4,7 @@ import {editMorgue, fetchMorgueById, IMorguePayload} from '@src/app/libs/api-cal
 import {DateField} from '@src/app/libs/components/form/date-field';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -47,7 +48,7 @@ export const EditMorgueForm: FC<IEditMorgueForm> = ({setIsEditModalOpen, refetch
 
    useEffect(() => {
       if (isEditMorgueSuccess) {
-         toast.success('new deceased has been edited successfully');
+         toast.success(dictionary.morgueWorker.deceasedTable.editSuccess);
          refetch();
          setIsEditModalOpen(false);
       }
@@ -67,12 +68,12 @@ export const EditMorgueForm: FC<IEditMorgueForm> = ({setIsEditModalOpen, refetch
          {formValues && (
             <FormWrapper<IMorguePayload> initialValues={formValues} onSubmit={onSubmit}>
                <>
-                  <InputField name="name" placeholder="Name"/>
-                  <InputField name="surname" placeholder="Surname"/>
-                  <DateField name="dateArrived" placeholder="Date arrived" />
-                  <InputField name="sex" placeholder="Sex"/>
-                  <DateField name="birthDate" placeholder="Birth date" />
-                  <DateField name="deathDate" placeholder="Death date" />
+                  <InputField name="name" placeholder={dictionary.form.name} />
+                  <InputField name="surname" placeholder={dictionary.form.surname} />
+                  <DateField name="dateArrived" placeholder={dictionary.form.dateArrived}/>
+                  <InputField name="sex" placeholder={dictionary.form.sex}/>
+                  <DateField name="birthDate" placeholder={dictionary.form.birthDate} />
+                  <DateField name="deathDate" placeholder={dictionary.form.deathDate} />
                </>
             </FormWrapper>
          )}

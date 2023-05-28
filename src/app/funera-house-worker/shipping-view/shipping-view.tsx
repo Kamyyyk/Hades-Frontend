@@ -7,6 +7,7 @@ import {deleteShipping, fetchShipping} from '@src/app/libs/api-calls/shipping-ap
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
 import {TableViewComponent} from '@src/app/libs/components/table-view-component/table-view-component';
+import {dictionary} from '@src/app/libs/locales/en';
 import {Button} from 'antd';
 import {ColumnsType} from 'antd/es/table';
 import {useMutation, useQuery} from 'react-query';
@@ -54,7 +55,7 @@ export const ShippingView: FC = () => {
 
    useEffect(() => {
       if (isDeleteShippingSuccess) {
-         toast.success('Successfully deleted Shipping row');
+         toast.success(dictionary.funeralHouseWorker.shippingTable.deleteSuccess);
          refetch();
          setIsConfirmModalOpen(false);
       }
@@ -111,11 +112,11 @@ export const ShippingView: FC = () => {
    return (
       <>
          <>
-            <TableViewComponent<IShipping> tableListName="Shipping List" buttonName="Add new shipping" columns={columns} dataSource={shippingData} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-            <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title="Add new shipping" >
+            <TableViewComponent<IShipping> tableListName={dictionary.funeralHouseWorker.shippingTable.shippingList} buttonName={dictionary.funeralHouseWorker.shippingTable.addNewShipping} columns={columns} dataSource={shippingData} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
+            <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title={dictionary.funeralHouseWorker.shippingTable.addNewShipping} >
                <AddShippingForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} caravanOptions={caravanOptions}/>
             </AddOrEditModal>
-            <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title="Edit shipping" >
+            <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title={dictionary.funeralHouseWorker.shippingTable.editShipping} >
                <EditShippingForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} shippingId={selectedRowKey} caravanOptions={caravanOptions}/>
             </AddOrEditModal>
             <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>

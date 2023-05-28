@@ -8,6 +8,7 @@ import {DateField} from '@src/app/libs/components/form/date-field';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -105,7 +106,7 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
    
    useEffect(() => {
       if (isEditFuneralByIdSuccess) {
-         toast.success('Successfully edited funeral');
+         toast.success(dictionary.funeralHouseWorker.funeralTable.editSuccess);
          refetch();
          setIsEditModalOpen(false);
       }
@@ -121,13 +122,13 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
          {formValues && (
             <FormWrapper<IFuneralPayload> initialValues={formValues} onSubmit={onSubmit}>
                <>
-                  <DateField name="funeralDate" placeholder="Funeral date"/>
-                  <SelectField name="status" placeholder="Funeral status" options={funeralStatusOptions}/>
-                  <InputField name="price" placeholder="Funeral price"/>
-                  <SelectField name="placeOnCemetery" placeholder="Place on cemetery" options={cemeteriesOptions}/>
-                  <SelectField name="morgue" placeholder="Deceased" options={ morgueOptions}/>
-                  <SelectField name="container" placeholder="Container" options={funeralItemsOptions}/>
-                  <SelectField name="shipping" options={shippingOptions} placeholder="Shipping" />
+                  <DateField name="funeralDate" placeholder={dictionary.form.funeralDate}/>
+                  <SelectField name="status" placeholder={dictionary.form.status} options={funeralStatusOptions}/>
+                  <InputField name="price" placeholder={dictionary.form.price}/>
+                  <SelectField name="placeOnCemetery" placeholder={dictionary.form.placeOnCemetery} options={cemeteriesOptions}/>
+                  <SelectField name="morgue" placeholder={dictionary.form.deceased} options={ morgueOptions}/>
+                  <SelectField name="container" placeholder={dictionary.form.container} options={funeralItemsOptions}/>
+                  <SelectField name="shipping" options={shippingOptions} placeholder={dictionary.form.shipping} />
                </>
             </FormWrapper>
          )}

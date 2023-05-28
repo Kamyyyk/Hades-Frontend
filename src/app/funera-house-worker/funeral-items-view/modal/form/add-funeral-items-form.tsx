@@ -3,6 +3,7 @@ import {IFuneralItemsPayload, postFuneralItem} from '@src/app/libs/api-calls/fun
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
@@ -27,7 +28,7 @@ export const AddFuneralItemsForm: FC<IAddFuneralItemsForm> = ({setIsAddModalOpen
 
    useEffect(() => {
       if (isSuccess) {
-         toast.success('Successfully added new funeral item');
+         toast.success(dictionary.funeralHouseWorker.funeralItemsTable.addSuccess);
          refetch();
          setIsAddModalOpen(false);
       }
@@ -41,8 +42,8 @@ export const AddFuneralItemsForm: FC<IAddFuneralItemsForm> = ({setIsAddModalOpen
    return (
       <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
          <>
-            <InputField name="containerName" placeholder="Funeral item Name"/>
-            <SelectField name="containerType" options={containerTypeOptions} placeholder="Fineral item Type"  />
+            <InputField name="containerName" placeholder={dictionary.form.containerName}/>
+            <SelectField name="containerType" options={containerTypeOptions} placeholder={dictionary.form.containerType}  />
          </>
       </FormWrapper>
    );

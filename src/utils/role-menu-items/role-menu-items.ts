@@ -12,7 +12,7 @@ export const ADMINISTRATOR_MENU_ITEMS = [
 export const FUNERAL_MORGUE_WORKER_MENU_ITEMS = [
    {
       name: 'Morgue',
-      path: '/morgue-view'
+      path: '/morgue'
    }
 ];
 

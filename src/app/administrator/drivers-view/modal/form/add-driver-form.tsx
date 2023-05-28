@@ -3,6 +3,7 @@ import {useEffect} from 'react';
 import {postDriver, TDriverPayload} from '@src/app/libs/api-calls/driver-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
 import {toast} from 'react-toastify';
@@ -32,7 +33,7 @@ export const AddDriverForm: FC<IAddDriversForm> = ({refetch, setIsAddModalOpen})
    
    useEffect(() => {
       if (isSuccess) {
-         toast.success('Successfully added driver');
+         toast.success(dictionary.administrator.driverTable.addSuccess);
          refetch();
          setIsAddModalOpen(false);
       }
@@ -47,8 +48,8 @@ export const AddDriverForm: FC<IAddDriversForm> = ({refetch, setIsAddModalOpen})
       <>
          <FormWrapper<TDriverPayload> initialValues={initialValues} onSubmit={onSubmit}>
             <>
-               <InputField name="name" placeholder="Name"/>
-               <InputField name="surname" placeholder="Surname"/>
+               <InputField name="name" placeholder={dictionary.form.name}/>
+               <InputField name="surname" placeholder={dictionary.form.name}/>
             </>
          </FormWrapper>
       </>
