@@ -1,35 +1,21 @@
-import { login } from '@src/app/libs/api-calls/login-api';
-import { useMutation } from 'react-query';
-import '@src/App/login/style/login.scss';
+import {FC} from 'react';
+import '@src/app/login/login.scss';
+import {LoginForm} from '@src/app/login/form/login-form';
 
-export const Login: React.FC = () => {
+export const Login: FC = () => {
 
-   const {mutate} = useMutation({
-      mutationKey: ['login'],
-      mutationFn: () => login({username: 'admin', password: 'admin'})
-   });
-
-   const onClick = () => {
-      mutate();
-   };
-
-   
    return (
-      <div className="login">
-         <div className="login__wrapper">
-            <p className="login__wrapper__login-text">Login</p>
-            <div className="login__wrapper__form">
-               <div className="login__wrapper__form__input">
-                  <label>Username</label>
-                  <input />
+      <div>
+         <div className="login">
+            <h1 className="login-header">Funeral house one way ticket</h1>
+            <div className="login__wrapper">
+               <h2 className="login__label">Login</h2>
+               <div>
+                  <LoginForm />
                </div>
-               <div className="login__wrapper__form__input">
-                  <label>Password</label>
-                  <input type="password"/>
-               </div>
-               <button className="login__wrapper__form__button" onClick={() => onClick()} >Submit</button>
             </div>
          </div>
       </div>
+
    );
 };

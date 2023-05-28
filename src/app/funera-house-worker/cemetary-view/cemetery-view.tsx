@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {AddCemeteryForm} from '@src/app/funera-house-worker/cemetary-view/modal/form/add-cemetery-form';
 import {EditCemeteryForm} from '@src/app/funera-house-worker/cemetary-view/modal/form/edit-cemetery-form';
 import {deleteCemetery, fetchCemeteries} from '@src/app/libs/api-calls/cemetery-api';
@@ -16,7 +16,7 @@ export interface IPlaceOnCemetery {
    address: string;
 }
 
-export const CemeteryView: React.FC = () => {
+export const CemeteryView: FC = () => {
    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
    const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
@@ -96,7 +96,7 @@ export const CemeteryView: React.FC = () => {
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
-            <div className="users__buttons">
+            <div className="table__action-buttons">
                <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
                <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
             </div>

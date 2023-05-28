@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {EditFuneralForm} from '@src/app/funera-house-worker/funeral-view/form/edit-funeral-form';
 import {deleteFuneralById, fetchFunerals} from '@src/app/libs/api-calls/funeral-api';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
@@ -11,7 +11,7 @@ import {useMutation, useQuery} from 'react-query';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
-export const FuneralView: React.FC = () => {
+export const FuneralView: FC = () => {
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
    const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
    const [selectedRowKey, setSelectedRowKey] = useState<number>();
@@ -89,7 +89,7 @@ export const FuneralView: React.FC = () => {
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
-            <div className="users__buttons">
+            <div className="table__action-buttons">
                <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
                <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
                <Button onClick={() => onViewButtonClick(record.id)}>View</Button>

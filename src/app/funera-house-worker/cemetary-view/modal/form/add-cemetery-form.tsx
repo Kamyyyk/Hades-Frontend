@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {Dispatch, FC, useEffect} from 'react';
 import {ICemeteryPayload, postCemetery} from '@src/app/libs/api-calls/cemetery-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
@@ -12,10 +12,10 @@ const initialValues: ICemeteryPayload = {
 };
 
 interface IAddCemeteryForm {
-   setIsAddModalOpen: React.Dispatch<boolean>;
+   setIsAddModalOpen: Dispatch<boolean>;
    refetch: () => void
 }
-export const AddCemeteryForm: React.FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetch}) => {
+export const AddCemeteryForm: FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetch}) => {
 
    const {mutate, isSuccess, isError, error} = useMutation({
       mutationKey: ['postCemetery'],

@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {AddFuneralItemsForm} from '@src/app/funera-house-worker/funeral-items-view/modal/form/add-funeral-items-form';
 import {EditFuneralItemsForm} from '@src/app/funera-house-worker/funeral-items-view/modal/form/edit-funeral-items-form';
 import {deleteFuneralItem, fetchFuneralItems} from '@src/app/libs/api-calls/funeral-items-api';
@@ -23,7 +23,7 @@ const containerTypeOptions = [
 ];
 
 
-export const FuneralItemsView: React.FC = () => {
+export const FuneralItemsView: FC = () => {
    const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
    const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
@@ -102,7 +102,7 @@ export const FuneralItemsView: React.FC = () => {
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
-            <div className="users__buttons">
+            <div className="table__action-buttons">
                <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
                <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
             </div>
