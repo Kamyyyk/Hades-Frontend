@@ -5,6 +5,7 @@ import {AxiosResponse} from 'axios';
 export interface ICemeteryPayload {
    cemeteryName: string;
    address: string;
+   price: number;
 }
 
 

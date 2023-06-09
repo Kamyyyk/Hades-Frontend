@@ -5,6 +5,7 @@ import {AxiosResponse} from 'axios';
 export interface IFuneralItemsPayload {
    containerName: string;
    containerType: 'COFFIN' | 'URN' | ''
+   price: number
 }
 
 export const fetchFuneralItems = async (): Promise<IFuneralItemsResponse[]> => {

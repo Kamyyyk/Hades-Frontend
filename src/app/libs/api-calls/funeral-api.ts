@@ -8,7 +8,7 @@ import {AxiosResponse} from 'axios';
 
 export interface IFuneralPayload {
    funeralDate: string;
-   status: 'OPEN' | 'FINISHED' | 'IN_PROGRESS' | '';
+   status: 'OPEN' | 'FINISHED' | 'IN_PROGRESS';
    price: number | null;
    morgue: IMorguePayload | null;
    container: IFuneralItemsPayload | null;

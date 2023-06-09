@@ -4,4 +4,6 @@ export interface IShippingResponse {
    id: number;
    name: string;
    caravan: ICaravanResponse
+   price: number,
+   distance: number;
 }
