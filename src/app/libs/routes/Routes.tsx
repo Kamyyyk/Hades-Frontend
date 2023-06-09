@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {useAuthContext} from '@src/app/libs/routes/auth-provider';
 import {
    administratorRoutes,
    funeralHouseWorkerRoutes,
@@ -9,30 +10,28 @@ import {unauthorizedRoutes} from '@src/app/libs/routes/unauthenticated-routes';
 import {RouteObject} from 'react-router';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-type TUserRole = 'ADMINISTRATOR' | 'FUNERAL_MORGUE_WORKER' | 'FUNERAL_HOME_EMPLOYEE' | 'NO_ROLE'
+export type TUserRole = 'ADMINISTRATOR' | 'FUNERAL_MORGUE_WORKER' | 'FUNERAL_HOME_EMPLOYEE' | 'NO_ROLE'
+
 
 export const Routes: FC = (): JSX.Element => {
-   const [mainRoutes, setMainRoutes] = useState<RouteObject[]>([]);
-   const [currentRole, setCurrentRole] = useState<TUserRole>('NO_ROLE');
 
-   const localStorageCurrentRole = localStorage.getItem('CURRENT_ROLE');
+   const {currentRole, setCurrentRole, isLogged} = useAuthContext();
+   const [mainRoutes, setMainRoutes] = useState<RouteObject[]>([]);
+
    const localStorageIsLogged = localStorage.getItem('IS_LOGGED');
 
    useEffect(() => {
-      switch (localStorageCurrentRole) {
+      switch (currentRole) {
       case 'ADMINISTRATOR':
          setCurrentRole('ADMINISTRATOR');
-         localStorage.setItem('IS_LOGGED', 'true');
          break;
       case 'FUNERAL_HOME_EMPLOYEE':
          setCurrentRole('FUNERAL_HOME_EMPLOYEE');
-         localStorage.setItem('IS_LOGGED', 'true');
          break;
       case 'FUNERAL_MORGUE_WORKER':
          setCurrentRole('FUNERAL_MORGUE_WORKER');
-         localStorage.setItem('IS_LOGGED', 'true');
       }
-   }, [localStorageCurrentRole, mainRoutes]);
+   }, [currentRole, mainRoutes]);
 
    useEffect(() => {
       if (localStorageIsLogged !== 'true' || currentRole === 'NO_ROLE') {
@@ -52,7 +51,7 @@ export const Routes: FC = (): JSX.Element => {
          setMainRoutes(funeralHouseWorkerRoutes);
          break;
       }
-   }, [localStorageIsLogged, currentRole]);
+   }, [currentRole]);
 
    const routes = createBrowserRouter([...mainRoutes, ...baseRoutes]);
    return (

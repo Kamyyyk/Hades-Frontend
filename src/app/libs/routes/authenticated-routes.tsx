@@ -14,7 +14,7 @@ import {PrepareFuneralView} from '@src/app/funera-house-worker/prepare-funeral-v
 import {ShippingView} from '@src/app/funera-house-worker/shipping-view/shipping-view';
 import {MorgueView} from '@src/app/morgue-worker/morgue-view/morgue-view';
 import {MorgueWorkerMainView} from '@src/app/morgue-worker/morgue-worker-main-view/morgue-worker-main-view';
-import {routerWrapper} from '@src/utils/heleprs/router-wrapper';
+import {routerWrapper} from '@src/utils/hooks/router-wrapper';
 import {
    ADMINISTRATOR_MENU_ITEMS,
    FUNERAL_HOME_EMPLOYEE_MENU_ITEMS,
