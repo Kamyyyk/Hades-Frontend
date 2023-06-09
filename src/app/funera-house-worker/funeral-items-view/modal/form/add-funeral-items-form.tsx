@@ -2,6 +2,7 @@ import {Dispatch, FC, useEffect} from 'react';
 import {IFuneralItemsPayload, postFuneralItem} from '@src/app/libs/api-calls/funeral-items-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {NumberField} from '@src/app/libs/components/form/number-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
 import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
@@ -10,7 +11,8 @@ import {toast} from 'react-toastify';
 
 const initialValues: IFuneralItemsPayload = {
    containerName: '',
-   containerType: ''
+   containerType: '',
+   price: 0
 };
 
 interface IAddFuneralItemsForm {
@@ -44,6 +46,7 @@ export const AddFuneralItemsForm: FC<IAddFuneralItemsForm> = ({setIsAddModalOpen
          <>
             <InputField name="containerName" placeholder={dictionary.form.containerName}/>
             <SelectField name="containerType" options={containerTypeOptions} placeholder={dictionary.form.containerType}  />
+            <NumberField name="price" />
          </>
       </FormWrapper>
    );

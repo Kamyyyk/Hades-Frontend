@@ -1,4 +1,7 @@
 import {Dispatch, FC, useEffect, useState} from 'react';
+import {
+   usePrepareFuneralContextContext
+} from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
 import {fetchCemeteries} from '@src/app/libs/api-calls/cemetery-api';
 import {editFuneralById, fetchFuneralById, IFuneralPayload} from '@src/app/libs/api-calls/funeral-api';
 import {fetchFuneralItems} from '@src/app/libs/api-calls/funeral-items-api';
@@ -6,7 +9,7 @@ import {fetchMorgue} from '@src/app/libs/api-calls/morgue';
 import {fetchShipping} from '@src/app/libs/api-calls/shipping-api';
 import {DateField} from '@src/app/libs/components/form/date-field';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
-import {InputField} from '@src/app/libs/components/form/input-field';
+import {NumberField} from '@src/app/libs/components/form/number-field';
 import {SelectField} from '@src/app/libs/components/form/select-field';
 import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
@@ -36,6 +39,8 @@ const funeralStatusOptions = [
 
 export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModalOpen, refetch}) => {
    const [formValues, setFormValues] = useState<IFuneralPayload>();
+
+   const {price} = usePrepareFuneralContextContext();
    
    const {data, isSuccess, isError, error, refetch: refetchFuneralById} = useQuery({
       queryKey: ['fetchFuneralById'],
@@ -43,7 +48,7 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
    });
    
    useEffect(() => {
-      if (isError && error instanceof  Error) {
+      if (isError && error instanceof Error) {
          toast.error(error.message);
       }
    }, [isError, error]);
@@ -87,7 +92,9 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
       queryFn: fetchFuneralItems
    });
 
-   const cemeteriesOptions = cemeteriesData?.map((elem) => {
+   const filteredCemeteries = cemeteriesData?.filter(elem => !elem.cemeteryPlaceOccupied);
+
+   const cemeteriesOptions = filteredCemeteries?.map((elem) => {
       return {value: JSON.stringify(elem), label: JSON.stringify(elem)};
    });
 
@@ -124,11 +131,11 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
                <>
                   <DateField name="funeralDate" placeholder={dictionary.form.funeralDate}/>
                   <SelectField name="status" placeholder={dictionary.form.status} options={funeralStatusOptions}/>
-                  <InputField name="price" placeholder={dictionary.form.price}/>
                   <SelectField name="placeOnCemetery" placeholder={dictionary.form.placeOnCemetery} options={cemeteriesOptions}/>
                   <SelectField name="morgue" placeholder={dictionary.form.deceased} options={ morgueOptions}/>
                   <SelectField name="container" placeholder={dictionary.form.container} options={funeralItemsOptions}/>
                   <SelectField name="shipping" options={shippingOptions} placeholder={dictionary.form.shipping} />
+                  <NumberField name="price" disabled />
                </>
             </FormWrapper>
          )}

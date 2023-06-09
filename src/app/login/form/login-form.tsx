@@ -5,7 +5,9 @@ import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapp
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {PasswordField} from '@src/app/libs/components/form/password-field/password-field';
 import {dictionary} from '@src/app/libs/locales/en';
+import {useAuthContext} from '@src/app/libs/routes/auth-provider';
 import {useMutation} from 'react-query';
+import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
 
@@ -15,6 +17,9 @@ const initialValues: TLoginPayload = {
 };
 
 export const LoginForm: FC = () => {
+   const navigate = useNavigate();
+
+   const {setCurrentRole, setIsLogged} = useAuthContext();
 
    const {data, mutate, isSuccess, isError, error} = useMutation({
       mutationKey: ['login'],
@@ -29,9 +34,11 @@ export const LoginForm: FC = () => {
    
    useEffect(() => {
       if (isSuccess) {
-         localStorage.setItem('CURRENT_ROLE', data?.role);
+         setCurrentRole(data?.role);
+         localStorage.setItem('IS_LOGGED', 'true');
+         setIsLogged(true);
          toast.success(dictionary.auth.success);
-         location.reload();
+         navigate('/');
       }
    }, [isSuccess]);
    

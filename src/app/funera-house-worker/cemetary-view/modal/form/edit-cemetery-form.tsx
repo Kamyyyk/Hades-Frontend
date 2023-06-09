@@ -2,6 +2,7 @@ import {Dispatch, FC, useEffect, useState} from 'react';
 import {editCemetery, fetchCemeteryById, ICemeteryPayload} from '@src/app/libs/api-calls/cemetery-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {NumberField} from '@src/app/libs/components/form/number-field';
 import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
@@ -21,6 +22,8 @@ export const EditCemeteryForm: FC<IEditCemeteryForm> = ({cemeteryId, setIsEditMo
       queryKey: ['fetchCemeteryById'],
       queryFn: () => fetchCemeteryById(cemeteryId),
    });
+
+   console.log(formValues);
 
    const {mutate, isSuccess: isMutationSuccess, isError: isEditCemeteryError, error: editCemeteryError} = useMutation({
       mutationKey: ['editCemeteryById'],
@@ -63,6 +66,7 @@ export const EditCemeteryForm: FC<IEditCemeteryForm> = ({cemeteryId, setIsEditMo
                <>
                   <InputField name="cemeteryName" placeholder={dictionary.form.cemeteryName}/>
                   <InputField name="address" placeholder={dictionary.form.address}/>
+                  <NumberField name="price"/>
                </>
             </FormWrapper>
          )}

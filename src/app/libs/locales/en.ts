@@ -42,13 +42,14 @@ export const dictionary = {
       placeOnCemetery: 'Place on cemetery',
       container: 'Container',
       shipping: 'Shipping',
+      funeralType: 'Funeral type',
       shippingName: 'Shipping name',
       selectDriver: 'Select driver'
    },
    funeralHouseWorker: {
       caravanTable: {
          caravanList: 'Caravan List',
-         addNewCaravan: '"Add new caravan',
+         addNewCaravan: 'Add new caravan',
          editCaravan: 'Edit caravan',
          addSuccess: 'Successfully added caravan',
          editSuccess: 'Successfully edited caravan',
@@ -56,7 +57,7 @@ export const dictionary = {
       },
       cemeteryPlaceTable: {
          cemeteryPlaceList: 'Cemetery place List',
-         addNewCemeteryPlace: '"Add new cemetery place',
+         addNewCemeteryPlace: 'Add new cemetery place',
          editCemeteryPlace: 'Edit cemetery place',
          addSuccess: 'Successfully added cemetery place',
          editSuccess: 'Successfully edited cemetery place',
@@ -64,7 +65,7 @@ export const dictionary = {
       },
       deceasedDocumentationTable: {
          deceasedDocumentationList: 'Deceased documentation List',
-         addNewDeceasedDocumentation: '"Add new deceased documentation',
+         addNewDeceasedDocumentation: 'Add new deceased documentation',
          editDeceasedDocumentation: 'Edit deceased documentation',
          addSuccess: 'Successfully added deceased documentation',
          editSuccess: 'Successfully edited deceased documentation',
@@ -72,7 +73,7 @@ export const dictionary = {
       },
       funeralItemsTable: {
          funeralItemsList: 'Funeral items List',
-         addNewFuneralItem: '"Add new funeral item',
+         addNewFuneralItem: 'Add new funeral item',
          editFuneralItem: 'Edit funeral item',
          addSuccess: 'Successfully added funeral item',
          editSuccess: 'Successfully edited funeral item',
@@ -93,7 +94,7 @@ export const dictionary = {
       },
       shippingTable: {
          shippingList: 'Shipping List',
-         addNewShipping: '"Add new shipping',
+         addNewShipping: 'Add new shipping',
          editShipping: 'Edit shipping',
          addSuccess: 'Successfully added shipping',
          editSuccess: 'Successfully edited shipping',
@@ -103,7 +104,7 @@ export const dictionary = {
    administrator: {
       driverTable: {
          driverList: 'Drivers List',
-         addNewDriver: '"Add new driver',
+         addNewDriver: 'Add new driver',
          editDriver: 'Edit driver',
          addSuccess: 'Successfully added driver',
          editSuccess: 'Successfully edited driver',

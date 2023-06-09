@@ -3,6 +3,7 @@ import {Dispatch, useEffect, useState} from 'react';
 import {editShippingById, fetchShippingById, IShippingPayload} from '@src/app/libs/api-calls/shipping-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {NumberField} from '@src/app/libs/components/form/number-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
 import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
@@ -72,6 +73,8 @@ export const EditShippingForm: FC<IEditShippingForm> = ({setIsEditModalOpen, shi
                <>
                   <InputField name="name" placeholder={dictionary.form.shippingName} />
                   <SelectField name="caravan" options={caravanOptions} placeholder={dictionary.form.selectDriver}/>
+                  <NumberField name="distance" placeholder="Distance" />
+                  <NumberField name="price" />
                </>
 
             </FormWrapper>

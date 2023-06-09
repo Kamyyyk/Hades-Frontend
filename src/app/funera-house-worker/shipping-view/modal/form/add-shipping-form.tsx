@@ -2,6 +2,7 @@ import {Dispatch, FC, useEffect} from 'react';
 import {IShippingPayload, postShipping} from '@src/app/libs/api-calls/shipping-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {NumberField} from '@src/app/libs/components/form/number-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
 import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
@@ -16,7 +17,9 @@ interface IAddShippingForm {
 
 const initialValues: IShippingPayload = {
    name: '',
-   caravan: null
+   caravan: null,
+   price: 0,
+   distance: 0
 };
 
 export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetch, caravanOptions} ) => {
@@ -52,6 +55,8 @@ export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetc
          <>
             <InputField name="name" placeholder={dictionary.form.shippingName} />
             <SelectField name="caravan" options={caravanOptions} placeholder={dictionary.form.selectDriver}/>
+            <NumberField name="distance" placeholder="Distance" />
+            <NumberField name="price" />
          </>
       </FormWrapper>
    );

@@ -6,6 +6,8 @@ import {AxiosResponse} from 'axios';
 export interface IShippingPayload {
    name: string;
    caravan: ICaravanResponse | null
+   distance: number,
+   price: number
 }
 
 export const fetchShipping = async (): Promise<IShippingResponse[]> => {

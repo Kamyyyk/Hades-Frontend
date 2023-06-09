@@ -2,6 +2,7 @@ import {Dispatch, FC, useEffect} from 'react';
 import {ICemeteryPayload, postCemetery} from '@src/app/libs/api-calls/cemetery-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
+import {NumberField} from '@src/app/libs/components/form/number-field';
 import {dictionary} from '@src/app/libs/locales/en';
 import {FormikHelpers} from 'formik';
 import {useMutation} from 'react-query';
@@ -9,7 +10,8 @@ import {toast} from 'react-toastify';
 
 const initialValues: ICemeteryPayload = {
    cemeteryName: '',
-   address: ''
+   address: '',
+   price: 0
 };
 
 interface IAddCemeteryForm {
@@ -47,6 +49,7 @@ export const AddCemeteryForm: FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetc
          <>
             <InputField name="cemeteryName" placeholder={dictionary.form.cemeteryName}/>
             <InputField name="address" placeholder={dictionary.form.address}/>
+            <NumberField name="price"/>
          </>
       </FormWrapper>
    );
