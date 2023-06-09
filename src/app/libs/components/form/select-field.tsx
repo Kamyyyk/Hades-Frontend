@@ -1,8 +1,8 @@
 import {FC} from 'react';
+import {usePrepareFuneralContextContext} from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
 import {Select} from 'antd';
 import {Option} from 'antd/es/mentions';
 import {Field, FieldProps} from 'formik';
-
 
 export interface TSelectField {
    value: string;
@@ -16,6 +16,8 @@ interface ISelectField {
 }
 
 export const SelectField: FC<ISelectField> = ({name, options, placeholder}) => {
+   const {setPrice} = usePrepareFuneralContextContext();
+
    const isJsonString = (str: string) => {
       try {
          const json = JSON.parse(str);
@@ -29,6 +31,11 @@ export const SelectField: FC<ISelectField> = ({name, options, placeholder}) => {
    const onChange = (selectValue: string, setFieldValue: (field: string, value: string) => void, name: string): void => {
       if (isJsonString(selectValue)) {
          setFieldValue(name, JSON.parse(selectValue));
+         if (JSON.parse(selectValue).price !== undefined) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            setPrice((prevState: number) => JSON.parse(selectValue).price + prevState);
+         }
       } else {
          setFieldValue(name, selectValue);
       }
@@ -44,7 +51,7 @@ export const SelectField: FC<ISelectField> = ({name, options, placeholder}) => {
                      style={{ width: '100%' }}
                      allowClear
                      onChange={(e) => onChange(e, form.setFieldValue, field.name)}
-                     value={typeof field.value === 'object' ? field?.value?.id : field?.value}
+                     value={field.value !== null && typeof field.value === 'object' ? JSON.stringify(field.value) : field?.value}
                   >
                      {options?.map((option) => (
                         <Option key={option.value} value={option.value}>
