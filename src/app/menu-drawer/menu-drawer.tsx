@@ -1,6 +1,7 @@
 import {FC, ReactNode, useState} from 'react';
 import { RightCircleOutlined } from '@ant-design/icons';
-import {TMenuName} from '@src/utils/heleprs/router-wrapper';
+import {useAuthContext} from '@src/app/libs/routes/auth-provider';
+import {TMenuName} from '@src/utils/hooks/router-wrapper';
 import {Button} from 'antd';
 import {Drawer} from 'antd';
 import {useNavigate} from 'react-router-dom';
@@ -19,6 +20,8 @@ export interface IMenuDrawer {
 
 export const MenuDrawer: FC<IMenuDrawer> = ({menuItems, children, menuName}) => {
 
+   const {setIsLogged, setCurrentRole} = useAuthContext();
+
    const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
    const navigate = useNavigate();
 
@@ -31,8 +34,8 @@ export const MenuDrawer: FC<IMenuDrawer> = ({menuItems, children, menuName}) => 
    };
 
    const logout = () => {
-      localStorage.setItem('IS_LOGGED', 'false');
-      localStorage.setItem('CURRENT_ROLE', 'NO_ROLE');
+      setIsLogged(false);
+      setCurrentRole('NO_ROLE');
       navigate('/');
       location.reload();
    };

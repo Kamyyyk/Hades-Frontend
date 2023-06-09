@@ -1,17 +1,17 @@
 import type { FC } from 'react';
-import {dictionary} from '@src/app/libs/locales/en';
-import {Button} from 'antd';
+import {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 
 export const AdministratorMainView: FC = () => {
    const navigate = useNavigate();
-   const onClick = () => {
-      navigate('/users');
-   };
+
+   useEffect(() => {
+      return navigate('/users');
+   }, []);
+
    return (
-      <div className="main-view__button">
-         <Button onClick={onClick}>{dictionary.common.navigateToTable}</Button>
+      <div>
       </div>
    );
 };
