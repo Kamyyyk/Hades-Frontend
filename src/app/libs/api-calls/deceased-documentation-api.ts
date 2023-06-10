@@ -4,7 +4,7 @@ import {IMorgueResponse} from '@src/app/libs/types/reponses/morgue-reponse';
 import {AxiosResponse} from 'axios';
 
 export interface IDeceasedDocumentationPayload {
-   name: string;
+   documentationNumber: string;
    morgue: IMorgueResponse | null
 }
 
