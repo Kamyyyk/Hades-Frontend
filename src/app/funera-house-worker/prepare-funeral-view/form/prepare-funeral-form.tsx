@@ -1,6 +1,9 @@
 import {FC,useEffect, useState} from 'react';
+import {
+   prepareFuneralSchema
+} from '@src/app/funera-house-worker/prepare-funeral-view/form/schema/prepare-funeral-schema';
 import {PrepareFuneralSuccess} from '@src/app/funera-house-worker/prepare-funeral-view/prepare-funeral-success/prepare-funeral-success';
-import {PriceComponent} from '@src/app/funera-house-worker/prepare-funeral-view/price-component';
+import {PriceComponent} from '@src/app/funera-house-worker/prepare-funeral-view/price-component/price-component';
 import {usePrepareFuneralContextContext} from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
 import {fetchCemeteries} from '@src/app/libs/api-calls/cemetery-api';
 import {IFuneralPayload, postFuneral} from '@src/app/libs/api-calls/funeral-api';
@@ -93,26 +96,26 @@ export const PrepareFuneralForm: FC = () => {
    const funeralStatusOptions = [
       {
          value: 'OPEN',
-         label: 'Open'
+         label: dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.open
       },
       {
          value: 'FINISHED',
-         label: 'Finished'
+         label:  dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.finished
       },
       {
          value: 'IN_PROGRESS',
-         label: 'In progress'
+         label:  dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.inProgress
       },
    ];
 
    const funeralTypeOptions = [
       {
          value: 'SECULAR',
-         label: 'Secular'
+         label:  dictionary.funeralHouseWorker.prepareFuneral.options.funeralType.secular
       },
       {
          value: 'CATHOLIC',
-         label: 'Catholic'
+         label: dictionary.funeralHouseWorker.prepareFuneral.options.funeralType.catholic
       },
    ];
 
@@ -120,7 +123,7 @@ export const PrepareFuneralForm: FC = () => {
    const onSubmit = async (value: IFuneralPayload, actions: FormikHelpers<IFuneralPayload>) => {
       const formValues = {
          ...value,
-         reportOrdered: isCreateReportSelected,
+         reportOrder: isCreateReportSelected,
          price: price
       };
       await mutate(formValues);
@@ -133,20 +136,22 @@ export const PrepareFuneralForm: FC = () => {
             <PrepareFuneralSuccess funeralId={data.id} data={data} />
          ) : (
             <>
-               <h2>{dictionary.funeralHouseWorker.prepareFuneral.prepareFuneralTitle}</h2>
-               <FormWrapper<IFuneralPayload> initialValues={initialValues} onSubmit={onSubmit}>
-                  <>
-                     <Checkbox onChange={() => setIsCreateReportSelected(prevState => !prevState)}>Create funeral report</Checkbox>
-                     <DateField name="funeralDate" placeholder={dictionary.form.funeralDate}/>
-                     <SelectField name="funeralType" options={funeralTypeOptions} placeholder={dictionary.form.funeralType} />
-                     <SelectField name="status" placeholder={dictionary.form.status} options={funeralStatusOptions}/>
-                     <SelectField name="placeOnCemetery" placeholder={dictionary.form.placeOnCemetery} options={cemeteriesOptions}/>
-                     <SelectField name="morgue" placeholder={dictionary.form.deceased} options={ morgueOptions}/>
-                     <SelectField name="container" placeholder={dictionary.form.container} options={funeralItemsOptions}/>
-                     <SelectField name="shipping" options={shippingOptions} placeholder={dictionary.form.shipping} />
-                     <PriceComponent/>
-                  </>
-               </FormWrapper>
+               <div className="prepare-funeral-view-container">
+                  <FormWrapper<IFuneralPayload> initialValues={initialValues} onSubmit={onSubmit} validationSchema={prepareFuneralSchema}>
+                     <>
+                        <h2>{dictionary.funeralHouseWorker.prepareFuneral.prepareFuneralTitle}</h2>
+                        <Checkbox className="form-checkbox" onChange={() => setIsCreateReportSelected(prevState => !prevState)}>Create funeral report</Checkbox>
+                        <DateField name="funeralDate" placeholder={dictionary.form.funeralDate}/>
+                        <SelectField name="funeralType" options={funeralTypeOptions} placeholder={dictionary.form.funeralType} />
+                        <SelectField name="status" placeholder={dictionary.form.status} options={funeralStatusOptions}/>
+                        <SelectField name="placeOnCemetery" placeholder={dictionary.form.placeOnCemetery} options={cemeteriesOptions}/>
+                        <SelectField name="morgue" placeholder={dictionary.form.deceased} options={ morgueOptions}/>
+                        <SelectField name="container" placeholder={dictionary.form.container} options={funeralItemsOptions}/>
+                        <SelectField name="shipping" options={shippingOptions} placeholder={dictionary.form.shipping} />
+                        <PriceComponent/>
+                     </>
+                  </FormWrapper>
+               </div>
             </>
          )}
 

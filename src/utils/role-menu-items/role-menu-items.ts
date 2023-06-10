@@ -1,48 +1,50 @@
+import {dictionary} from '@src/app/libs/locales/en';
+
 export const ADMINISTRATOR_MENU_ITEMS = [
    {
-      name: 'Users',
+      name: dictionary.menu.users,
       path: '/users'
    },
    {
-      name: 'Drivers',
+      name: dictionary.menu.drivers,
       path: '/drivers'
    }
 ];
 
 export const FUNERAL_MORGUE_WORKER_MENU_ITEMS = [
    {
-      name: 'Morgue',
+      name: dictionary.menu.morgue,
       path: '/morgue'
    }
 ];
 
 export const FUNERAL_HOME_EMPLOYEE_MENU_ITEMS = [
    {
-      name: 'Caravans',
+      name: dictionary.menu.caravans,
       path: '/caravans'
    },
    {
-      name: 'Cemetary',
+      name: dictionary.menu.cemetery,
       path: '/cemetery'
    },
    {
-      name: 'Funeral items',
+      name: dictionary.menu.funeralItems,
       path: '/funeral-items'
    },
    {
-      name: 'Shipping',
+      name: dictionary.menu.shipping,
       path: '/shipping'
    },
    {
-      name: 'Documentation',
+      name: dictionary.menu.documentation,
       path: '/documentation'
    },
    {
-      name: 'Prepare funeral',
+      name: dictionary.menu.prepareFuneral,
       path: '/prepare-funeral'
    },
    {
-      name: 'Funeral list',
+      name: dictionary.menu.funeralList,
       path: '/funeral'
    }
 ];

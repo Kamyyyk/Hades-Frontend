@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {AddCemeteryForm} from '@src/app/funera-house-worker/cemetary-view/modal/form/add-cemetery-form';
 import {EditCemeteryForm} from '@src/app/funera-house-worker/cemetary-view/modal/form/edit-cemetery-form';
 import {deleteCemetery, fetchCemeteries} from '@src/app/libs/api-calls/cemetery-api';
@@ -83,23 +84,23 @@ export const CemeteryView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Cemetery Name',
+         title: dictionary.form.cemeteryName,
          dataIndex: 'cemeteryName',
          key: 'cemeteryName',
       },
       {
-         title: 'Cemetery Address',
+         title: dictionary.form.address,
          dataIndex: 'address',
          key: 'address',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => onDeleteButtonChange(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>
          )
       },

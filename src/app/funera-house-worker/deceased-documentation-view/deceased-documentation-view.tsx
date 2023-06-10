@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {
    AddDeceasedDocumentationForm
 } from '@src/app/funera-house-worker/deceased-documentation-view/modal/form/add-deceased-documentation-form';
@@ -23,7 +24,7 @@ import {toast} from 'react-toastify';
 
 export interface IDocumentation {
    id: number
-   name: string;
+   documentationNumber: string;
    morgue: IMorgueResponse | null
 }
 
@@ -44,7 +45,7 @@ export const DeceasedDocumentationView: FC = () => {
          toast.error(fetchDeceasedDocumentationError.message );
       }
    }, [isFetchDeceasedDocumentationError, fetchDeceasedDocumentationError ]);
-   
+
 
    const {mutate, isSuccess: isDeleteSuccess} = useMutation({
       mutationKey: ['deleteDeceasedDocumentation'],
@@ -94,18 +95,18 @@ export const DeceasedDocumentationView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Name',
-         dataIndex: 'name',
-         key: 'name',
+         title: dictionary.form.documentationNumber,
+         dataIndex: 'documentationNumber',
+         key: 'documentationNumber',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>
          )
       },

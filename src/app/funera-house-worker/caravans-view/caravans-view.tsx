@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import {EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import {IDriver} from '@src/app/administrator/drivers-view/drivers-view';
 import {AddCaravanForm} from '@src/app/funera-house-worker/caravans-view/modal/form/add-caravan-form';
 import {EditCaravanForm} from '@src/app/funera-house-worker/caravans-view/modal/form/edit-caravan-form';
@@ -95,28 +96,28 @@ export const CaravansView = () => {
          key: 'id',
       },
       {
-         title: 'Licence Number',
+         title: dictionary.form.licenceNumber,
          dataIndex: 'licenceNumber',
          key: 'licenceNumber',
       },
       {
-         title: 'Brand',
+         title: dictionary.form.brand,
          dataIndex: 'brand',
          key: 'brand',
       },
       {
-         title: 'Model',
+         title: dictionary.form.model,
          dataIndex: 'model',
          key: 'model',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>
          )
       },
