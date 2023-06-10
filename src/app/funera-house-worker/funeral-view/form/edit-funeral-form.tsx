@@ -1,7 +1,4 @@
 import {Dispatch, FC, useEffect, useState} from 'react';
-import {
-   usePrepareFuneralContextContext
-} from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
 import {fetchCemeteries} from '@src/app/libs/api-calls/cemetery-api';
 import {editFuneralById, fetchFuneralById, IFuneralPayload} from '@src/app/libs/api-calls/funeral-api';
 import {fetchFuneralItems} from '@src/app/libs/api-calls/funeral-items-api';
@@ -39,8 +36,6 @@ const funeralStatusOptions = [
 
 export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModalOpen, refetch}) => {
    const [formValues, setFormValues] = useState<IFuneralPayload>();
-
-   const {price} = usePrepareFuneralContextContext();
    
    const {data, isSuccess, isError, error, refetch: refetchFuneralById} = useQuery({
       queryKey: ['fetchFuneralById'],
@@ -53,13 +48,13 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
       }
    }, [isError, error]);
 
+   console.log({data: data, isSuccess: isSuccess, id:funeralId});
+
    useEffect(() => {
-      setFormValues(data);
+      if (isSuccess && data) {
+         setFormValues(data);
+      }
    }, [isSuccess]);
-   
-   useEffect(() => {
-      refetchFuneralById;
-   }, [funeralId]);
 
    const {mutate, isSuccess: isEditFuneralByIdSuccess, isError: isEditFuneralByIdError, error: editFuneralByIdError} = useMutation({
       mutationKey: ['editFuneralById'],
@@ -118,6 +113,10 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
          setIsEditModalOpen(false);
       }
    }, [isEditFuneralByIdSuccess]);
+
+   useEffect(() => {
+      refetchFuneralById().then(r => setFormValues(r.data));
+   }, [funeralId]);
    
    const onSubmit = (values: IFuneralPayload, actions: FormikHelpers<IFuneralPayload>) => {
       mutate(values);

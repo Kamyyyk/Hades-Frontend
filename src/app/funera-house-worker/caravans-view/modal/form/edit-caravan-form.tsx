@@ -1,4 +1,5 @@
 import {Dispatch, FC, useEffect, useState} from 'react';
+import {caravanSchema} from '@src/app/funera-house-worker/caravans-view/modal/form/schema/caravan-schema';
 import {editCaravanById, fetchCaravanById, ICaravanPayload} from '@src/app/libs/api-calls/caravan-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
@@ -49,7 +50,7 @@ export const EditCaravanForm: FC<IEditCaravanForm> = ({caravanId, setIsEditCarav
    }, [isFetchCaravanByIdSuccess]);
 
    useEffect(() => {
-      refetchCaravanById();
+      refetchCaravanById().then(r => setFormValues(r.data));
    }, [caravanId]);
 
    const onSubmit = (value: ICaravanPayload, actions: FormikHelpers<ICaravanPayload>) => {
@@ -61,7 +62,7 @@ export const EditCaravanForm: FC<IEditCaravanForm> = ({caravanId, setIsEditCarav
    return (
       <>
          {formValues && (
-            <FormWrapper<ICaravanPayload> initialValues={formValues} onSubmit={onSubmit}>
+            <FormWrapper<ICaravanPayload> initialValues={formValues} onSubmit={onSubmit} validationSchema={caravanSchema}>
                <>
                   <InputField name="licenceNumber" placeholder={dictionary.form.licenceNumber}/>
                   <InputField name="brand" placeholder={dictionary.form.brand}/>

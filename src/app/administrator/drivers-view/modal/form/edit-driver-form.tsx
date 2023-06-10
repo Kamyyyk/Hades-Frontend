@@ -35,7 +35,7 @@ export const EditDriverForm: FC<IEditDriversForm> = ({refetch, driverId, setIsEd
    }, [isFetchDriverByIdSuccess]);
 
    useEffect(() => {
-      refetchDriverById();
+      refetchDriverById().then(r => setFormValues(r.data));
    }, [driverId]);
 
    const {mutate, isSuccess: isEditDriverByIdSuccess, isError: isEditDriverByIdError, error: editDriverByIdError} = useMutation({
