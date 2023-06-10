@@ -9,15 +9,18 @@ export interface IPriceField {
    name: string;
    placeholder?: string
    disabled?: boolean
+   value?: number
 }
 
-export const NumberField: FC<IPriceField> = ({name, placeholder = 'Price', disabled = false}) => {
+export const NumberField: FC<IPriceField> = ({name, placeholder = 'Price', disabled = false, value}) => {
 
-   const {shippingPrice, setShippingPrice, distance, setDistance} = usePrepareFuneralContextContext();
-
-
+   const {setShippingPrice} = usePrepareFuneralContextContext();
 
    const onChange = (value: number | string | null, setFieldValue: (field: string, value: string) => void, name: string): void => {
+      if (name === 'distance' && typeof value === 'number') {
+         setShippingPrice(value * 4);
+      }
+
       if (value !== null) {
          setFieldValue(name, value.toString());
       }
@@ -25,11 +28,18 @@ export const NumberField: FC<IPriceField> = ({name, placeholder = 'Price', disab
 
    return (
       <div>
-         <p>{placeholder}</p>
+         <p className="form-placeholder">{placeholder}</p>
          <Field name={name}>
             {({field, form}: FieldProps) => {
                return (
-                  <InputNumber disabled={disabled} onChange={(e) => onChange(e, form.setFieldValue, field.name)} controls={false} style={{width: 200}} precision={2} addonAfter={placeholder === 'Price' ? 'PLN' : 'KM'} value={field.value}  />
+                  <>
+                     <InputNumber disabled={disabled} onChange={(e) => onChange(e, form.setFieldValue, field.name)} controls={false} style={{width: 200}} precision={2} addonAfter={placeholder === 'Price' ? 'PLN' : 'KM'} value={value ? value : field.value}  />
+                     {form.errors[field.name] && form.touched[field.name] && (
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        <p>{form.errors[field.name]}</p>
+                     )}
+                  </>
                );
             }}
          </Field>
