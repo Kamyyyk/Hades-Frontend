@@ -1,6 +1,9 @@
 body {
     margin: 0;
+    font-family: Lato, serif;
     display: block;
+    height: 100vh;
+    background-color: #d8d7d7 ;
 }
 
 .main-view__button {
