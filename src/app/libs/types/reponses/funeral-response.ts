@@ -12,6 +12,6 @@ export interface IFuneralResponse {
    container: IFuneralItemsResponse;
    shipping: IShippingResponse
    placeOnCemetery: ICemeteryResponse
-   reportOrdered: boolean
+   reportOrder: boolean
    funeralType: 'SECULAR' | 'CATHOLIC';
 }
