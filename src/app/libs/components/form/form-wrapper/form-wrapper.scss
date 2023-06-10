@@ -1,12 +1,22 @@
-.form__wrapper {
-  display: flex;
-  justify-content: flex-end;
-  &__button {
-    margin-top: 20px;
-    border-radius: 10px;
-    border: 1px solid black;
-    &:hover {
-      cursor: pointer;
+.form {
+
+  &__wrapper {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .form__button__container {
+    display: flex;
+    justify-content: center;
+
+    &--button {
+      margin-top: 20px;
+      border-radius: 10px;
+      border: 1px solid black;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

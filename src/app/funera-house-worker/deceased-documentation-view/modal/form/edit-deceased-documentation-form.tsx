@@ -8,6 +8,7 @@ import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapp
 import {InputField} from '@src/app/libs/components/form/input-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
 import {dictionary} from '@src/app/libs/locales/en';
+import {getFormatDate} from '@src/utils/heleprs/get-format-date';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -38,7 +39,7 @@ export const EditDeceasedDocumentationForm: FC<IEditDeceasedDocumentationForm> =
    }, [isFetchDocumentationByIdSuccess]);
 
    useEffect(() => {
-      refetchDeceasedDocumentationById();
+      refetchDeceasedDocumentationById().then(r => setFormValues(r.data));
    }, [deceasedDocumentationId]);
    
    const {mutate, isSuccess: isEditDeceasedDocumentationByIdSuccess, isError: isEditDeceasedDocumentationByIdError, error: editDeceasedDocumentationByIdError} = useMutation({
@@ -62,7 +63,11 @@ export const EditDeceasedDocumentationForm: FC<IEditDeceasedDocumentationForm> =
 
 
    const onSubmit = (values: IDeceasedDocumentationPayload, actions: FormikHelpers<IDeceasedDocumentationPayload>) => {
-      mutate(values);
+      const formValues = {
+         ...values,
+         documentationEditDate: getFormatDate()
+      };
+      mutate(formValues);
       actions.resetForm();
    };
    
@@ -71,7 +76,7 @@ export const EditDeceasedDocumentationForm: FC<IEditDeceasedDocumentationForm> =
          {formValues && (
             <FormWrapper initialValues={formValues} onSubmit={onSubmit} setIsModalOpen={setIsEditModalOpen} >
                <>
-                  <InputField name="name" placeholder={dictionary.form.name}/>
+                  <InputField name="documentationNumber" placeholder={dictionary.form.documentationNumber}/>
                   <SelectField name="morgue" options={morgueOptions} placeholder={dictionary.form.morgue} />
                </>
             </FormWrapper>

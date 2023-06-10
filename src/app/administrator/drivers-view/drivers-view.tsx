@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {AddDriverForm} from '@src/app/administrator/drivers-view/modal/form/add-driver-form';
 import {EditDriverForm} from '@src/app/administrator/drivers-view/modal/form/edit-driver-form';
 import {deleteDriver, fetchDrivers} from '@src/app/libs/api-calls/driver-api';
@@ -83,23 +84,23 @@ export const DriversView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Name',
+         title: dictionary.form.name,
          dataIndex: 'name',
          key: 'name',
       },
       {
-         title: 'Surname',
+         title: dictionary.form.surname,
          dataIndex: 'surname',
          key: 'surname',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit}</Button>
-               <Button onClick={() => onDeleteButtonChange(record.id)}>{dictionary.common.delete}</Button>
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => onDeleteButtonChange(record.id)}>{dictionary.common.delete}</Button>
             </div>
          )
       },

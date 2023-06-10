@@ -10,6 +10,7 @@ import {InputField} from '@src/app/libs/components/form/input-field';
 import {NumberField} from '@src/app/libs/components/form/number-field';
 import {SelectField, TSelectField} from '@src/app/libs/components/form/select-field';
 import {dictionary} from '@src/app/libs/locales/en';
+import {Checkbox} from 'antd';
 import {FormikHelpers} from 'formik';
 import {useMutation, useQuery} from 'react-query';
 import {toast} from 'react-toastify';
@@ -33,6 +34,8 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
       queryKey: ['fetchFuneralItemById'],
       queryFn: () => fetchFuneralItemById(funeralItemId)
    });
+
+   const [isDescriptionTagSelected, setIsDescriptionTagSelected] = useState<boolean>(!!data?.descriptionPlate);
 
    useEffect(() => {
       if (isEditFuneralItemSuccess) {
@@ -62,7 +65,7 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
    }, [isFetchFuneralItemByIdError, fetchFuneralItemByIdError ] );
 
    useEffect(() => {
-      refetchFuneralItemById();
+      refetchFuneralItemById().then(r => setFormValues(r.data));
    }, [funeralItemId]);
 
    const onSubmit = (values: IFuneralItemsPayload, actions: FormikHelpers<IFuneralItemsPayload>) => {
@@ -77,6 +80,11 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
                <>
                   <InputField name="containerName" placeholder={dictionary.form.containerName}/>
                   <SelectField name="containerType" options={containerTypeOptions} placeholder={dictionary.form.containerType}  />
+                  <Checkbox checked={isDescriptionTagSelected} onClick={() => setIsDescriptionTagSelected(prevState => !prevState)}>Add description tag</Checkbox>
+                  {isDescriptionTagSelected && (
+                     <InputField name="descriptionPlate" placeholder="Description tag"/>
+                  )
+                  }
                   <NumberField name="price" />
                </>
             </FormWrapper>

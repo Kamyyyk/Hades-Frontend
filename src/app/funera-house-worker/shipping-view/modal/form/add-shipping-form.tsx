@@ -1,4 +1,8 @@
 import {Dispatch, FC, useEffect} from 'react';
+import {
+   usePrepareFuneralContextContext
+} from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
+import {shippingSchema} from '@src/app/funera-house-worker/shipping-view/modal/form/schema/shipping-schema';
 import {IShippingPayload, postShipping} from '@src/app/libs/api-calls/shipping-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
@@ -23,6 +27,11 @@ const initialValues: IShippingPayload = {
 };
 
 export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetch, caravanOptions} ) => {
+   const {shippingPrice, setShippingPrice} = usePrepareFuneralContextContext();
+
+   useEffect(() => {
+      setShippingPrice(0);
+   }, []);
 
    const {mutate, isSuccess, isError, error} = useMutation({
       mutationKey: ['postShipping'],
@@ -37,7 +46,12 @@ export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetc
    
 
    const onSubmit = (value: IShippingPayload, actions: FormikHelpers<IShippingPayload>) => {
-      mutate(value);
+      const formValues = {
+         ...value,
+         price: shippingPrice
+      };
+      mutate(formValues);
+      setShippingPrice(0);
       actions.resetForm();
    };
    
@@ -49,14 +63,13 @@ export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetc
       }
    }, [isSuccess]);
 
-   
    return (
-      <FormWrapper<IShippingPayload> initialValues={initialValues} onSubmit={onSubmit} >
+      <FormWrapper<IShippingPayload> initialValues={initialValues} onSubmit={onSubmit}  validationSchema={shippingSchema}>
          <>
             <InputField name="name" placeholder={dictionary.form.shippingName} />
             <SelectField name="caravan" options={caravanOptions} placeholder={dictionary.form.selectDriver}/>
             <NumberField name="distance" placeholder="Distance" />
-            <NumberField name="price" />
+            <NumberField name="price" value={shippingPrice} disabled />
          </>
       </FormWrapper>
    );

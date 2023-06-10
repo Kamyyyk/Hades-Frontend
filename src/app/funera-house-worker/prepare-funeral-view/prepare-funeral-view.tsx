@@ -5,7 +5,7 @@ import '@src//app/funera-house-worker/prepare-funeral-view/prepare-funeral-view.
 export const PrepareFuneralView: FC = () => {
 
    return (
-      <div className="prepare-funeral-view-container">
+      <div>
          <PrepareFuneralForm />
       </div>
    );

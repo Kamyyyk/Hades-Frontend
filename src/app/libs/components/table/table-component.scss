@@ -4,6 +4,12 @@
     justify-content: flex-end;
     padding: 5px 10px;
     margin-bottom: 20px;
+
+    &--add {
+      background-color: #545454;
+      color: white;
+    }
+
   }
 
   &__action-buttons {

@@ -6,6 +6,7 @@ export interface IFuneralItemsPayload {
    containerName: string;
    containerType: 'COFFIN' | 'URN' | ''
    price: number
+   descriptionPlate?: string;
 }
 
 export const fetchFuneralItems = async (): Promise<IFuneralItemsResponse[]> => {

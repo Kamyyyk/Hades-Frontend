@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {deleteMorgue, fetchMorgue} from '@src/app/libs/api-calls/morgue';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
 import {ConfirmModal} from '@src/app/libs/components/modal/confirm-modal';
@@ -77,43 +78,43 @@ export const MorgueView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Name',
+         title: dictionary.form.name,
          dataIndex: 'name',
          key: 'name',
       },
       {
-         title: 'Surname',
+         title: dictionary.form.surname,
          dataIndex: 'surname',
          key: 'surname',
       },
       {
-         title: 'Arrive date',
+         title: dictionary.form.dateArrived,
          dataIndex: 'dateArrived',
          key: 'dateArrived',
       },
       {
-         title: 'Sex',
+         title: dictionary.form.sex,
          dataIndex: 'sex',
          key: 'sex',
       },
       {
-         title: 'Birth date',
+         title: dictionary.form.birthDate,
          dataIndex: 'birthDate',
          key: 'birthDate',
       },
       {
-         title: 'Date of death',
+         title: dictionary.form.deathDate,
          dataIndex: 'deathDate',
          key: 'deathDate',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => onDeleteButtonChange(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>
          )
       },
@@ -122,11 +123,11 @@ export const MorgueView: FC = () => {
    return (
       <>
          <TableViewComponent<IMorgueResponse> tableListName={dictionary.morgueWorker.deceasedTable.deceasedList} buttonName={dictionary.morgueWorker.deceasedTable.addNewDeceased} columns={columns} dataSource={data} onButtonChange={onAddButtonChange} isLoading={isLoading}/>
-         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title={dictionary.morgueWorker.deceasedTable.addNewDeceased} >
-            <AddMorgueForm setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
+         <AddOrEditModal setIsModalOpen={setIsAddModalOpen} isModalOpen={isAddModalOpen} title={dictionary.morgueWorker.deceasedTable.addNewDeceased}>
+            <AddMorgueForm isModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch}/>
          </AddOrEditModal>
          <AddOrEditModal setIsModalOpen={setIsEditModalOpen} isModalOpen={isEditModalOpen} title={dictionary.morgueWorker.deceasedTable.editDeceased} >
-            <EditMorgueForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} morgueId={selectedRowKey}/>
+            <EditMorgueForm setIsEditModalOpen={setIsEditModalOpen} refetch={refetch} morgueId={selectedRowKey} />
          </AddOrEditModal>
          <ConfirmModal isModalOpen={isConfirmModalOpen} setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete}/>
       </>

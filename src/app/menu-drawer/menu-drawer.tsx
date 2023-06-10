@@ -1,5 +1,6 @@
 import {FC, ReactNode, useState} from 'react';
 import { RightCircleOutlined } from '@ant-design/icons';
+import {dictionary} from '@src/app/libs/locales/en';
 import {useAuthContext} from '@src/app/libs/routes/auth-provider';
 import {TMenuName} from '@src/utils/hooks/router-wrapper';
 import {Button} from 'antd';
@@ -43,7 +44,7 @@ export const MenuDrawer: FC<IMenuDrawer> = ({menuItems, children, menuName}) => 
    const renderLogoutButtonComponent = () => {
       return (
          <div onClick={logout} className="drawer__button drawer__button--logout">
-            Logout
+            {dictionary.auth.logout}
          </div>
       );
    };
@@ -52,7 +53,7 @@ export const MenuDrawer: FC<IMenuDrawer> = ({menuItems, children, menuName}) => 
       <>
          <div className="drawer">
             <Button icon={<RightCircleOutlined />} className="drawer__button drawer__button--show-menu"  onClick={openDrawer}>
-             Show menu
+               {dictionary.menu.showMenu}
             </Button>
             <Drawer title={menuName} onClose={closeDrawer} open={isDrawerOpen} placement="left" footer={renderLogoutButtonComponent()}>
                {menuItems.map((elem, index) => {

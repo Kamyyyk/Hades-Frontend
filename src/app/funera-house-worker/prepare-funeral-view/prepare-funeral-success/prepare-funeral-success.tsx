@@ -1,4 +1,5 @@
 import {FC, useEffect} from 'react';
+import {DownloadOutlined, EyeOutlined} from '@ant-design/icons';
 import {
    usePrepareFuneralContextContext
 } from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
@@ -32,9 +33,8 @@ export const PrepareFuneralSuccess: FC<IPrepareFuneralSuccess> = ({funeralId, da
       <div className="prepare-funeral-success-container">
          <h2>{dictionary.funeralHouseWorker.prepareFuneral.addSuccess}</h2>
          <div className="prepare-funeral-success-container__button-wrapper">
-            <Button onClick={() => navigate(`/funeral/${funeralId}`)}>{dictionary.funeralHouseWorker.prepareFuneral.viewAddedFuneral}</Button>
-            {/*<Button onClick={() => navigate('/prepare-funeral')}>{dictionary.funeralHouseWorker.prepareFuneral.prepareAnotherFuneral}</Button>*/}
-            <Button onClick={onDownloadReportClick}>Download report for the funeral</Button>
+            <Button size="large" icon={<EyeOutlined />} onClick={() => navigate(`/funeral/${funeralId}`)}>{dictionary.funeralHouseWorker.prepareFuneral.viewAddedFuneral}</Button>
+            <Button size="large" icon={<DownloadOutlined />} onClick={onDownloadReportClick}>{dictionary.common.downloadReport}</Button>
          </div>
       </div>
    );

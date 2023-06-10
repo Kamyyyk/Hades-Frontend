@@ -12,6 +12,7 @@ import {FuneralDetails} from '@src/app/funera-house-worker/funeral-view/details/
 import {FuneralView} from '@src/app/funera-house-worker/funeral-view/funeral-view';
 import {PrepareFuneralView} from '@src/app/funera-house-worker/prepare-funeral-view/prepare-funeral-view';
 import {ShippingView} from '@src/app/funera-house-worker/shipping-view/shipping-view';
+import {dictionary} from '@src/app/libs/locales/en';
 import {MorgueView} from '@src/app/morgue-worker/morgue-view/morgue-view';
 import {MorgueWorkerMainView} from '@src/app/morgue-worker/morgue-worker-main-view/morgue-worker-main-view';
 import {routerWrapper} from '@src/utils/hooks/router-wrapper';
@@ -38,7 +39,7 @@ export const administratorAuthenticatedRoutes: RouteObject[] = [
    }
 ];
 
-export const administratorRoutes = routerWrapper(administratorAuthenticatedRoutes, ADMINISTRATOR_MENU_ITEMS, 'Administrator');
+export const administratorRoutes = routerWrapper(administratorAuthenticatedRoutes, ADMINISTRATOR_MENU_ITEMS, dictionary.menu.administrator);
 
 
 export const morgueWorkerAuthenticatedRoutes: RouteObject[] = [
@@ -52,7 +53,7 @@ export const morgueWorkerAuthenticatedRoutes: RouteObject[] = [
    },
 ];
 
-export const morgueWorkerRoutes = routerWrapper(morgueWorkerAuthenticatedRoutes, FUNERAL_MORGUE_WORKER_MENU_ITEMS, 'Morgue worker');
+export const morgueWorkerRoutes = routerWrapper(morgueWorkerAuthenticatedRoutes, FUNERAL_MORGUE_WORKER_MENU_ITEMS, dictionary.menu.morgueWorker);
 
 export const funeralHouseWorkerAuthenticatedRoutes: RouteObject[] = [
    {
@@ -93,4 +94,4 @@ export const funeralHouseWorkerAuthenticatedRoutes: RouteObject[] = [
    },
 ];
 
-export const funeralHouseWorkerRoutes = routerWrapper(funeralHouseWorkerAuthenticatedRoutes, FUNERAL_HOME_EMPLOYEE_MENU_ITEMS, 'Funeral House Worker');
+export const funeralHouseWorkerRoutes = routerWrapper(funeralHouseWorkerAuthenticatedRoutes, FUNERAL_HOME_EMPLOYEE_MENU_ITEMS, dictionary.menu.funeralHouseWorker);

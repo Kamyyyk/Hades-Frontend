@@ -1,3 +1,4 @@
+import {PlusCircleOutlined} from '@ant-design/icons';
 import {Button, Table} from 'antd';
 import '@src/app/libs/components/table/table-component.scss';
 
@@ -15,10 +16,10 @@ export const TableComponent = <DataType extends object,>({buttonName, onButtonCh
       <div className="table">
          {isAddButton && (
             <div className="table__button">
-               <Button onClick={onButtonChange}>{buttonName}</Button>
+               <Button type="text" size="large" className="table__button--add" onClick={onButtonChange} icon={<PlusCircleOutlined />}>{buttonName}</Button>
             </div>
          )}
-         <Table columns={columns} dataSource={dataSource} loading={isLoading} />
+         <Table size="middle" columns={columns} dataSource={dataSource} loading={isLoading} />
       </div>
    );
 };

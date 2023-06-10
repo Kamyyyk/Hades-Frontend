@@ -1,4 +1,5 @@
 import {Dispatch, FC, useEffect} from 'react';
+import {caravanSchema} from '@src/app/funera-house-worker/caravans-view/modal/form/schema/caravan-schema';
 import {ICaravanPayload, postCaravan} from '@src/app/libs/api-calls/caravan-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
@@ -54,7 +55,7 @@ export const AddCaravanForm: FC<IAddCaravanForm> = ({setIsAddModalOpen, refetch,
    };
 
    return (
-      <FormWrapper<ICaravanPayload> initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
+      <FormWrapper<ICaravanPayload> initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} validationSchema={caravanSchema} >
          <>
             <InputField name="licenceNumber" placeholder={dictionary.form.licenceNumber}/>
             <InputField name="brand" placeholder={dictionary.form.brand}/>

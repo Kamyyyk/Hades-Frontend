@@ -1,4 +1,5 @@
 import {Dispatch, FC, useEffect} from 'react';
+import {cemeterySchema} from '@src/app/funera-house-worker/cemetary-view/modal/form/schema/cemetery-schema';
 import {ICemeteryPayload, postCemetery} from '@src/app/libs/api-calls/cemetery-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
@@ -29,6 +30,7 @@ export const AddCemeteryForm: FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetc
       if (isSuccess) {
          toast.success(dictionary.funeralHouseWorker.cemeteryPlaceTable.addSuccess);
          refetch();
+         setIsAddModalOpen(false);
       }
    }, [isSuccess]);
 
@@ -45,7 +47,7 @@ export const AddCemeteryForm: FC<IAddCemeteryForm> = ({setIsAddModalOpen, refetc
    };
 
    return (
-      <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} >
+      <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen}  validationSchema={cemeterySchema}>
          <>
             <InputField name="cemeteryName" placeholder={dictionary.form.cemeteryName}/>
             <InputField name="address" placeholder={dictionary.form.address}/>

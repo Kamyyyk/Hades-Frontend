@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {ICaravan} from '@src/app/funera-house-worker/caravans-view/caravans-view';
 import {AddShippingForm} from '@src/app/funera-house-worker/shipping-view/modal/form/add-shipping-form';
 import {EditShippingForm} from '@src/app/funera-house-worker/shipping-view/modal/form/edit-shipping-form';
@@ -92,18 +93,18 @@ export const ShippingView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Name',
+         title: dictionary.form.name,
          dataIndex: 'name',
          key: 'name',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>
          )
       },

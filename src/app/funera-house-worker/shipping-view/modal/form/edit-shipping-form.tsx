@@ -1,5 +1,9 @@
 import type { FC } from 'react';
 import {Dispatch, useEffect, useState} from 'react';
+import {
+   usePrepareFuneralContextContext
+} from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
+import {shippingSchema} from '@src/app/funera-house-worker/shipping-view/modal/form/schema/shipping-schema';
 import {editShippingById, fetchShippingById, IShippingPayload} from '@src/app/libs/api-calls/shipping-api';
 import {FormWrapper} from '@src/app/libs/components/form/form-wrapper/form-wrapper';
 import {InputField} from '@src/app/libs/components/form/input-field';
@@ -19,6 +23,7 @@ export interface IEditShippingForm {
 
 export const EditShippingForm: FC<IEditShippingForm> = ({setIsEditModalOpen, shippingId, refetch, caravanOptions}) => {
    const [formValues, setFormValues] = useState<IShippingPayload>();
+   const {shippingPrice, setShippingPrice} = usePrepareFuneralContextContext();
 
    const {mutate, isSuccess: isEditShippingSuccess, isError: isEditShippingError, error: editShippingError} = useMutation({
       mutationKey: ['editShippingById'],
@@ -39,6 +44,8 @@ export const EditShippingForm: FC<IEditShippingForm> = ({setIsEditModalOpen, shi
       }
    }, [isEditShippingSuccess]);
 
+   console.log(formValues);
+
 
    const {data, isSuccess: isFetchShippingByIdSuccess, isError: isFetchShippingByIdError, error: fetchShippingByIdError, refetch: refetchShippingById} = useQuery({
       queryKey: ['fetchShippingById'],
@@ -53,30 +60,34 @@ export const EditShippingForm: FC<IEditShippingForm> = ({setIsEditModalOpen, shi
    
 
    const onSubmit = (values: IShippingPayload, actions: FormikHelpers<IShippingPayload>) => {
-      mutate(values);
+      const formValues = {
+         ...values,
+         price: shippingPrice,
+      };
+      mutate(formValues);
       actions.resetForm();
    };
 
    useEffect(() => {
       setFormValues(data);
+      setShippingPrice(data?.price as number);
    }, [isFetchShippingByIdSuccess]);
 
 
    useEffect(() => {
-      refetchShippingById();
+      refetchShippingById().then(r => setFormValues(r.data) );
    }, [shippingId]);
-   
+
    return (
       <>
          {formValues && (
-            <FormWrapper<IShippingPayload> initialValues={formValues} onSubmit={onSubmit} >
+            <FormWrapper<IShippingPayload> initialValues={formValues} onSubmit={onSubmit} validationSchema={shippingSchema} >
                <>
                   <InputField name="name" placeholder={dictionary.form.shippingName} />
                   <SelectField name="caravan" options={caravanOptions} placeholder={dictionary.form.selectDriver}/>
                   <NumberField name="distance" placeholder="Distance" />
-                  <NumberField name="price" />
+                  <NumberField name="price" value={shippingPrice} disabled />
                </>
-
             </FormWrapper>
          )}
       </>

@@ -51,7 +51,7 @@ export const EditCemeteryForm: FC<IEditCemeteryForm> = ({cemeteryId, setIsEditMo
    }, [isEditCemeteryError, editCemeteryError]);
 
    useEffect(() => {
-      refetchById();
+      refetchById().then(r => setFormValues(r.data));
    }, [cemeteryId]);
 
    const onSubmit =  async (value: ICemeteryPayload, actions: FormikHelpers<ICemeteryPayload>) => {

@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {AddFuneralItemsForm} from '@src/app/funera-house-worker/funeral-items-view/modal/form/add-funeral-items-form';
 import {EditFuneralItemsForm} from '@src/app/funera-house-worker/funeral-items-view/modal/form/edit-funeral-items-form';
 import {deleteFuneralItem, fetchFuneralItems} from '@src/app/libs/api-calls/funeral-items-api';
@@ -14,11 +15,11 @@ import {toast} from 'react-toastify';
 
 const containerTypeOptions = [
    {
-      label: 'Urn',
+      label: dictionary.funeralHouseWorker.funeralItemsTable.options.containerType.urn,
       value: 'URN'
    },
    {
-      label: 'Coffin',
+      label: dictionary.funeralHouseWorker.funeralItemsTable.options.containerType.coffin,
       value: 'COFFIN'
    }
 ];
@@ -89,23 +90,24 @@ export const FuneralItemsView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Container name',
+         title: dictionary.form.cemeteryName,
          dataIndex: 'containerName',
          key: 'containerName',
       },
       {
-         title: 'Container type',
+         title: dictionary.form.containerType,
          dataIndex: 'containerType',
          key: 'containerType',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
+               
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>
          )
       },

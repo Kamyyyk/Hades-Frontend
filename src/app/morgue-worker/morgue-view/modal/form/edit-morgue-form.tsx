@@ -16,7 +16,7 @@ export interface IEditMorgueForm {
 }
 
 export const EditMorgueForm: FC<IEditMorgueForm> = ({setIsEditModalOpen, refetch, morgueId}) => {
-   const [formValues, setFormValues ] = useState<IMorguePayload>();
+   const [formValues, setFormValues ] = useState<IMorguePayload >();
 
    const {data, refetch: refetchMorgueById, isSuccess: isFetchMorgueByIdSuccess, isError: isFetchMorgueByIdError, error: fetchMorgueByIdError} = useQuery({
       queryKey: ['fetchMorgueById'],
@@ -30,11 +30,11 @@ export const EditMorgueForm: FC<IEditMorgueForm> = ({setIsEditModalOpen, refetch
    }, [isFetchMorgueByIdError, fetchMorgueByIdError]);
 
    useEffect(() => {
-      if (isFetchMorgueByIdSuccess) {
+      if (isFetchMorgueByIdSuccess && data) {
          setFormValues(data);
       }
-   }, [isFetchMorgueByIdSuccess]);
-   
+   }, [isFetchMorgueByIdSuccess, data]);
+
    const {mutate, isSuccess: isEditMorgueSuccess, isError: isEditMorgueError, error: editMorgueError} = useMutation({
       mutationKey: ['editMorgueById'],
       mutationFn: (payload: IMorguePayload ) => editMorgue(payload, morgueId)
@@ -55,7 +55,7 @@ export const EditMorgueForm: FC<IEditMorgueForm> = ({setIsEditModalOpen, refetch
    }, [isEditMorgueSuccess]);
 
    useEffect(() => {
-      refetchMorgueById();
+      refetchMorgueById().then(r => setFormValues(r.data));
    }, [morgueId]);
 
    const onSubmit = (value: IMorguePayload, actions: FormikHelpers<IMorguePayload>) => {
@@ -65,15 +65,15 @@ export const EditMorgueForm: FC<IEditMorgueForm> = ({setIsEditModalOpen, refetch
 
    return (
       <>
-         {formValues && (
-            <FormWrapper<IMorguePayload> initialValues={formValues} onSubmit={onSubmit}>
+         {formValues && data && (
+            <FormWrapper<IMorguePayload> initialValues={formValues} onSubmit={onSubmit} setIsModalOpen={setIsEditModalOpen}>
                <>
                   <InputField name="name" placeholder={dictionary.form.name} />
                   <InputField name="surname" placeholder={dictionary.form.surname} />
-                  <DateField name="dateArrived" placeholder={dictionary.form.dateArrived}/>
                   <InputField name="sex" placeholder={dictionary.form.sex}/>
                   <DateField name="birthDate" placeholder={dictionary.form.birthDate} />
                   <DateField name="deathDate" placeholder={dictionary.form.deathDate} />
+                  <DateField name="dateArrived" placeholder={dictionary.form.dateArrived}/>
                </>
             </FormWrapper>
          )}

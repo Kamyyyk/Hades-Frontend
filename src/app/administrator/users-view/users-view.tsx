@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
 import {AddUserForm} from '@src/app/administrator/users-view/modal/add-user-form';
 import {EditUserForm} from '@src/app/administrator/users-view/modal/edit-user-form';
 import {deleteUser, getUsers} from '@src/app/libs/api-calls/user-api';
@@ -91,18 +92,18 @@ export const UsersView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Username',
+         title: dictionary.form.username,
          dataIndex: 'username',
          key: 'username',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => onDeleteButtonChange(record.id)}>DELETE</Button>
+               <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined />} onClick={() => onDeleteButtonChange(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>
          )
       },

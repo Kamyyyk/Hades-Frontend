@@ -3,4 +3,5 @@ export interface IFuneralItemsResponse {
    containerName: string;
    containerType: 'URN' | 'COFFIN'
    price: number;
+   descriptionPlate: string;
 }

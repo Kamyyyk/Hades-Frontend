@@ -1,4 +1,5 @@
 import {FC, useEffect, useState} from 'react';
+import {DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
 import {EditFuneralForm} from '@src/app/funera-house-worker/funeral-view/form/edit-funeral-form';
 import {deleteFuneralById, fetchFunerals} from '@src/app/libs/api-calls/funeral-api';
 import {AddOrEditModal} from '@src/app/libs/components/modal/add-or-edit-modal';
@@ -76,24 +77,24 @@ export const FuneralView: FC = () => {
          key: 'id',
       },
       {
-         title: 'Funeral Date',
+         title: dictionary.form.funeralDate,
          dataIndex: 'funeralDate',
          key: 'funeralDate',
       },
       {
-         title: 'Status',
+         title: dictionary.form.status,
          dataIndex: 'status',
          key: 'status',
       },
       {
-         title: 'Actions',
+         title: dictionary.common.actions,
          dataIndex: 'action',
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               <Button onClick={() => onEditButtonChange(record.id)}>EDIT</Button>
-               <Button onClick={() => handleDelete(record.id)}>DELETE</Button>
-               <Button onClick={() => onViewButtonClick(record.id)}>View</Button>
+               <Button icon={<EditOutlined/>} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
+               <Button icon={<DeleteOutlined/>} onClick={() => handleDelete(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
+               <Button icon={<EyeOutlined />} onClick={() => onViewButtonClick(record.id)}>{dictionary.common.view.toUpperCase()}</Button>
             </div>
          )
       },
