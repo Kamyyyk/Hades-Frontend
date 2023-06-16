@@ -58,9 +58,9 @@ export const AddFuneralItemsForm: FC<IAddFuneralItemsForm> = ({setIsAddModalOpen
          <>
             <InputField name="containerName" placeholder={dictionary.form.containerName}/>
             <SelectField name="containerType" options={containerTypeOptions} placeholder={dictionary.form.containerType}  />
-            <Checkbox className="form-checkbox" onClick={() => setIsDescriptionTagSelected(prevState => !prevState)}>Add description tag</Checkbox>
+            <Checkbox className="form-checkbox" onClick={() => setIsDescriptionTagSelected(prevState => !prevState)}>{dictionary.form.addDescriptionTag}</Checkbox>
             {isDescriptionTagSelected && (
-               <InputField name="descriptionPlate" placeholder="Description tag"/>
+               <InputField name="descriptionPlate" placeholder={dictionary.common.descriptionTag}/>
             )
             }
             <NumberField name="price" />

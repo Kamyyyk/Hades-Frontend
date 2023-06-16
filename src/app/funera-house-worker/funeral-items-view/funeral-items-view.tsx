@@ -81,7 +81,6 @@ export const FuneralItemsView: FC = () => {
          await mutate(selectedRowKey);
       }
    };
-   
 
    const columns: ColumnsType<IFuneralItemsResponse> = [
       {
@@ -98,6 +97,9 @@ export const FuneralItemsView: FC = () => {
          title: dictionary.form.containerType,
          dataIndex: 'containerType',
          key: 'containerType',
+         render: (_value, record) => (
+            <p>{record.containerType === 'URN' ? dictionary.funeralHouseWorker.funeralItemsTable.options.containerType.urn : dictionary.funeralHouseWorker.funeralItemsTable.options.containerType.coffin  }</p>
+         )
       },
       {
          title: dictionary.common.actions,
@@ -105,7 +107,6 @@ export const FuneralItemsView: FC = () => {
          key: 'action',
          render: (_value, record) => (
             <div className="table__action-buttons">
-               
                <Button icon={<EditOutlined />} onClick={() => onEditButtonChange(record.id)}>{dictionary.common.edit.toUpperCase()}</Button>
                <Button icon={<DeleteOutlined />} onClick={() => handleDelete(record.id)}>{dictionary.common.delete.toUpperCase()}</Button>
             </div>

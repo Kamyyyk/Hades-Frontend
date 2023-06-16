@@ -37,6 +37,8 @@ export const MenuDrawer: FC<IMenuDrawer> = ({menuItems, children, menuName}) => 
    const logout = () => {
       setIsLogged(false);
       setCurrentRole('NO_ROLE');
+      localStorage.setItem('IS_LOGGED', 'false');
+      localStorage.setItem('CURRENT_ROLE', 'NO_ROLE');
       navigate('/');
       location.reload();
    };

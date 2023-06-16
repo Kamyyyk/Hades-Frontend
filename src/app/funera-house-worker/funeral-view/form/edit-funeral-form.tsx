@@ -21,16 +21,27 @@ interface IEditFuneralForm {
 
 const funeralStatusOptions = [
    {
-      value: 'OPEN',
-      label: 'OPEN'
+      label: dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.open,
+      value: 'OPEN'
    },
    {
-      value: 'FINISHED',
-      label: 'FINISHED'
+      label: dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.finished,
+      value: 'FINISHED'
    },
    {
-      value: 'IN_PROGRESS',
-      label: 'IN_PROGRESS'
+      label: dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.inProgress,
+      value: 'IN_PROGRESS'
+   },
+];
+
+const funeralTypeOptions = [
+   {
+      value: 'SECULAR',
+      label:  dictionary.funeralHouseWorker.prepareFuneral.options.funeralType.secular
+   },
+   {
+      value: 'CATHOLIC',
+      label: dictionary.funeralHouseWorker.prepareFuneral.options.funeralType.catholic
    },
 ];
 
@@ -47,8 +58,6 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
          toast.error(error.message);
       }
    }, [isError, error]);
-
-   console.log({data: data, isSuccess: isSuccess, id:funeralId});
 
    useEffect(() => {
       if (isSuccess && data) {
@@ -130,6 +139,7 @@ export const EditFuneralForm: FC<IEditFuneralForm> = ({funeralId, setIsEditModal
                <>
                   <DateField name="funeralDate" placeholder={dictionary.form.funeralDate}/>
                   <SelectField name="status" placeholder={dictionary.form.status} options={funeralStatusOptions}/>
+                  <SelectField name="funeralType" options={funeralTypeOptions} placeholder={dictionary.form.funeralType} />
                   <SelectField name="placeOnCemetery" placeholder={dictionary.form.placeOnCemetery} options={cemeteriesOptions}/>
                   <SelectField name="morgue" placeholder={dictionary.form.deceased} options={ morgueOptions}/>
                   <SelectField name="container" placeholder={dictionary.form.container} options={funeralItemsOptions}/>

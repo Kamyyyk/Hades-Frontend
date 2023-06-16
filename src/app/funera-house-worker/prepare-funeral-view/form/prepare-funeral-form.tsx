@@ -140,7 +140,7 @@ export const PrepareFuneralForm: FC = () => {
                   <FormWrapper<IFuneralPayload> initialValues={initialValues} onSubmit={onSubmit} validationSchema={prepareFuneralSchema}>
                      <>
                         <h2>{dictionary.funeralHouseWorker.prepareFuneral.prepareFuneralTitle}</h2>
-                        <Checkbox className="form-checkbox" onChange={() => setIsCreateReportSelected(prevState => !prevState)}>Create funeral report</Checkbox>
+                        <Checkbox className="form-checkbox" onChange={() => setIsCreateReportSelected(prevState => !prevState)}>{dictionary.common.createFuneralRaport}</Checkbox>
                         <DateField name="funeralDate" placeholder={dictionary.form.funeralDate}/>
                         <SelectField name="funeralType" options={funeralTypeOptions} placeholder={dictionary.form.funeralType} />
                         <SelectField name="status" placeholder={dictionary.form.status} options={funeralStatusOptions}/>

@@ -8,36 +8,27 @@ interface IInputField {
    name: string;
    placeholder: string;
    value?: string;
+   disabled?: boolean;
 }
 
 
-export const InputField: FC<IInputField> = ({name, placeholder, value}) => {
+export const InputField: FC<IInputField> = ({name, placeholder, value, disabled = false}) => {
+   
    return (
       <>
          <p className="form-placeholder">{placeholder}</p>
          <Field type="text" name={name}>
             {({ field, form }: FieldProps) => {
-               if (value) return (
-                  <>
-                     <Input {...field} value={value} />
-                     {form.errors[field.name] && form.touched[field.name] && (
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        <p className="field-error">{form.errors[field.name] }</p>
-                     )}
-                  </>
-
-               );
                return (
                   <>
-                     <Input size="middle" {...field}/>
-                     {form.errors[field.name] && form.touched[field.name]  && (
+                     <Input size="middle" {...field}  value={value ?? form.values[field.name]} disabled={disabled}/>
+                     {form.errors[field.name] && form.touched[field.name] && (
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-ignore
                         <p className="field-error">{form.errors[field.name]}</p>
                      )}
                   </>
-               ) ;
+               );
             }}
          </Field>
       </>

@@ -16,11 +16,15 @@ export const dictionary = {
       cemeteryName: 'Nazwa cmentarza:',
       cemeteryAddress: 'Adres cmentarza:',
       funeralTotalPrice: 'Cena za pogrzeb',
+      cemetery: 'Cmentarz',
+      nameAndSurname: 'Imię i nazwisko',
       pln: 'PLN:',
       actions: 'Akcje',
       view: 'Wyświetl',
+      createFuneralRaport: 'Utwórz raport',
       downloadReport: 'Pobierz raport pogrzebu',
-      submit: 'Wyślij'
+      submit: 'Wyślij',
+      descriptionTag: 'Plakietka z opisem'
    },
    form: {
       name: 'Imię',
@@ -47,11 +51,12 @@ export const dictionary = {
       status: 'Status',
       price: 'Cena pogrzebu',
       placeOnCemetery: 'Miejsce na cmentarzu',
-      container: 'Pokrowiec',
+      container: 'Opakowanie',
       shipping: 'Transport',
       funeralType: 'Typ pogrzebu',
       shippingName: 'Nazwa transportu',
       selectDriver: 'Wybór kierowcy',
+      addDescriptionTag: 'Dodaj plakietkę z opisem',
       error: {
          fieldRequired: 'Pole wymagane'
       },
@@ -106,16 +111,16 @@ export const dictionary = {
          deleteSuccess: 'Pomyślnie usunięto pogrzeb'
       },
       prepareFuneral: {
-         prepareFuneralTitle: 'Przygotowanie pogrzrebu',
+         prepareFuneralTitle: 'Przygotowanie pogrzebu',
          funeralList: 'Lista pogrzebów',
          viewAddedFuneral: 'Wyświetl dodany pogrzeb',
          addSuccess: 'Pomyślnie przygotowano pogrzeb',
          prepareAnotherFuneral: 'Przygotuj kolejny pogrzeb',
          options: {
             funeralStatus: {
-               open: '',
-               finished: '',
-               inProgress: ''
+               open: 'Nowy',
+               finished: 'Zakończony',
+               inProgress: 'W trakcie'
             },
             funeralType: {
                secular: 'Świecki',

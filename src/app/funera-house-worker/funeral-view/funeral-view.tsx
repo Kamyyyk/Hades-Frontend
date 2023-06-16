@@ -13,6 +13,8 @@ import {useMutation, useQuery} from 'react-query';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
+type TFuneralStatus = 'OPEN' | 'FINISHED' | 'IN_PROGRESS'
+
 export const FuneralView: FC = () => {
    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false);
    const [isEditModalOpen, setIsEditModalOpen] = useState<boolean>(false);
@@ -70,6 +72,17 @@ export const FuneralView: FC = () => {
       }
    };
 
+   const renderStatusType = (status: TFuneralStatus) => {
+      switch(status) {
+      case 'OPEN':
+         return <p>{dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.open}</p>;
+      case 'IN_PROGRESS':
+         return <p>{dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.inProgress}</p>;
+      case 'FINISHED':
+         return <p>{dictionary.funeralHouseWorker.prepareFuneral.options.funeralStatus.finished}</p>;
+      }
+   };
+
    const columns: ColumnsType<IFuneralResponse> = [
       {
          title: 'id',
@@ -85,6 +98,9 @@ export const FuneralView: FC = () => {
          title: dictionary.form.status,
          dataIndex: 'status',
          key: 'status',
+         render: (_value, record) => (
+            renderStatusType(record.status)
+         )
       },
       {
          title: dictionary.common.actions,
