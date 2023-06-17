@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import {
    usePrepareFuneralContextContext
 } from '@src/app/funera-house-worker/prepare-funeral-view/provider/PrepareFuneralProvider';
+import {dictionary} from '@src/app/libs/locales/en';
 import {InputNumber} from 'antd';
 import {Field, FieldProps} from 'formik';
 
@@ -28,7 +29,7 @@ export const NumberField: FC<IPriceField> = ({name, placeholder = 'Price', disab
 
    return (
       <div>
-         <p className="form-placeholder">{placeholder}</p>
+         <p className="form-placeholder">{placeholder === 'Price' ? dictionary.form.price : ''}</p>
          <Field name={name}>
             {({field, form}: FieldProps) => {
                return (

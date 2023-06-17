@@ -34,6 +34,7 @@ export const CaravansView = () => {
       queryFn: fetchCaravan,
    });
 
+
    useEffect(() => {
       if (isFetchCaravanError && fetchCaravanError instanceof Error) {
          toast.error(fetchCaravanError.message);

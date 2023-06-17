@@ -24,7 +24,7 @@ export interface IEditFuneralItemsForm {
 
 export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalOpen, funeralItemId, refetch, containerTypeOptions}) => {
    const [formValues, setFormValues] = useState<IFuneralItemsPayload>();
-   
+
    const {mutate, isSuccess: isEditFuneralItemSuccess, isError: isEditFuneralItemError, error: editFuneralItemError} = useMutation({
       mutationKey: ['editFuneralItemById'],
       mutationFn: (payload: IFuneralItemsPayload) => editFuneralItemById(payload, funeralItemId)
@@ -45,7 +45,7 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
       }
 
    }, [isEditFuneralItemSuccess]);
-   
+
    useEffect(() => {
       if (isEditFuneralItemError && editFuneralItemError instanceof Error) {
          toast.error(editFuneralItemError.message);
@@ -57,7 +57,7 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
          setFormValues(data);
       }
    }, [isFetchFuneralItemByIdSuccess]);
-   
+
    useEffect(() => {
       if (isFetchFuneralItemByIdError && fetchFuneralItemByIdError instanceof Error) {
          toast.error(fetchFuneralItemByIdError.message);
@@ -80,9 +80,9 @@ export const EditFuneralItemsForm: FC<IEditFuneralItemsForm> = ({setIsEditModalO
                <>
                   <InputField name="containerName" placeholder={dictionary.form.containerName}/>
                   <SelectField name="containerType" options={containerTypeOptions} placeholder={dictionary.form.containerType}  />
-                  <Checkbox checked={isDescriptionTagSelected} onClick={() => setIsDescriptionTagSelected(prevState => !prevState)}>Add description tag</Checkbox>
-                  {isDescriptionTagSelected && (
-                     <InputField name="descriptionPlate" placeholder="Description tag"/>
+                  <Checkbox checked={!!data?.descriptionPlate} onClick={() => setIsDescriptionTagSelected(prevState => !prevState)}>{dictionary.form.addDescriptionTag}</Checkbox>
+                  {!!data?.descriptionPlate || isDescriptionTagSelected  && (
+                     <InputField name="descriptionPlate" placeholder={dictionary.common.descriptionTag}/>
                   )
                   }
                   <NumberField name="price" />

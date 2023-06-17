@@ -34,14 +34,14 @@ export const FuneralDetails: FC = () => {
                <h2>{dictionary.common.funeralDetails}</h2>
                <div className="funeral-details-container__wrapper">
                   <div className="funeral-details-container__wrapper__info">
-                     <p>Name and Surname: <span>{data.morgue.name} {data.morgue.surname}</span></p>
+                     <p>{dictionary.common.nameAndSurname} <span>{data.morgue.name} {data.morgue.surname}</span></p>
                      <p>{dictionary.common.funeralDate} <span>{data.funeralDate}</span></p>
                      <p>{dictionary.common.deathDate} <span>{data.morgue.deathDate}</span></p>
                      <p>{dictionary.common.containerType} <span>{data.container.containerName}</span></p>
-                     <p>Cemetery: <span>{data.placeOnCemetery.cemeteryName}, {data.placeOnCemetery.address}</span></p>
+                     <p>{dictionary.common.cemetery} <span>{data.placeOnCemetery.cemeteryName}, {data.placeOnCemetery.address}</span></p>
                      <p>{dictionary.common.funeralPrice} <span>{numberToDecimal(data.price)} ZŁ </span></p>
                      {data.reportOrder && (
-                        <Button size="large" icon={<DownloadOutlined />} onClick={onDownloadReportClick}>Download report for the funeral</Button>
+                        <Button size="large" icon={<DownloadOutlined />} onClick={onDownloadReportClick}>{dictionary.common.downloadReport}</Button>
                      )}
                   </div>
                </div>

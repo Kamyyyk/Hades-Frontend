@@ -13,7 +13,6 @@ interface IFormWrapper<TInitialValues> {
    setIsModalOpen?: Dispatch<boolean>;
 }
 
-
 export const FormWrapper= <TInitialValues extends FormikValues,>({children, initialValues, onSubmit, setIsModalOpen, validationSchema}: IFormWrapper<TInitialValues>): JSX.Element => {
 
    const onClick = () => {
@@ -21,8 +20,6 @@ export const FormWrapper= <TInitialValues extends FormikValues,>({children, init
          setIsModalOpen(false);
       }
    };
-
-   console.log('initialValues', initialValues);
 
    return (
       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema} enableReinitialize>

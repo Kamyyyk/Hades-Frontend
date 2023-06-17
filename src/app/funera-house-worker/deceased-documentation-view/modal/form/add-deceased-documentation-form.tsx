@@ -28,8 +28,11 @@ interface IAddDeceasedDocumentationForm {
 }
 
 export const AddDeceasedDocumentationForm: FC<IAddDeceasedDocumentationForm> = ({refetch, setIsAddModalOpen, morgueOptions}) => {
-
    const generatedDocumentationNumber = generateDocumentationNumber();
+
+   useEffect(() => {
+      initialValues.documentationNumber = generatedDocumentationNumber;
+   }, []);
 
    const {mutate, isSuccess: isMutationSuccess, isError, error } = useMutation({
       mutationKey: ['postDeceasedDocumentation'],
@@ -65,7 +68,7 @@ export const AddDeceasedDocumentationForm: FC<IAddDeceasedDocumentationForm> = (
    return (
       <FormWrapper initialValues={initialValues} onSubmit={onSubmit} setIsModalOpen={setIsAddModalOpen} validationSchema={deceasedDocumentationSchema}>
          <>
-            <InputField name="documentationNumber" placeholder={dictionary.form.documentationNumber} value={generatedDocumentationNumber}/>
+            <InputField name="documentationNumber" placeholder={dictionary.form.documentationNumber} disabled />
             <SelectField name="morgue" options={morgueOptions} placeholder={dictionary.form.morgue} />
          </>
       </FormWrapper>

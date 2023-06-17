@@ -36,6 +36,7 @@ export const LoginForm: FC = () => {
       if (isSuccess) {
          setCurrentRole(data?.role);
          localStorage.setItem('IS_LOGGED', 'true');
+         localStorage.setItem('CURRENT_ROLE', data?.role);
          setIsLogged(true);
          toast.success(dictionary.auth.success);
          navigate('/');
