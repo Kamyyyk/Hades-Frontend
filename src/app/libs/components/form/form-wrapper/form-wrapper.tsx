@@ -9,7 +9,7 @@ interface IFormWrapper<TInitialValues> {
    children: JSX.Element
    initialValues: TInitialValues;
    onSubmit: (values: TInitialValues, actions: FormikHelpers<TInitialValues>) => void;
-   validationSchema?: Yup.ObjectSchema<never>;
+   validationSchema?: Yup.ObjectSchema<any>;
    setIsModalOpen?: Dispatch<boolean>;
 }
 
