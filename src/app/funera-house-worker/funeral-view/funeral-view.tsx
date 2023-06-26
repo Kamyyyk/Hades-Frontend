@@ -60,7 +60,7 @@ export const FuneralView: FC = () => {
    
    useEffect(() => {
       if (isDeleteSuccess) {
-         toast.success('Successfully deleted funeral');
+         toast.success('Pomyślnie usunięto pogrzeb');
          refetch();
          setIsConfirmModalOpen(false);
       }
@@ -118,7 +118,7 @@ export const FuneralView: FC = () => {
    return (
       <>
          <TableViewComponent<IFuneralResponse> tableListName={dictionary.funeralHouseWorker.funeralTable.funeralList} columns={columns} dataSource={funeralData} isLoading={isLoading} isAddButton={false}/>
-         <AddOrEditModal isModalOpen={isEditModalOpen} title={dictionary.funeralHouseWorker.funeralItemsTable.editFuneralItem} setIsModalOpen={setIsEditModalOpen}>
+         <AddOrEditModal isModalOpen={isEditModalOpen} title={dictionary.funeralHouseWorker.funeralTable.editFuneral} setIsModalOpen={setIsEditModalOpen}>
             <EditFuneralForm funeralId={selectedRowKey}  refetch={refetch} setIsEditModalOpen={setIsEditModalOpen}/>
          </AddOrEditModal>
          <ConfirmModal setIsConfirmModalOpen={setIsConfirmModalOpen} onConfirmModalChange={handleConfirmDelete} isModalOpen={isConfirmModalOpen} />

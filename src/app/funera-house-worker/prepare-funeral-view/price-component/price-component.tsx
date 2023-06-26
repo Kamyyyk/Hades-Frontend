@@ -10,7 +10,7 @@ export const PriceComponent: FC = () => {
 
    return (
       <div className="price">
-         <p>{dictionary.common.funeralTotalPrice}</p>
+         <p>{dictionary.common.funeralPrice}</p>
          <div className="price--total">
             <p>{numberToDecimal(price)} {dictionary.common.pln}</p>
          </div>
