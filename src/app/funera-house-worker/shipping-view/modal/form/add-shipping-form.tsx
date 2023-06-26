@@ -68,8 +68,8 @@ export const AddShippingForm: FC<IAddShippingForm> = ({setIsAddModalOpen, refetc
          <>
             <InputField name="name" placeholder={dictionary.form.shippingName} />
             <SelectField name="caravan" options={caravanOptions} placeholder={dictionary.form.selectDriver}/>
-            <NumberField name="distance" placeholder="Distance" />
-            <NumberField name="price" value={shippingPrice} disabled />
+            <NumberField name="distance" placeholder={dictionary.common.distance} />
+            <NumberField placeholder={dictionary.common.shippingPrice} name="price" value={shippingPrice} disabled />
          </>
       </FormWrapper>
    );

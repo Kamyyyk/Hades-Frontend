@@ -29,7 +29,7 @@ export const NumberField: FC<IPriceField> = ({name, placeholder = 'Price', disab
 
    return (
       <div>
-         <p className="form-placeholder">{placeholder === 'Price' ? dictionary.form.price : ''}</p>
+         <p className="form-placeholder">{placeholder === 'Price' ? dictionary.form.price : placeholder}</p>
          <Field name={name}>
             {({field, form}: FieldProps) => {
                return (
